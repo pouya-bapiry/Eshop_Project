@@ -1,0 +1,18 @@
+﻿﻿
+/*Ck Editor*/
+.ck-content {
+    height: 100%;
+    
+
+}
+
+
+.align-left {
+    text-align: left !important;
+    /*background-color: yellow !important;*/
+}
+
+.align-right {
+   /* background-color: greenyellow !important;*/
+    text-align: right !important;
+}

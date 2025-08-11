@@ -1,0 +1,72 @@
+﻿@model Eshop.Domain.Dtos.Account.ActiveMobileDto
+@using Eshop.Domain.Dtos.Site
+
+
+
+@{
+    ViewData["Title"] = "فعالسازی حساب کاربری";
+
+
+    @section script
+    {
+        <partial name="_JqueryValidators" />
+        <partial name="_CaptchaScript" />
+    }
+}
+
+<section class="content vh-100">
+    <div class="container-fluid h-100">
+        <div class="auth h-100 d-flex align-items-center">
+            <div class="container-fluid">
+                <div class="auth-items">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-4">
+                            <div class="auth-form shadow-xl rounded-3  mt-5 bg-white">
+                                <div class="auth-form-title header-logo d-flex align-items-center justify-content-between title-panel mb-4 slider-title-desc-center">
+                                    <h2 class="text-center h4 text-muted title-font">@ViewData["Title"]</h2>
+                                    <a href="">
+                                        <img src="~/MainTemplate/assets/image/logo.png" class="auth-logo" alt="">
+                                    </a>
+                                </div>
+                                <form class="py-3" asp-area="" asp-controller="Account" asp-action="ActivateMobile" method="post">
+                                    <partial name="_CaptchaInput" model="@(new CaptchaDto())" />
+                                    <div class="comment-item mb-4">
+                                        <input type="text" asp-for="MobileActivationCode" class="form-control">
+                                        <label class="form-label label-float">
+                                            کد تایید شش رقمی
+                                            <span class="text-danger">*</span>
+                                            <span asp-validation-for="MobileActivationCode" class="text-danger"></span>
+                                        </label>
+                                    </div>
+                                    <div class="countDownContainer">
+                                        <div class="countdown-bar" id="countdownB" style="width: 250px; height: 2px; background-color: rgb(244, 244, 244); border-color: rgb(58, 59, 156);">
+                                            <div style="width: 250px; background-color: rgb(58, 59, 156);"></div>
+                                            <div style="width: 250px; height: 2px;"><span style="color: #3a3b9c; font-weight: 700; font-family: yekan-bakh; font-size: 14px;"><a class="span-primary" asp-controller="Account" asp-action="ResendActivationCode">درخواست کد جدید</a></span></div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="text-center">
+                                        <button type="submit" class="btn main-color-two-bg text-white w-100 mb-2 py-3">
+                                            فعالسازی حساب کاربری
+                                        </button>
+                                    </div>
+                                </form>
+                                <!-- Countdown timer html -->
+                               
+                            </div>
+                            <p class="loginTermsDesc lh-lg mt-3">
+                                با ورود و یا ثبت نام در آبتین شما <a class="underlined fw-bold" href="/rules/">
+                                    شرایط و
+                                    قوانین
+                                </a> استفاده از سرویس‌های سایت آبتین و <a class="underlined fw-bold" href="/privacy-polices/">
+                                    قوانین حریم
+                                    خصوصی
+                                </a> آن را می‌پذیرید.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

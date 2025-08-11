@@ -1,0 +1,155 @@
+﻿@model Eshop.Domain.Dtos.Account.User.FilterUserDto
+@using Eshop.Application.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = "لیست کاربران سایت";
+}
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت کاربران</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-filter"></i> فیلتر ها</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Account" asp-action="UserList" method="get" id="filter-form">
+                    <input type="hidden" asp-for="PageId" />
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>نام کاربر</label>
+                            <input class="form-control" asp-for="FirstName" />
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>نام خانوادگی کاربر</label>
+                            <input class="form-control" asp-for="LastName" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>موبایل</label>
+                            <input class="form-control" asp-for="Mobile" />
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>ایمیل</label>
+                            <input class="form-control" asp-for="Email" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>نقش کاربر</label>
+                            <select class="form-control" asp-for="RoleId" asp-items='new SelectList(ViewBag.roles, "Id", "RoleName")'>
+                                <option value="0">عنوان نقش مورد نظر را انتخاب نمایید...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">اعمال فیلتر</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-table"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model.Users != null && Model.Users.Any())
+                                {
+                                    <table id="default-datatable" class="table table-bordered dataTable" role="grid" aria-describedby="default-datatable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc">شناسه</th>
+                                                <th class="sorting">تصویر</th>
+                                                <th class="sorting">نام کاربر</th>
+                                                <th class="sorting">نام خانوادگی کاربر</th>
+                                                <th class="sorting">موبایل</th>
+                                                <th class="sorting">فعال بودن موبایل</th>
+                                                <th class="sorting">ایمیل</th>
+                                                <th class="sorting">فعال بودن ایمیل</th>
+                                                <th class="sorting">نقش کاربر</th>
+                                                <th class="sorting">تاریخ ثبت نام</th>
+                                                <th class="sorting">ویرایش شده</th>
+                                                <th class="sorting">دستورات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var user in Model.Users)
+                                            {
+                                                <tr id="ajax-url-item-@user.Id" role="row" class="odd">
+                                                    <td class="sorting">@user.Id</td>
+                                                    <td class="sorting">
+                                                        <img style="width: 50px; height: 50px;"
+                                                             src="@(!string.IsNullOrEmpty(user.Avatar) ? PathExtension.UserAvatarOrigin + user.Avatar
+                                                                  : PathExtension.DefaultAvatar )" alt="تصویر کاربر" />
+                                                    </td>
+                                                    <td>@user.FirstName</td>
+                                                    <td>@user.LastName</td>
+                                                    <td>@user.Mobile</td>
+                                                    <td>@(user.IsMobileActive == true ? "فعال" : "غیرفعال")</td>
+                                                    <td>@user.Email</td>
+                                                    <td>@(user.IsEmailActive == true ? "فعال" : "غیرفعال")</td>
+                                                    <td>@user.Role.RoleName</td>
+                                                    <td>@user.CreateDate.ToStringShamsiDate()</td>
+                                                    <td>@user.LastUpdateDate.ToStringShamsiDate() | @user.UserName</td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-warning"
+                                                           asp-area="Administration" asp-controller="Account"
+                                                           asp-action="EditUser"
+                                                           asp-route-userId="@user.Id">
+                                                            ویرایش اطلاعات کاربر
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="alert-message text-dark">
+                                            <span><strong>هشدار!</strong> هیچ اطلاعاتی یافت نشد</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+                <partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_info" id="default-datatable_info" role="status" aria-live="polite">نمایش تعداد 10 کاربر در هر صفحه از تعداد کل : @Model.Users.Count کاربر</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

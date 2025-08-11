@@ -1,0 +1,145 @@
+﻿@model Eshop.Domain.Dtos.Contact.CreateContactUsDto
+@using Eshop.Domain.Dtos.Site
+@using Eshop.Domain.Entities.Site
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "تماس با ما";
+
+     var siteSetting = ViewBag.SiteSetting as SiteSettingDto;
+}
+
+@section script
+{
+    <partial name="_JqueryValidators" />
+    <partial name="_CaptchaScript" />
+}
+
+<section class="content my-25">
+    <div class="container-fluid">
+        <div class="section-title mt-xl-0 mt-5 pt-xl-0 pt-5 mb-4">
+            <div class="section-title-title">
+                <h2 class="fw-900 h4">
+                    تماس<span class="with-highlight ms-1">با ما</span>
+                </h2>
+                <div class="Dottedsquare"></div>
+            </div>
+        </div>
+        <div class="row gy-3">
+            <div class="col-12">
+                <div class="row gy-4">
+                    <div class="col-lg-6">
+                        <div class="single-address-parent h-100 border-ui">
+                            <div class="single_address">
+                                <i class="bi bi-pin-map border-ui shadow-none"></i>
+                                <h4>آدرس شرکت</h4>
+                                <p>
+                                    @siteSetting?.Address
+                                </p>
+                            </div>
+                            <div class="single_address">
+                                <i class="bi bi-envelope border-ui shadow-none"></i>
+                                <h4>ایمیل شرکت</h4>
+                                <p>@siteSetting?.Email</p>
+                            </div>
+                            <div class="single_address">
+                                <i class="bi bi-telephone border-ui shadow-none"></i>
+                                <h4>شماره شرکت</h4>
+                                <p>@siteSetting?.Phone</p>
+                            </div>
+                            <div class="single_address">
+                                <i class="bi bi-clock-history border-ui shadow-none"></i>
+                                <h4>ساعت کاری</h4>
+                                <p>شنبه تا چهارشنبه 8 صبح تا 17 بعد از ظهر <br>پنج شنبه ها 8 صبح تا 2 بعد از ظهر</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="content-box h-100">
+                            <div class="container-fluid">
+                                <div class="contact-us-title">
+                                    <h6 class="font-20 title-font title-line-bottom">فرم تماس با ما</h6>
+                                </div>
+                                <form asp-controller="Home" asp-action="ContactUs" method="post">
+                                    <partial name="_CaptchaInput" model="@(new CaptchaDto())" />
+                                    <div class="row gy-4">
+                                        <div class="col-sm-6">
+                                            <div class="comment-item">
+                                                <input asp-for="Email" type="email" class="form-control">
+                                                <label class="form-label label-float">
+                                                    ایمیل خود را
+                                                    وارد
+                                                    کنید
+                                                    <span class="text-danger">*</span>
+                                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="comment-item">
+                                                <input asp-for="Fullname" type="text" class="form-control">
+                                                <label class="form-label label-float">
+                                                    نام و نام خانوادگی خود را وارد
+                                                    کنید
+                                                    <span class="text-danger">*</span>
+                                                    <span asp-validation-for="Fullname" class="text-danger"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="comment-item">
+                                                <input asp-for="MessageSubject" type="text" class="form-control">
+                                                <label class="form-label label-float">
+                                                    موضوع پیام
+                                                    <span class="text-danger">*</span>
+                                                    <span asp-validation-for="MessageSubject" class="text-danger"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="comment-item">
+                                                <textarea asp-for="MessageText" class="form-control" style="height: 150px"></textarea>
+                                                <label class="form-label label-float">
+                                                    متن نظر
+                                                    <span class="text-danger">*</span>
+                                                    <span asp-validation-for="MessageText" class="text-danger"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn main-color-one-bg font-18">ارسال</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="footer-app">
+                    <div class="row align-items-center">
+                        <div class="col-md-4">
+                            <h5 class="text-white text-sm-start text-center">دانلود اپلیکیشن ما</h5>
+                        </div>
+                        <div class="col-md-8">
+                            <nav class="navbar navbar-expand justify-content-sm-end">
+                                <ul class="navbar-nav flex-sm-nowrap flex-wrap justify-content-center">
+                                    <li class="nav-item"><a href="" class="nav-link"><img src="~/MainTemplate/assets/image/application/app-sibapp.svg" alt=""></a></li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link"><img src="~/MainTemplate/assets/image/application/myket-app.png" alt=""></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link"><img src="~/MainTemplate/assets/image/application/bazar-app.svg" alt=""></a>
+                                    </li>
+                                    <li class="nav-item"><a href="" class="nav-link"><img src="~/MainTemplate/assets/image/application/google-play-app.svg" alt=""></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

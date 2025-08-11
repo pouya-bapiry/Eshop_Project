@@ -1,0 +1,40 @@
+.countdown {
+    text-transform: uppercase;
+}
+
+.countdown>div {
+    display: inline-block;
+}
+
+.countdown>div>span {
+    display: block;
+    text-align: center;
+}
+
+.countdown-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px;
+    margin: 0;
+
+}
+
+.countdown-container .countdown-heading {
+    font-size: 10px;
+    font-weight: bold;
+    margin: 3px 0;
+    color: #515151;
+    display: none;
+}
+
+.countdown-container .countdown-value {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    color: #ED1944FF;
+    border-radius: 5px;
+    font-weight: bold;
+}

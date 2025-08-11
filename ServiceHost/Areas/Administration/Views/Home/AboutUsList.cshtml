@@ -1,0 +1,114 @@
+﻿@model List<Eshop.Domain.Dtos.Site.AboutUsDto>
+@{
+    ViewData["Title"] = "درباره ما";
+}
+
+
+@section scripts
+    {
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت صفحات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-plus"></i> افزودن اطلاعات</div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="form-group col-lg-12">
+                        <label>افزودن اطلاعات</label>
+                        <a asp-area="Administration" asp-controller="Home" asp-action="CreateAboutUs" class="btn btn-sm btn-success btn-block ">
+                            افزودن اطلاعات جدید
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-table"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model != null)
+                                {
+                                    <table id="default-datatable" class="table table-bordered dataTable" role="grid" aria-describedby="default-datatable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc">شناسه</th>
+                                                <th class="sorting">متن هدر</th>
+                                                <th class="sorting">توضیحات</th>
+                                                <th class="sorting">تاریخ ایجاد</th>
+                                                <th class="sorting">ویرایش شده</th>
+                                                <th class="sorting">عملیات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+
+                                                <tr id="ajax-url-item-@item.Id" role="row" class="odd">
+
+                                                    <td>@item.Id</td>
+                                                    <td>@(Html.Raw(item.HeaderTitle.Substring(0, Math.Min(item.HeaderTitle.Length, 50)) + "..."))</td>
+                                                    <td>@(Html.Raw(item.Description.Substring(0, Math.Min(item.Description.Length, 50)) + "..."))</td>
+                                                    <td>@item.CreateDate</td>
+                                                    <td>@item.LastUpdateDate @* | @item.Username *@</td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-warning"
+                                                           asp-area="Administration" asp-controller="Home"
+                                                           asp-action="EditAboutUs"
+                                                           asp-route-id="@item.Id">
+                                                            ویرایش اطلاعات
+                                                        </a>
+
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="alert-message text-dark">
+                                            <span><strong>هشدار!</strong> هیچ اطلاعاتی یافت نشد</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

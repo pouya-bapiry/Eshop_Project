@@ -1,0 +1,173 @@
+﻿@using Eshop.Application.Services.Interfaces
+@using Eshop.Application.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using ServiceHost.PresentationExtensions
+@* @inject IAuthHelper _authHelper *@
+@inject IUserService _userService
+
+@{
+    var avatar = _userService.GetUserById(User.GetUserId()).Result.Avatar;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="Navid Ghavami" />
+    <title>@ViewData["Title"] | فروشگاه اینترنتی بوکان شاپ</title>
+    <!--favicon-->
+
+    <partial name="_AdminHeaderReferences" />
+    @await RenderSectionAsync("styles", false)
+
+</head>
+
+<body class="bg-theme bg-theme5">
+
+    <!-- Start wrapper-->
+    <div id="wrapper">
+
+        <div class="loader-wrapper"><div class="lds-ring"><div></div><div></div><div></div><div></div></div></div>
+
+        <!--Start sidebar-wrapper-->
+        <div id="sidebar-wrapper" data-simplebar="" data-simplebar-auto-hide="true">
+            <div class="brand-logo">
+                <a asp-area="Administration" asp-controller="Home" asp-action="Index">
+                    <img src="~/Admin/assets/images/logo-icon.png" class="logo-icon" alt="مدیریت سایت">
+                    <h5 class="logo-text">مدیریت سایت</h5>
+                </a>
+            </div>
+            <div class="user-details">
+                <div class="media align-items-center user-pointer collapsed" data-toggle="collapse" data-target="#user-dropdown">
+                    <div class="avatar">
+                        <img class="mr-3 side-user-img" src="@(!string.IsNullOrEmpty(avatar) ? PathExtension.UserAvatarOrigin + avatar : PathExtension.DefaultAvatar)"  alt="user avatar">
+                    </div>
+
+                    @* @if (User.Identity.IsAuthenticated)
+                    {
+                        <div class="media-body">
+                            <h6 class="side-user-name">@User.Identity.Name</h6>
+                            @switch (_authHelper.CurrentAccountRole())
+                            {
+                                case Roles.Administrator:
+                                    <h6 class="side-user-name">(@Roles.GetRoleBy(long.Parse(Roles.Administrator)))</h6>
+                                    break;
+                                case Roles.ContentUploader:
+                                    <h6 class="side-user-name">(@Roles.GetRoleBy(long.Parse(Roles.ContentUploader)))</h6>
+                                    break;
+                                case Roles.AdminAssistant:
+                                    <h6 class="side-user-name">(@Roles.GetRoleBy(long.Parse(Roles.AdminAssistant)))</h6>
+                                    break;
+                            }
+                        </div>
+                    } *@
+                </div>
+                <div id="user-dropdown" class="collapse">
+                    <ul class="user-setting-menu">
+                        <li><a asp-area="Administration" asp-controller="Home" asp-action="GetUserProfile"><i class="icon-user"></i>  پروفایل من</a></li>
+                        <li><a asp-area="Administration" asp-controller="Home" asp-action="Logout"><i class="icon-power"></i> خروج</a></li>
+                    </ul>
+                </div>
+            </div>
+            <partial name="_AdminSidebarMenu" />
+
+        </div>
+        <!--End sidebar-wrapper-->
+        <!--Start topbar header-->
+        <header class="topbar-nav">
+            <nav class="navbar navbar-expand fixed-top">
+                <ul class="navbar-nav mr-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link toggle-menu" href="javascript:void();">
+                            <i class="icon-menu menu-icon"></i>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form class="search-bar">
+                            <input type="text" class="form-control" placeholder="جستجو کنید ...">
+                            <a href="javascript:void();"><i class="icon-magnifier"></i></a>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <!--End topbar header-->
+
+        <div class="clearfix"></div>
+
+        <div class="content-wrapper">
+            <div class="container-fluid">
+
+                <!--Start Dashboard Content-->
+
+                @RenderBody()
+
+                <!--End Dashboard Content-->
+
+            </div>
+            <!-- End container-fluid-->
+
+        </div><!--End content-wrapper-->
+        <!--Start Back To Top Button-->
+        <a href="javaScript:void();" class="back-to-top"><i class="fa fa-angle-double-up"></i> </a>
+        <!--End Back To Top Button-->
+        <!--Start footer-->
+        <footer class="footer">
+            <div class="container">
+                <div class="text-center">
+                     <i class="fa fa-copyright"></i> کلیه حقوق این سایت محفوظ می باشد ...
+                    <span>طراح و برنامه نویس سایت : <a href="https://navid-ghavami.ir" target="_blank">نوید قوامی</a></span>
+                </div>
+            </div>
+        </footer>
+        <!--End footer-->
+        <!--start color switcher-->
+        <div class="right-sidebar">
+            <div class="switcher-icon">
+                <i class="zmdi zmdi-settings zmdi-hc-spin"></i>
+            </div>
+            <div class="right-sidebar-content">
+
+                <p class="mb-0">بافت گاوسی</p>
+                <hr>
+
+                <ul class="switcher">
+                    <li id="theme1"></li>
+                    <li id="theme2"></li>
+                    <li id="theme3"></li>
+                    <li id="theme4"></li>
+                    <li id="theme5"></li>
+                    <li id="theme6"></li>
+                </ul>
+
+                <p class="mb-0">پس زمینه گرادیان</p>
+                <hr>
+
+                <ul class="switcher">
+                    <li id="theme7"></li>
+                    <li id="theme8"></li>
+                    <li id="theme9"></li>
+                    <li id="theme10"></li>
+                    <li id="theme11"></li>
+                    <li id="theme12"></li>
+                </ul>
+
+            </div>
+        </div>
+        <!--end color cwitcher-->
+
+    </div><!--End wrapper-->
+    <!-- Bootstrap core JavaScript-->
+    <partial name="_AdminFooterReferences" />
+    @await RenderSectionAsync("scripts", false)
+
+
+
+
+</body>
+
+
+</html>

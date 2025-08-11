@@ -1,0 +1,14 @@
+﻿@model Eshop.Domain.Dtos.Contact.Ticket.AnswerTicketDto
+
+<form method="post" asp-area="Administration" asp-controller="Ticket" asp-action="AdminAnswerTicket">
+    <input type="hidden" asp-for="Id" />
+    <textarea asp-for="Text" ckeditor="1"></textarea>
+    <br />
+    <button type="submit" class="btn btn-round btn-success">
+        <span>ارسال پاسخ</span>
+        <i class="icon-long-arrow-left"></i>
+    </button>
+    <br />
+    <br />
+    <hr />
+</form>

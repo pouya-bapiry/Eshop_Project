@@ -1,0 +1,88 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Eshop.Domain.Dtos.Site.EditSiteSettingDto
+
+
+@{
+    ViewData["Title"] = "ویرایش تنظیمات";
+}
+
+
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت تنظیمات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-edit"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Home" asp-action="EditSiteSetting" method="post" id="filter-form">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label>موبایل</label>
+                            <input class="form-control" asp-for="Mobile" />
+                            <span class="text-danger float-right" asp-validation-for="Mobile"></span>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>تلفن ثابت</label>
+                            <input class="form-control" asp-for="Phone" />
+                            <span class="text-danger float-right" asp-validation-for="Phone"></span>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>ایمیل</label>
+                            <input class="form-control" asp-for="Email" />
+                            <span class="text-danger float-right" asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>متن کپی رایت</label>
+                            <textarea class="form-control" rows="3" asp-for="CopyRight"></textarea>
+                            <span class="text-danger float-right" asp-validation-for="CopyRight"></span>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>متن فووتر</label>
+                            <textarea class="form-control" rows="3" asp-for="FooterText"></textarea>
+                            <span class="text-danger float-right" asp-validation-for="FooterText"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>آدرس</label>
+                            <textarea class="form-control" ckeditor="1" rows="3" asp-for="Address"></textarea>
+                            <span class="text-danger float-right" asp-validation-for="Address"></span>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>آدرس نقشه (Map Script)</label>
+                            <textarea class="form-control" rows="3" asp-for="MapScript"></textarea>
+                            <span class="text-danger float-right" asp-validation-for="MapScript"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">ویرایش اطلاعات </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

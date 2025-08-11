@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>@ViewData["Title"]| فروشگاه بوکان شاپ</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <partial name="_HeaderRefrences">
+        @await RenderSectionAsync("style",false)
+</head>
+<body>
+
+    <!--============ start header ==============-->
+
+   @await Component.InvokeAsync("SiteHeader");
+
+    <!--============ end header ==============-->
+    <!--============ start mega menu ==============-->
+
+    @await Component.InvokeAsync("MegaMenu");
+
+    <!--============ end mega menu ==============-->
+  
+    @RenderBody()
+
+    <!--============ start footer ==============-->
+@await Component.InvokeAsync("SiteFooter");
+    <!--============ end footer ==============-->
+    <!--============ start cart drawer ==============-->
+
+    <section class="offcanvas offcanvas-end py-2" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+        <div class="offcanvas-header shadow-md">
+            <h5 class="offcanvas-title fw-bold" id="offcanvasCartLabel">
+                سبد خرید <small class="text-muted fw-bold font-14 ms-1">
+                    (1
+                    مورد)
+                </small>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav cart-canvas-parent">
+                <li class="nav-item">
+                    <div class="cart-canvas">
+                        <div class="row align-items-center">
+                            <div class="col-4 ps-0">
+                                <img src="~/MainTemplate/assets/image/product/watch1.jpg" alt="">
+                            </div>
+                            <div class="col-8">
+                                <h3 class="text-overflow-3 font-16">
+                                    ساعت مچی عقربه‌ای مردانه اینویکتا مدل
+                                    Automatico Ghost Reserve
+                                </h3>
+                                <div class="product-box-suggest-price my-2  d-flex align-items-center justify-content-between">
+                                    <del class="font-16">5,000,000</del>
+                                    <ins class="font-25">2,500,000 <span>تومان</span></ins>
+                                </div>
+                                <div class="cart-canvas-foot d-flex align-items-center justify-content-between">
+                                    <div class="cart-canvas-count">
+                                        <span>تعداد:</span>
+                                        <span class="fw-bold">3</span>
+                                    </div>
+                                    <div class="cart-canvas-delete">
+                                        <a href="" class="btn"><i class="bi bi-x"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="cart-canvas">
+                        <div class="row align-items-center">
+                            <div class="col-4 ps-0">
+                                <img src="~/MainTemplate/assets/image/product/watch3.jpg" alt="">
+                            </div>
+                            <div class="col-8">
+                                <h3 class="text-overflow-3 font-16">
+                                    ساعت مچی عقربه‌ای مردانه اینویکتا مدل
+                                    Automatico Ghost Reserve
+                                </h3>
+                                <div class="product-box-suggest-price my-2  d-flex align-items-center justify-content-between">
+                                    <ins class="font-25 w-100 text-end">2,500,000 <span>تومان</span></ins>
+                                </div>
+                                <div class="cart-canvas-foot d-flex align-items-center justify-content-between">
+                                    <div class="cart-canvas-count">
+                                        <span>تعداد:</span>
+                                        <span class="fw-bold">3</span>
+                                    </div>
+                                    <div class="cart-canvas-delete">
+                                        <a href="" class="btn"><i class="bi bi-x"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="cart-canvas-foots bg-white shadow-md">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <div class="cart-canvas-foot-sum">
+                            <p class="text-muted mb-2">جمع کل</p>
+                            <h5>11,000,000 تومان</h5>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="cart-canvas-foot-link text-end">
+                            <a href="" class="btn border-0 main-color-green ">
+                                <i class="bi bi-arrow-left me-1"></i> تکمیل خرید
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!--============ end cart drawer ==============-->
+    <!--============ start floatings button ==============-->
+
+    <div class="float-btn fw-light fw-bolder py-0">
+        <div class="container-fluid">
+            <!-- go to top -->
+            <div class="progress-wrap">
+                <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+                    <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+                </svg>
+            </div>
+            <!-- end go to top -->
+            <!-- contact us floating -->
+            <div id="btncollapzion" class="btn_collapzion"></div>
+            <div class="" id="contactOverlay"></div>
+            <!-- end contact us floating -->
+        </div>
+    </div>
+
+    <!--============ end floatings button ==============-->
+    <!--============ start mobile menu ==============-->
+
+    <div class="mobile-footer d-xl-none d-table justify-content-center shadow-box bg-white position-fixed bottom-0 p-2 w-100"
+         style="z-index: 11;table-layout: fixed;">
+        <ul class="d-table-row">
+            <li class="d-table-cell pointer" onclick="topFunction()">
+                <div class="mf-link nav-link text-center">
+                    <span class="d-block mf-link-icon"><i class="bi bi-chevron-up font-20"></i></span>
+                    <span class="mt-1 font-12 fw-bold mf-link-title">بالا</span>
+                </div>
+            </li>
+            <li class="d-table-cell">
+                <a href="" class="mf-link nav-link text-center">
+                    <div class="mf-link-icon position-relative d-table mx-auto">
+                        <i class="bi bi-heart font-20"></i>
+                        <span class="position-absolute main-color-one-bg rounded-pill font-10 text-white badge"
+                              style="right:-40%;bottom:-5px;">0</span>
+                    </div>
+                    <span class="mt-1 font-12 fw-bold mf-link-title">علاقه مندی ها</span>
+                </a>
+            </li>
+            <li class="d-table-cell">
+                <a href="" class="mf-link nav-link text-center">
+                    <span class="d-block mf-link-icon"><i class="bi bi-house font-20"></i></span>
+                    <span class="mt-1 font-12 fw-bold mf-link-title">صفحه اصلی</span>
+                </a>
+            </li>
+            <li class="d-table-cell">
+                <a href="" class="mf-link nav-link text-center">
+                    <div class="position-relative mf-link-icon d-table mx-auto">
+                        <span class="d-block mf-link-icon"><i class="bi bi-arrow-left-right font-20"></i></span>
+                        <span class="position-absolute main-color-one-bg rounded-pill font-10 text-white badge"
+                              style="right:-60%;bottom:-5px;">0</span>
+                    </div>
+                    <span class="mt-1 font-12 fw-bold mf-link-title">مقایسه</span>
+                </a>
+            </li>
+            <li class="d-table-cell">
+                <a class="mf-link nav-link text-center" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" aria-controls="offcanvasCart">
+                    <div class="position-relative mf-link-icon d-table mx-auto">
+                        <span class="d-block mf-link-icon"><i class="bi bi-bag font-20"></i></span>
+                        <span class="position-absolute main-color-one-bg rounded-pill font-10 text-white badge"
+                              style="right:-60%;bottom:-5px;">0</span>
+                    </div>
+                    <span class="mt-1 font-12 fw-bold mf-link-title">سبد خرید</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!--============ end mobile menu ==============-->
+<partial name="_FooterRefrences" />
+@await RenderSectionAsync("script",false)
+<partial name="_SiteNotification" />
+
+</body>
+</html>

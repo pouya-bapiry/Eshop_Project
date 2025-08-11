@@ -1,0 +1,11 @@
+﻿
+@model Eshop.Domain.Dtos.Contact.Ticket.CloseTicketDto
+
+
+	<form asp-area="User" asp-controller="Ticket" asp-action="CloseTicket">
+		<input type="hidden" asp-for="Id">
+		<div class="ticket-created-at mt-3">
+			<button  type="submit" class="btn main-color-two-bg text-white">بستن تیکت</button>
+		</div>
+	</form>
+

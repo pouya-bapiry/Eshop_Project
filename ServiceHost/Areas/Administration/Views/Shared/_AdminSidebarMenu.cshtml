@@ -1,0 +1,429 @@
+﻿@using Eshop.Application.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@inject IAuthHelper _authHelper
+
+
+@if (_authHelper.CurrentAccountRole() == Roles.Administrator)
+{
+	<ul class="sidebar-menu do-nicescrol">
+
+		<li class="sidebar-header">منوی اصلی</li>
+		<li>
+			<a asp-area="Administration" asp-controller="Home" asp-action="Index" class="waves-effect">
+				<i class="zmdi zmdi-view-dashboard"></i> <span>داشبورد</span>
+			</a>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-account"></i>
+				<span>مدیریت فروشندگان</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Seller" asp-action="SellerRequest">
+						<i class="zmdi zmdi-long-arrow-right"></i>درخواست های فروشندگی
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="Seller" asp-action="LegalCompanyInformation">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست شرکت های حقوقی
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-shopping-basket"></i>
+				<span>مدیریت محصولات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductsList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست محصولات فروشگاه
+					</a>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductCategoryList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست دسته محصولات
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-apple"></i>
+				<span>مدیریت برند ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductBrandList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست برند فروشگاه
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-collection-item"></i>
+				<span>مدیریت سفارشات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Order" asp-action="GetOrders">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست سفارشات مشتریان
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="BikeDelivery" asp-action="BikeDeliveryList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست پیک ها
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="Seller" asp-action="FilterSellerWallet">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست تراکنش ها
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-accounts"></i>
+				<span>مدیریت کاربران</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Account" asp-action="UserList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست کاربران
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="Account" asp-action="RoleList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت نقش ها
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-ticket-star"></i>
+				<span>مدیریت تیکت ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Ticket" asp-action="TicketList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست تیکت ها
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-account-circle"></i>
+				<span>مدیریت استخدامی ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Employment" asp-action="EmploymentList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست استخدامی ها
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="Employment" asp-action="EmploymentInfoGraphicList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست فرایند استخدامی
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-image"></i>
+				<span>مدیریت تصاویر</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Home" asp-action="SliderList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت اسلایدر ها
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="PartnerList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت همکاران
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="BannerList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت بنر ها
+					</a>
+
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-copy"></i>
+				<span>مدیریت مقالات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Blog" asp-action="ArticleCategoryList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست دسته بندی مقالات
+					</a>
+					<a asp-area="Administration" asp-controller="Blog" asp-action="ArticleList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست مقالات
+					</a>
+
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-pages"></i>
+				<span>مدیریت صفحات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Home" asp-action="ContactUsList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت تماس با ما
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="AboutUsList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت درباره ما
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="FrequentlyQuestionList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت سوالات متداول
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="SellerGuidelineList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت فروشنده شوید
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-comment"></i>
+				<span>مدیریت دیدگاه ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductsCommentList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست دیدگاه ها
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-settings"></i>
+				<span>مدیریت تنظیمات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Home" asp-action="SiteSetting">
+						<i class="zmdi zmdi-long-arrow-right"></i>تنظیمات سایت
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		<li class="sidebar-header">برچسب ها</li>
+		<li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>مهم</span></a></li>
+		<li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-chart-donut text-success"></i> <span>هشدار</span></a></li>
+		<li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i> <span>اطلاعات</span></a></li>
+	</ul>
+
+}else if (_authHelper.CurrentAccountRole() == Roles.ContentUploader)
+{
+	<ul class="sidebar-menu do-nicescrol">
+
+		<li class="sidebar-header">منوی اصلی</li>
+		
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-shopping-basket"></i>
+				<span>مدیریت محصولات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductsList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست محصولات فروشگاه
+					</a>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductCategoryList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست دسته محصولات
+					</a>
+				</li>
+			</ul>
+		</li>
+
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-apple"></i>
+				<span>مدیریت برند ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductBrandList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست برند فروشگاه
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-collection-item"></i>
+				<span>مدیریت سفارشات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Order" asp-action="GetOrders">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست سفارشات مشتریان
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="BikeDelivery" asp-action="BikeDeliveryList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست پیک ها
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="Seller" asp-action="FilterSellerWallet">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست تراکنش ها
+					</a>
+				</li>
+			</ul>
+		</li>
+
+	@* 	<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-accounts"></i>
+				<span>مدیریت کاربران</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Account" asp-action="UserList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست کاربران
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="Account" asp-action="RoleList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت نقش ها
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-ticket-star"></i>
+				<span>مدیریت تیکت ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Ticket" asp-action="TicketList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست تیکت ها
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-account-circle"></i>
+				<span>مدیریت استخدامی ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Employment" asp-action="EmploymentList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست استخدامی ها
+					</a>
+				</li>
+				<li>
+					<a asp-area="Administration" asp-controller="Employment" asp-action="EmploymentInfoGraphicList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست فرایند استخدامی
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-image"></i>
+				<span>مدیریت تصاویر</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Home" asp-action="SliderList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت اسلایدر ها
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="PartnerList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت همکاران
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="BannerList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت بنر ها
+					</a>
+
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-copy"></i>
+				<span>مدیریت مقالات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Blog" asp-action="ArticleCategoryList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست دسته بندی مقالات
+					</a>
+					<a asp-area="Administration" asp-controller="Blog" asp-action="ArticleList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست مقالات
+					</a>
+
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-pages"></i>
+				<span>مدیریت صفحات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Home" asp-action="ContactUsList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت تماس با ما
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="AboutUsList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت درباره ما
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="FrequentlyQuestionList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت سوالات متداول
+					</a>
+					<a asp-area="Administration" asp-controller="Home" asp-action="SellerGuidelineList">
+						<i class="zmdi zmdi-long-arrow-right"></i>مدیریت فروشنده شوید
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-comment"></i>
+				<span>مدیریت دیدگاه ها</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Product" asp-action="ProductsCommentList">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست دیدگاه ها
+					</a>
+				</li>
+			</ul>
+		</li>
+		<li>
+			<a href="javaScript:void();" class="waves-effect">
+				<i class="zmdi zmdi-settings"></i>
+				<span>مدیریت تنظیمات</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+			<ul class="sidebar-submenu">
+				<li>
+					<a asp-area="Administration" asp-controller="Home" asp-action="SiteSetting">
+						<i class="zmdi zmdi-long-arrow-right"></i>تنظیمات سایت
+					</a>
+				</li>
+			</ul>
+		</li> *@
+
+		<li class="sidebar-header">برچسب ها</li>
+		<li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-coffee text-danger"></i> <span>مهم</span></a></li>
+		<li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-chart-donut text-success"></i> <span>هشدار</span></a></li>
+		<li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i> <span>اطلاعات</span></a></li>
+	</ul>
+}

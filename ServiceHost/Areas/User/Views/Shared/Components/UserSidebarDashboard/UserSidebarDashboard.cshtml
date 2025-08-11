@@ -1,0 +1,31 @@
+﻿@using Eshop.Application.Utilities
+
+@{
+    var avatar = ViewBag.AvatarImage;
+}
+
+
+<aside class="profile-card d-xl-block d-none">
+    <div class="profile-header d-flex align-items-center">
+        <img src="@(!string.IsNullOrEmpty(avatar) ?
+                      PathExtension.UserAvatarOrigin + avatar : PathExtension.DefaultAvatar)"
+             alt="تصویر پروفایل" title="تصویر پروفایل" @* class="img-fluid rounded-circle profile-avatar" width="60" height="60" *@>
+        <div class="ms-3">
+            <h6 class="mt-2">@User.Identity.Name </h6>
+            <div class="d-flex align-items-center justify-content-between">
+                <p class="text-muted small mt-1"> عزیز خوش آمدید</p>
+                <a asp-area="User" asp-controller="Account" asp-action="EditProfile" class="ms-2"><i class="text-warning bi bi-pencil-square"></i></a>
+                <a asp-area="User" asp-controller="Account" asp-action="ChangePassword" class="ms-2"><i class="bi bi-key-fill"></i></a>
+
+            </div>
+        </div>
+    </div>
+    <div class="profile-menu">
+        <a asp-area="User" asp-controller="Ticket" asp-action="TicketList" class="active"><i class="bi bi-ticket"></i> تیکت ها </a>
+        <a asp-area="User" asp-controller="Ticket" asp-action="AddTicket"><i class="bi bi-bag"></i> سفارش‌ها</a>
+        <a href="#"><i class="bi bi-bell"></i> دیدگاه‌ها</a>
+        <a href="#"><i class="bi bi-heart"></i> لیست علاقه‌مندی</a>
+        <a href="#"><i class="bi bi-person"></i> اطلاعات حساب کاربری</a>
+        <a asp-controller="Account" asp-action="Logout" class="logout"><i class="bi bi-box-arrow-right"></i> خروج</a>
+    </div>
+</aside>

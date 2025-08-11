@@ -1,0 +1,87 @@
+﻿@model Eshop.Domain.Dtos.Account.User.EditUserDto
+
+
+@{
+    ViewData["Title"] = "ویرایش کاربر";
+}
+
+
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت کاربران</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-edit"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Account" asp-action="EditUser" method="post" id="filter-form">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label>نام کاربر</label>
+                            <input class="form-control" asp-for="FirstName" />
+                            <span class="text-danger float-right" asp-validation-for="FirstName"></span>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>نام خانوادگی کاربر</label>
+                            <input class="form-control" asp-for="LastName" />
+                            <span class="text-danger float-right" asp-validation-for="LastName"></span>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>تلفن همراه</label>
+                            <input class="form-control" asp-for="Mobile" />
+                            <span class="text-danger float-right" asp-validation-for="Mobile"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>ایمیل</label>
+                            <input class="form-control" asp-for="Email" />
+                            <span class="text-danger float-right" asp-validation-for="Email"></span>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>عنوان نقش</label>
+                            <select class="form-control" asp-for="RoleId" asp-items='new SelectList(ViewBag.roles, "Id", "RoleName")'>
+                                <option value="0">عنوان نقش مورد نظر را انتخاب نمایید...</option>
+                            </select>
+                            <span class="text-danger float-right" asp-validation-for="RoleId"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>بلاک شده / نشده</label>
+                            <input class="form-control" asp-for="IsBlocked" />
+                            <span class="text-danger float-right" asp-validation-for="IsBlocked"></span>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>موبایل فعال شده / نشده</label>
+                            <input class="form-control" asp-for="IsMobileActivated" />
+                            <span class="text-danger float-right" asp-validation-for="IsMobileActivated"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">ویرایش اطلاعات کاربر </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

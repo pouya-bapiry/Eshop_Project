@@ -1,0 +1,43 @@
+﻿@model Eshop.Domain.Dtos.Account.User.CreateRoleDto
+@{
+	ViewData["Title"] = "افزودن نقش جدید";
+}
+
+
+@section scripts
+{
+	<partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+	<div class="col-sm-9">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+			<li class="breadcrumb-item"><a href="javaScript:void();">مدیریت کاربران</a></li>
+			<li class="breadcrumb-item"><a href="javaScript:void();">مدیریت نقش ها</a></li>
+			<li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+		</ol>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="card">
+			<div class="card-header"><i class="fa fa-plus"></i> @ViewData["Title"]</div>
+			<div class="card-body">
+
+				<form asp-area="Administration" asp-controller="Account" asp-action="CreateRole" method="post" id="filter-form">
+					<div class="row">
+						<div class="form-group col-lg-12">
+							<label>عنوان نقش</label>
+							<input class="form-control" asp-for="RoleName" required="" />
+							<span class="text-danger float-right" asp-validation-for="RoleName"></span>
+						</div>
+					</div>
+					<button type="submit" class="btn btn-success btn-block">افزودن نقش جدید</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

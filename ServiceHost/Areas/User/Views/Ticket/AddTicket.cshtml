@@ -1,0 +1,94 @@
+﻿@using Eshop.Domain.Entities.Contact.Ticket
+@model Eshop.Domain.Dtos.Contact.Ticket.AddTicketDto
+
+@{
+    ViewData["Title"] = "ایجاد تیکت جدید";
+}
+
+@section script {
+    <partial name="_JqueryValidators" />
+}
+
+
+
+
+<section class="content my-xl-3 my-5 py-xl-4 py-5">
+    <div class="container-fluid">
+        <div class="row gy-3">
+            <!-- side nav -->
+            <div class="col-xl-3">
+                <!--   start panel menu mobile  -->
+                @await Component.InvokeAsync("UserMobileDashboard")
+                <!--   end panel menu mobile   -->
+                <!--   start panel menu desktop  -->
+                @await Component.InvokeAsync("UserSidebarDashboard")
+                <!--   end panel menu desktop  -->
+            </div>
+            <!-- main content -->
+            <div class="col-xl-9">
+                <!-- status card -->
+                <form asp-area="User" asp-controller="Ticket" asp-action="AddTicket" method="post">
+                    <div class="row g-4 bg-white">
+                        <div class="col-md-12">
+                            <div class="comment-item">
+                                <input asp-for="Title" type="text" class="form-control" placeholder="عنوان تیکت را وارد کنید...">
+                                <label class="form-label label-float fw-bold font-16">
+                                    عنوان تیکت
+                                    <span class="text-danger">*</span>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex border-ui bg-white alert align-items-center justify-content-between">
+                                <div class="product-meta-color w-100">
+                                    <label class="font-16 fw-bold icon-circle">
+                                        اولویت تیکت
+                                    </label>
+                                    <div class="product-meta-color-items mt-3">
+                                        <select asp-for="TicketPriority" asp-items="@(Html.GetEnumSelectList<TicketPriority>())" class="form-select">
+                                            <option value="0">انتخاب نمایید ...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="d-flex border-ui bg-white alert align-items-center justify-content-between">
+                                <div class="product-meta-color w-100">
+                                    <label class="font-16 fw-bold icon-circle">
+                                        بخش مورد نظر
+                                    </label>
+                                    <div class="product-meta-color-items mt-3">
+                                        <select asp-for="TicketSection" asp-items="@(Html.GetEnumSelectList<TicketSection>())" class="form-select">
+                                            <option value="0">انتخاب نمایید ...</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="comment-item">
+								<div class="col-12 w-100">
+                                    <span class="form-label label-float fw-bold font-16 ">پیام</span>
+                                  <textarea class="form-control" asp-for="Text" ckeditor="1" rows="5"></textarea>
+                                  <label class="form-label label-float fw-bold font-16">
+                                   
+                                    <span asp-validation-for="Text" class="text-danger"></span>
+                                  </label>
+                                 </div> 
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <button type="submit" class="btn main-color-one-bg border-0">
+                                    ثبت تیکت
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section></section>

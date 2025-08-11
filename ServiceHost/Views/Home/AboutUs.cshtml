@@ -1,0 +1,156 @@
+﻿@model List<Eshop.Domain.Dtos.Site.AboutUsDto>
+
+@{
+    ViewData["Title"] = "درباره ما";
+}
+
+
+<section class="about">
+    <div class="container-fluid">
+        <div class="section-title mt-xl-0 mt-5 pt-xl-0 pt-5 mb-4">
+            <div class="section-title-title">
+                <h2 class="fw-900 h4">
+                    درباره<span class="with-highlight ms-1"> فروشگاه</span>
+                </h2>
+                <div class="Dottedsquare"></div>
+            </div>
+        </div>
+        <div class="row mb-5 gy-5 align-items-center">
+            <div class="col-xl-12">
+                <div class="video-player">
+                    <div class="special-offer-bg-parent">
+                        <div class="d-flex special-offer-bg main-color-two-bg no-hover" style="height: 400px">
+
+                            <div class="video w-100">
+                                <video id="aboutVideo" class="img-fluid rounded-5 h-100 w-100 vd-style" controls="" preload="none" poster="~/MainTemplate/assets/image/about/rtl-theme.jpg">
+                                    <source src="~/MainTemplate/assets/image/about/video.mp4">
+                                </video>
+                                <div class="play-btn pointer active" style="display: flex;">
+                                    <div class="play">
+                                        <i class="bi bi-play-fill" id="play-icon"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-5 gy-5 align-items-center">
+            @foreach (var about in Model)
+            {
+                <div class="col-xl-12">
+                    <h3 class="fw-900 fs-1"> @about.HeaderTitle</h3>
+                    <p class="my-3 text-muted text-justify">
+                        @about.Description
+                    </p>
+                </div>
+            }
+        </div>
+        <div class="shop-feature-parent shop-feature">
+            <div class="row justify-content-center gy-4 gx-2 row-cols-1 row-cols-lg-5 row-cols-xl-5">
+                <div class="col">
+                    <div class="shop-feature-item shadow-top">
+                        <img alt="" src="~/MainTemplate/assets/image/feature/box.png">
+                        <h5 class="mt-2">تحویل اکسپرس</h5>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="shop-feature-item shadow-bottom">
+                        <img alt="" src="~/MainTemplate/assets/image/feature/headphone.png">
+                        <h5 class="mt-2"> پشتیبانی آنلاین</h5>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="shop-feature-item shadow-top">
+                        <img alt="" src="~/MainTemplate/assets/image/feature/money.png">
+                        <h5 class="mt-2"> پرداخت در محل</h5>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="shop-feature-item shadow-bottom">
+                        <img alt="" src="~/MainTemplate/assets/image/feature/safe.png">
+                        <h5 class="mt-2"> ضمانت کالا</h5>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="shop-feature-item shadow-top">
+                        <img src="~/MainTemplate/assets/image/feature/seven.png" alt="">
+                        <h5 class="mt-2"> هفت روز ضمانت بازگشت</h5>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="card mt-5 card-style1 border-0">
+            <div class="card-body p-4 p-md-5 p-xl-6">
+                <div class="text-center mb-2-3 mb-lg-6">
+                    <h2 class="h3 mb-0 title-font">سوالات متداول</h2>
+                </div>
+                <div id="accordion" class="accordion-style">
+                    <div class="card mb-3">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">آیا می توانم آنلاین رزرو کنم؟</button>
+                            </h5>
+                        </div>
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-bs-parent="#accordion" style="">
+                            <div class="card-body">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header" id="headingTwo">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">چگونه یک سفر گلف را برای جمع خود برنامه ریزی کنم؟</button>
+                            </h5>
+                        </div>
+                        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-bs-parent="#accordion" style="">
+                            <div class="card-body">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header" id="headingThree">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">کد لباس چیست؟</button>
+                            </h5>
+                        </div>
+                        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-bs-parent="#accordion" style="">
+                            <div class="card-body">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-3">
+                        <div class="card-header" id="headingFour">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"> احتمال ساخت عقاب دوتایی چقدر است؟</button>
+                            </h5>
+                        </div>
+                        <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-bs-parent="#accordion" style="">
+                            <div class="card-body">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header" id="headingFive">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link collapsed" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">اگر بخواهم دوره خود را رها کنم آیا می توانم تخفیف بگیرم؟</button>
+                            </h5>
+                        </div>
+                        <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-bs-parent="#accordion">
+                            <div class="card-body">
+                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

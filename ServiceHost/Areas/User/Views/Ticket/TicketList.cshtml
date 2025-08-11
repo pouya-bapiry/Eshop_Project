@@ -1,0 +1,135 @@
+﻿@using Eshop.Application.Extensions
+@using Eshop.Application.Utilities
+@using Eshop.Domain.Entities.Contact.Ticket
+@model Eshop.Domain.Dtos.Contact.Ticket.FilterTicketDto
+
+@{
+    ViewData["Title"] = "لیست تیکت ها";
+}
+
+<section class="content my-xl-3 my-5 py-xl-4 py-5">
+    <div class="container-fluid">
+        <div class="row gy-3">
+            <!-- side nav -->
+            <div class="col-xl-3">
+                <!--   start panel menu mobile  -->
+                <div class="custom-filter d-xl-none d-block">
+                    <button class="btn btn-filter-float border-0 btn-dark shadow-box px-4 rounded-3 position-fixed" style="z-index: 999;bottom:75px;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <i class="bi bi-funnel font-20 fw-bold text-white"></i>
+                        <span class="d-block font-14 text-white">منو</span>
+                    </button>
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasRightLabel1">منو</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <aside class="profile-card">
+                                <div class="profile-header d-flex align-items-center">
+                                    <img src="~/MainTemplate/assets/image/user/user.png" alt="کاربر">
+                                    <div class="ms-3">
+                                        <h6 class="mt-2">امیر رضایی</h6>
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <p class="text-muted small mt-1">طراح و برنامه نویس</p>
+                                            <a href="" class="ms-2"><i class="bi bi-pencil-square"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="profile-menu">
+                                    <a href="#" class="active"><i class="bi bi-shop-window"></i> خلاصه فعالیت</a>
+                                    <a href="#"><i class="bi bi-bag"></i> سفارش‌ها</a>
+                                    <a href="#"><i class="bi bi-bell"></i> دیدگاه‌ها</a>
+                                    <a href="#"><i class="bi bi-heart"></i> لیست علاقه‌مندی</a>
+                                    <a href="#"><i class="bi bi-person"></i> اطلاعات حساب کاربری</a>
+                                    <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> خروج</a>
+                                </div>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+                <!--   end panel menu mobile   -->
+                <!--   start panel menu desktop  -->
+                @await Component.InvokeAsync("UserSidebarDashboard")
+                <!--   end panel menu desktop  -->
+            </div>
+            <!-- main content -->
+            <div class="col-xl-9">
+                <div class="row gy-4 align-items-center">
+                    <div class="col-6">
+                        <div class="section-title-title">
+                            <h2 class="fw-900 h4">
+                                آخرین<span class="with-highlight ms-1">تیکت ها </span>
+                            </h2>
+                            <div class="Dottedsquare"></div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-end">
+                            <a asp-area="User" asp-controller="Ticket" asp-action="AddTicket" class="btn main-color-one-bg rounded-3 btn-action-panel"><i class="bi bi-pencil-square me-2"></i>تیکت جدید</a>
+                        </div>
+                    </div>
+                </div>
+                <form asp-area="User" asp-controller="Ticket" asp-action="TicketList" id="filter-form" method="get">
+                    <input type="hidden" asp-for="PageId" />
+                </form>
+                <div class="content">
+                    @if (Model != null && Model.Tickets.Any())
+                    {
+                        <div class="table-custom border-ui mt-4 slider-parent rounded-4 p-0">
+                            <div class="table-responsive shadow-box roundedTable p-0">
+
+                                <table class="table main-table rounded-0">
+                                    <thead>
+                                        <tr>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">شناسه</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">عنوان</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">وضعیت</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">تاریخ ارسال تیکت</th>
+                                            <th class="align-middle text-center fw-bold font-18  text-muted">نمایش</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var ticket in Model.Tickets)
+                                        {
+                                            <tr>
+                                                <td class="align-middle text-center">
+                                                    <p class="mt-2 font-16">@ticket.Id</p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <p class="mt-2 font-16">
+                                                        @ticket.Title
+                                                    </p>
+                                                </td>
+                                               @*  @if (ticket.TicketState == TicketState.UnderProgress)
+                                                { *@
+                                                    <td class="align-middle text-center">
+                                                        <span class="badge bg-warning ms-2">@ticket.TicketState.GetEnumName()</span>
+                                                    </td>
+                                                @* } *@
+                                                <td class="align-middle text-center">
+                                                    <p class="mt-2 font-16">
+                                                        @ticket.CreateDate.ToStringShamsiDate()
+                                                    </p>
+                                                </td>
+                                                <td class="align-middle text-center">
+                                                    <a asp-area="User" asp-controller="Ticket" asp-action="TicketDetail" asp-route-ticketId="@ticket.Id" class="btn main-color-two-bg shadow-none btn-sm text-white">
+                                                        <i class="bi bi-eye me-1"></i> نمایش
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <partial name="_PagingPartial" model="Model.GetCurrentPaging()" />
+                    }
+                    else
+                    {
+                        <partial name="_NotItemFound" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

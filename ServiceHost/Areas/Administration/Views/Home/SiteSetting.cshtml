@@ -1,0 +1,102 @@
+﻿@using Eshop.Application.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Eshop.Domain.Dtos.Site.SiteSettingDto
+@{
+    ViewData["Title"] = "تنظیمات سایت";
+}
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت صفحات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-table"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model != null)
+                                {
+                                    <table id="default-datatable" class="table table-bordered dataTable" role="grid" aria-describedby="default-datatable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc">شناسه</th>
+                                                <th class="sorting">موبایل</th>
+                                                <th class="sorting">تلفن ثابت</th>
+                                                <th class="sorting">ایمیل</th>
+                                                <th class="sorting">متن کپی رایت</th>
+                                                <th class="sorting">متن فووتر</th>
+                                                <th class="sorting">اصلی / غیراصلی</th>
+                                                <th class="sorting">تاریخ ایجاد</th>
+                                                <th class="sorting">ویرایش شده</th>
+                                                <th class="sorting">دستورات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            
+                                            <tr id="ajax-url-item-@Model.Id" role="row" class="odd">
+                                                <td>@Model.Id</td>
+                                                <td>@Model.Mobile</td>
+                                                <td>@Model.Phone</td>
+                                                <td>@Model.Email</td>
+                                                <td>@Model.CopyRight</td>
+                                                <td>@Model.FooterText</td>
+                                                <td>@(Model.IsDefault == true ? "اصلی" : "غیراصلی")</td>
+                                                <td>@Model.CreateDate</td>
+                                                <td>@Model.LastUpdateDate</td>
+                                                <td>
+                                                    <a class="btn btn-sm btn-warning"
+                                                       asp-area="Administration" asp-controller="Home"
+                                                       asp-action="EditSiteSetting"
+                                                       asp-route-settingId="@Model.Id">
+                                                        ویرایش تنظیمات
+                                                    </a>
+
+                                                </td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="alert-message text-dark">
+                                            <span><strong>هشدار!</strong> هیچ اطلاعاتی یافت نشد</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+
+

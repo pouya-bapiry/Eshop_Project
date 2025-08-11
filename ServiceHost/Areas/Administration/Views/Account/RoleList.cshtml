@@ -1,0 +1,122 @@
+﻿@using Eshop.Application.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Eshop.Domain.Dtos.Account.User.FilterRoleDto
+@{
+    ViewData["Title"] = "لیست نقش ها";
+}
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت نقش ها</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-filter"></i> فیلتر ها</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Account" asp-action="RoleList" method="get" id="filter-form">
+                    <input type="hidden" asp-for="PageId" />
+                    <div class="row">
+                        <div class="form-group col-lg-10">
+                            <label>عنوان نقش</label>
+                            <input class="form-control" asp-for="RoleName" />
+                        </div>
+                        <div class="form-group col-lg-2">
+                            <label>افزودن نقش</label>
+                            <a class="btn btn-sm btn-success form-control"
+                               asp-area="Administration" asp-controller="Account"
+                               asp-action="CreateRole">
+                                افزودن نقش
+                            </a>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-info btn-block">اعمال فیلتر</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-table"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model.Roles != null && Model.Roles.Any())
+                                {
+                                    <table id="default-datatable" class="table table-bordered dataTable" role="grid" aria-describedby="default-datatable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc">شناسه</th>
+                                                <th class="sorting">عنوان نقش</th>
+                                                <th class="sorting">تاریخ ایجاد</th>
+                                                <th class="sorting">ویرایش شده</th>
+                                                <th class="sorting">دستورات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model.Roles)
+                                            {
+                                                <tr id="ajax-url-item-@item.Id" role="row" class="odd">
+                                                    <td>@item.Id</td>
+                                                    <td>@item.RoleName</td>
+                                                    <td>@item.CreateDate.ToStringShamsiDate()</td>
+                                                    <td>@item.LastUpdateDate.ToStringShamsiDate() | @item.UserName</td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-warning"
+                                                           asp-area="Administration" asp-controller="Account"
+                                                           asp-action="EditRole"
+                                                           asp-route-roleId="@item.Id">
+                                                            ویرایش
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="alert-message text-dark">
+                                            <span><strong>هشدار!</strong> هیچ اطلاعاتی یافت نشد</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+                <partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_info" id="default-datatable_info" role="status" aria-live="polite">نمایش تعداد 10 نقش در هر صفحه از تعداد کل : @Model.Roles.Count نقش</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

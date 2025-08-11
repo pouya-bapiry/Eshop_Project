@@ -1,0 +1,21 @@
+﻿@model Eshop.Domain.Dtos.Paging.BasePaging
+<div class="row">
+    <div class="col-sm-12 col-md-7">
+        <ul class="pagination pagination-separate">
+            @if (Model.StartPage < Model.PageId)
+            {
+            <li class="page-item "><a onclick="FillPageId(@(Model.PageId - 1))" class="page-link cursor-pointer" href="javascript:void();">قبلی</a></li>
+            }
+            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+            {
+            <li class="page-item cursor-pointer  @(Model.PageId == i ? " active" :"" )"><a onclick="FillPageId(@i)" class="page-link" href="javascript:void();">@i</a></li>
+            }
+
+            @if (Model.EndPage > Model.PageId)
+            {
+                <li class="page-item"><a onclick="FillPageId(@(Model.PageId + 1))" class="page-link cursor-pointer" href="javascript:void();">بعدی</a></li>
+
+            }
+        </ul>
+    </div>
+</div>

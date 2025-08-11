@@ -1,0 +1,46 @@
+﻿@using Eshop.Application.Utilities
+
+
+
+@{
+    var avatar = ViewBag.AvatarImage;
+}
+
+<div class="custom-filter d-xl-none d-block">
+    <button class="btn btn-filter-float border-0 btn-dark shadow-box px-4 rounded-3 position-fixed" style="z-index: 999;bottom:75px;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+        <i class="bi bi-funnel font-20 fw-bold text-white"></i>
+        <span class="d-block font-14 text-white">منو</span>
+    </button>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasRightLabel1">منو</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <aside class="profile-card">
+                <div class="profile-header d-flex align-items-center">
+                    <img src="@(!string.IsNullOrEmpty(avatar) ?
+                                               PathExtension.UserAvatarOrigin + avatar : PathExtension.DefaultAvatar)"
+                         alt="تصویر پروفایل" title="تصویر پروفایل" @* class="img-fluid rounded-circle profile-avatar" width="60" height="60" *@>
+                    <div class="ms-3">
+                        <h6 class="mt-2">@User.Identity.Name </h6>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="text-muted small mt-1">عزیز خوش آمدید</p>
+                            <a asp-area="User" asp-controller="Account" asp-action="EditProfile" class="ms-2"><i class="text-warning bi bi-pencil-square"></i></a>
+                            <a asp-area="User" asp-controller="Account" asp-action="ChangePassword" class="ms-2"><i class="bi bi-key-fill"></i></a>
+                          
+                        </div>
+                    </div>
+                </div>
+                <div class="profile-menu">
+                    <a asp-area="User" asp-controller="Ticket" asp-action="TicketList" class="active"><i class="bi bi-shop-window"></i> لیست تیکت ها</a>
+                    <a href="#"><i class="bi bi-bag"></i> سفارش‌ها</a>
+                    <a href="#"><i class="bi bi-bell"></i> دیدگاه‌ها</a>
+                    <a href="#"><i class="bi bi-heart"></i> لیست علاقه‌مندی</a>
+                    <a href="#"><i class="bi bi-person"></i> اطلاعات حساب کاربری</a>
+                    <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> خروج</a>
+                </div>
+            </aside>
+        </div>
+    </div>
+</div>

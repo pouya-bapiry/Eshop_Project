@@ -1,0 +1,145 @@
+﻿@using Eshop.Application.Extensions
+@using Eshop.Application.Utilities
+@using Eshop.Domain.Dtos.Contact.Ticket
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Eshop.Domain.Dtos.Contact.Ticket.TicketDetailDto
+
+@{
+	ViewData["Title"] = "جزییات تیکت";
+
+	var avatar = ViewBag.AvatarImage;
+	var adminAvatar = ViewBag.AvatarImageAdmin;
+}
+
+<section class="content my-xl-3 my-5 py-xl-4 py-5">
+	<div class="container-fluid">
+		<div class="row gy-3">
+			<!-- side nav -->
+			<div class="col-xl-3">
+				<!--   start panel menu mobile  -->
+				@await Component.InvokeAsync("UserMobileDashboard")
+
+				<!--   end panel menu mobile   -->
+				<!--   start panel menu desktop  -->
+				@await Component.InvokeAsync("UserSidebarDashboard")
+				<!--   end panel menu desktop  -->
+			</div>
+			<!-- main content -->
+			<div class="col-xl-9">
+				<div class="position-sticky top-0">
+					<div class="panel-latest-order">
+
+						<div class="row gy-3">
+							<div class="col-12">
+								<div class="card slider-parent rounded-3 mt-0">
+									<div class="card-body">
+										<div class="ticket-settings">
+											<div class="ticket-status">
+												<span class="bg-secondary badge rounded-0 font-16">@Model.Ticket.TicketState.GetEnumName()</span>
+												<span class="text-muted font-16 fw-lighter float-end">تیکت شماره @Model.Ticket.Id</span>
+											</div>
+											<div class="ticket-title mt-3">
+												<h6 class="text-justify text-muted fw-bold">
+													@Model.Ticket.Title
+												</h6>
+											</div>
+											<div class="ticket-created-at mt-3">
+												<i class="bi bi-clock me-1"></i>
+												<span>
+													تاریخ ایجاد : @Model.Ticket.CreateDate.ToStringShamsiDate() - ساعت: @Model.Ticket.CreateDate.ToString("HH:mm")
+												</span>
+											</div>
+											@if (Model.Ticket.TicketState != Eshop.Domain.Entities.Contact.Ticket.TicketState.Closed)
+											{
+												<partial name="_CloseTicketPartial" model="@(new CloseTicketDto { Id = Model.Ticket.Id })" />
+											}
+											else
+											{
+												<div class="my-4">
+													<div class="alert alert-danger text-center">
+														تیکت بسته شده است و امکان ارسال پاسخ جدید وجود ندارد
+													</div>
+												</div>
+											}
+
+
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-12">
+								@if (Model.Ticket.TicketState != Eshop.Domain.Entities.Contact.Ticket.TicketState.Closed)
+								{
+
+									<div class="slider-parent rounded-3 py-4">
+										<h5 class="mb-3">ارسال پیام</h5>
+										<partial name="_AnswerTicketPartial" model="@(new AnswerTicketDto { Id = Model.Ticket.Id })" />
+									</div>
+
+
+								}
+
+								<div class="slider-parent rounded-3 py-4">
+									<div class="col-12">
+										<div class="w-100 h-100">
+											<h5 class="mb-3 align-content-sm-center"> پیام ها</h5>
+										</div>
+									</div>
+
+
+									<div class="container-fluid">
+										<!-- Messages-->
+										@if (Model.TicketMessage != null && Model.TicketMessage.Any())
+										{
+											@foreach (var message in Model.TicketMessage)
+											{
+												<div class="comment @(message.SenderId == Model.Ticket.OwnerId ? "active" : "comment-body align-left")">
+
+													<div class="comment-author-ava">
+														<img style="width: 50px; height:50px;"
+															 src="@(!string.IsNullOrEmpty(avatar) && message.SenderId == Model.Ticket.OwnerId ?
+																						   			  PathExtension.UserAvatarOrigin + avatar :
+																						  			  PathExtension.UserAvatarOrigin + adminAvatar)" alt="@message.Sender.FirstName" title="@message.Sender.FirstName">
+											</div>
+											<div class="comment-body">
+												<p class="comment-text">
+													@Html.Raw(message.Text)
+												</p>
+												@if (message.SenderId != Model.Ticket.OwnerId)
+														{
+															<div class="comment-footer">
+																<span class="comment-meta">@(message.Sender.FirstName + message.Sender.LastName)</span>
+																<br />
+																<div class="comment-date float-end">
+																	<span class="comment-meta">@message.CreateDate.ToStringShamsiDate() - @message.CreateDate.ToString("HH:mm")</span>
+																</div>
+															</div>
+														}
+														else
+														{
+															<div class="comment-footer">
+																<span class="comment-meta">@(message.Ticket.Owner.FirstName + message.Ticket.Owner.LastName)</span>
+																<br />
+																<div class="comment-date float-start">
+																	<span class="comment-meta ">@message.CreateDate.ToStringShamsiDate() - @message.CreateDate.ToString("HH:mm")</span>
+																</div>
+															</div>
+														}
+
+
+													</div>
+												</div>
+											}
+										}
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

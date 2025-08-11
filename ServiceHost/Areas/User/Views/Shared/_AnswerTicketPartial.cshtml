@@ -1,0 +1,16 @@
+﻿@model Eshop.Domain.Dtos.Contact.Ticket.AnswerTicketDto
+
+
+<form asp-area="User" asp-controller="Ticket" asp-action="AnswerTicket" method="post">
+	<input type="hidden" asp-for="Id" />
+	<div class="form-group">
+		<label class="form-label">پیام:</label>
+		<textarea asp-for="Text" class="form-control form-control-rounded" ckeditor="1" rows="8" placeholder="پیام خود را وارد کنید..."></textarea>
+	</div>
+	<div class="text-right">
+		<button class="btn py-3 px-5 main-color-one-bg" type="submit">
+			ارسال
+			پاسخ
+		</button>
+	</div>
+</form>

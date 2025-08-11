@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Eshop.Domain.Dtos.Contact.EditAboutUsDto
+@{
+    ViewData["Title"] = "ویرایش اطلاعات";
+}
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت صفحات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-edit"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Home" asp-action="EditAboutUs" method="post" enctype="multipart/form-data" id="filter-form">
+                    <input type="hidden" asp-for="Id"/>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>متن درباره ما</label>
+                            <textarea asp-for="HeaderTitle" ckeditor="1"></textarea>
+                            <span class="text-danger float-right" asp-validation-for="HeaderTitle"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>توضیحات درباره ما</label>
+                            <textarea asp-for="Description" ckeditor="2"></textarea>
+                            <span class="text-danger float-right" asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">ویرایش اطلاعات</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

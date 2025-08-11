@@ -1,0 +1,580 @@
+﻿
+@{
+    ViewData["Title"] = " پنل مدیریت سایت";
+}
+
+
+<div class="card mt-3">
+    <div class="card-content">
+        <div class="row row-group m-0">
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">9526 <span class="float-right"><i class="fa fa-shopping-cart"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">کل سفارشات <span class="float-right">+4.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">8323 <span class="float-right"><i class="fa fa-usd"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">درآمد کل <span class="float-right">+1.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">6200 <span class="float-right"><i class="fa fa-eye"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">بازدید کنندگان <span class="float-right">+5.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6 col-xl-3 border-light">
+                <div class="card-body">
+                    <h5 class="text-white mb-0">5630 <span class="float-right"><i class="fa fa-envira"></i></span></h5>
+                    <div class="progress my-3" style="height:3px;">
+                        <div class="progress-bar" style="width:55%"></div>
+                    </div>
+                    <p class="mb-0 text-white small-font">پیام ها <span class="float-right">+2.2% <i class="zmdi zmdi-long-arrow-up"></i></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-lg-8 col-xl-8">
+        <div class="card">
+            <div class="card-header">
+                ترافیک سایت
+                <div class="card-action">
+                    <div class="dropdown">
+                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                            <i class="icon-options"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="javascript:void();">اقدام</a>
+                            <a class="dropdown-item" href="javascript:void();">اقدام دیگر</a>
+                            <a class="dropdown-item" href="javascript:void();">چیز دیگری اینجاست</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void();">پیوند جدا شده</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><i class="fa fa-circle mr-2 text-white"></i>بازدید کننده جدید</li>
+                    <li class="list-inline-item"><i class="fa fa-circle mr-2 text-light"></i>بازدید کننده قدیم</li>
+                </ul>
+                <canvas id="chart1" height="115"></canvas>
+            </div>
+
+            <div class="row m-0 row-group text-center border-top border-light-3">
+                <div class="col-12 col-lg-4">
+                    <div class="p-3">
+                        <h5 class="mb-0">45.87M</h5>
+                        <small class="mb-0">بازدید کننده به طور کلی <span> <i class="fa fa-arrow-up"></i> 2.43%</span></small>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="p-3">
+                        <h5 class="mb-0">15:48</h5>
+                        <small class="mb-0">مدت بازدید کننده <span> <i class="fa fa-arrow-up"></i> 12.65%</span></small>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-4">
+                    <div class="p-3">
+                        <h5 class="mb-0">245.65</h5>
+                        <small class="mb-0">صفحات / بازدید <span> <i class="fa fa-arrow-up"></i> 5.62%</span></small>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-4 col-xl-4">
+        <div class="card">
+            <div class="card-header">
+                فروش هفتگی
+                <div class="card-action">
+                    <div class="dropdown">
+                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                            <i class="icon-options"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="javascript:void();">اقدام</a>
+                            <a class="dropdown-item" href="javascript:void();">اقدام دیگر</a>
+                            <a class="dropdown-item" href="javascript:void();">چیز دیگری اینجاست</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void();">پیوند جدا شده</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="chart2" height="180"></canvas>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-items-center">
+                    <tbody>
+                        <tr>
+                            <td><i class="fa fa-circle text-white mr-2"></i> مستقیم</td>
+                            <td>5858 تومان</td>
+                            <td>+55%</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-circle text-light-1 mr-2"></i>وابسته</td>
+                            <td>2602 تومان</td>
+                            <td>+25%</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-circle text-light-2 mr-2"></i>ایمیل</td>
+                            <td>1802 تومان</td>
+                            <td>+15%</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa fa-circle text-light-3 mr-2"></i>سایر</td>
+                            <td>1105 تومان</td>
+                            <td>+5%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div><!--End Row-->
+
+<div class="row">
+    <div class="col-12 col-lg-6 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="w_chart easy-dash-chart" data-percent="60">
+                        <span class="w_percent"></span>
+                    </div>
+                    <div class="media-body ml-3">
+                        <h6 class="mb-0">دنبال کنندگان فیس بوک</h6>
+                        <small class="mb-0">22.14% <i class="fa fa-arrow-up"></i> از هفته گذشته</small>
+                    </div>
+                    <i class="fa fa-facebook text-white text-right fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="w_chart easy-dash-chart" data-percent="65">
+                        <span class="w_percent"></span>
+                    </div>
+                    <div class="media-body ml-3">
+                        <h6 class="mb-0">توییت توییتر</h6>
+                        <small class="mb-0">32.15% <i class="fa fa-arrow-up"></i> از هفته گذشته</small>
+                    </div>
+                    <i class="fa fa-twitter text-white text-right fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-lg-12 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="media align-items-center">
+                    <div class="w_chart easy-dash-chart" data-percent="75">
+                        <span class="w_percent"></span>
+                    </div>
+                    <div class="media-body ml-3">
+                        <h6 class="mb-0">مشترکان یوتیوب</h6>
+                        <small class="mb-0">58.24% <i class="fa fa-arrow-up"></i> از هفته گذشته</small>
+                    </div>
+                    <i class="fa fa-youtube text-white fa-2x"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--End Row-->
+
+
+<div class="row">
+    <div class="col-12 col-lg-12 col-xl-6">
+        <div class="card">
+            <div class="card-header">
+                منطقه فروش جهانی
+                <div class="card-action">
+                    <div class="dropdown">
+                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                            <i class="icon-options"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="javascript:void();">اقدام</a>
+                            <a class="dropdown-item" href="javascript:void();">اقدام دیگر</a>
+                            <a class="dropdown-item" href="javascript:void();">چیز دیگری اینجاست</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void();">پیوند جدا شده</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div id="dashboard-map" style="height: 270px;"></div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover align-items-center">
+                    <thead>
+                        <tr>
+                            <th>کشور</th>
+                            <th>درآمد</th>
+                            <th>روند</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><i class="flag-icon flag-icon-ca mr-2"></i> امریکا</td>
+                            <td>4,568 تومان</td>
+                            <td><span id="trendchart1"></span></td>
+                        </tr>
+                        <tr>
+                            <td><i class="flag-icon flag-icon-us mr-2"></i>کانادا</td>
+                            <td>2,098 تومان</td>
+                            <td><span id="trendchart2"></span></td>
+                        </tr>
+
+                        <tr>
+                            <td><i class="flag-icon flag-icon-in mr-2"></i>هند</td>
+                            <td>3,039 تومان</td>
+                            <td><span id="trendchart3"></span></td>
+                        </tr>
+
+                        <tr>
+                            <td><i class="flag-icon flag-icon-gb mr-2"></i>انگلیس</td>
+                            <td>2,309 تومان</td>
+                            <td><span id="trendchart4"></span></td>
+                        </tr>
+
+                        <tr>
+                            <td><i class="flag-icon flag-icon-de mr-2"></i>المان</td>
+                            <td>7,209 تومان</td>
+                            <td><span id="trendchart5"></span></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-12 col-lg-12 col-xl-6">
+        <div class="row">
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p>بازدید صفحه</p>
+                        <h4 class="mb-0">8,293 <small class="small-font">5.2% <i class="zmdi zmdi-long-arrow-up"></i></small></h4>
+                    </div>
+                    <canvas id="chart3" height="180"></canvas>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p>کل کلیک ها</p>
+                        <h4 class="mb-0">7,493 <small class="small-font">1.4% <i class="zmdi zmdi-long-arrow-up"></i></small></h4>
+                    </div>
+                    <canvas id="chart4" height="180"></canvas>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <p class="mb-4">تعداد کل دریافت ها</p>
+                        <input class="knob" data-width="175" data-height="175" data-readOnly="true" data-thickness=".2" data-angleoffset="90" data-linecap="round" data-bgcolor="rgba(255, 255, 255, 0.14)" data-fgcolor="#fff" data-max="15000" value="8550" />
+                        <hr>
+                        <p class="mb-0 small-font text-center">3.4% <i class="zmdi zmdi-long-arrow-up"></i> از دیروز</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <p>ذخیره سازی دستگاه</p>
+                        <h4 class="mb-3">42620/50000</h4>
+                        <hr>
+                        <div class="progress-wrapper mb-4">
+                            <p>اسناد <span class="float-right">12گیگابایت</span></p>
+                            <div class="progress" style="height:5px;">
+                                <div class="progress-bar" style="width:80%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-wrapper mb-4">
+                            <p>تصاویر <span class="float-right">10گیگابایت</span></p>
+                            <div class="progress" style="height:5px;">
+                                <div class="progress-bar" style="width:60%"></div>
+                            </div>
+                        </div>
+
+                        <div class="progress-wrapper mb-4">
+                            <p>ایمیل ها <span class="float-right">5گیگابایت</span></p>
+                            <div class="progress" style="height:5px;">
+                                <div class="progress-bar" style="width:40%"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div><!--End Row-->
+
+
+<div class="row">
+    <div class="col-12 col-lg-6 col-xl-4">
+        <div class="card">
+            <div class="card-body">
+                <p>مجموع درآمد</p>
+                <h4 class="mb-0">287,493$</h4>
+                <small>1.4% <i class="zmdi zmdi-long-arrow-up"></i> از ماه گذشته</small>
+                <hr>
+                <p>Total Sales</p>
+                <h4 class="mb-0">87,493</h4>
+                <small>5.43% <i class="zmdi zmdi-long-arrow-up"></i> از ماه گذشته</small>
+                <div class="mt-5">
+                    <canvas id="chart5" height="160"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12 col-lg-6 col-xl-8">
+        <div class="card">
+            <div class="card-header">
+                بررسی مشتری
+                <div class="card-action">
+                    <div class="dropdown">
+                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                            <i class="icon-options"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="javascript:void();">اقدام</a>
+                            <a class="dropdown-item" href="javascript:void();">اقدام دیگر</a>
+                            <a class="dropdown-item" href="javascript:void();">چیز دیگری اینجاست</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void();">پیوند جدا شده</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <div class="media align-items-center">
+                        <img src="~/Admin/assets/images/avatars/avatar-13.png" alt="user avatar" class="customer-img rounded-circle">
+                        <div class="media-body ml-3">
+                            <h6 class="mb-0">ایفون ایکس <small class="ml-4">08.34 صبح</small></h6>
+                            <p class="mb-0 small-font">سارا ژان: این تلفن بسیار خوب در بودجه کم است.</p>
+                        </div>
+                        <div class="star">
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="media align-items-center">
+                        <img src="~/Admin/assets/images/avatars/avatar-15.png" alt="user avatar" class="customer-img rounded-circle">
+                        <div class="media-body ml-3">
+                            <h6 class="mb-0">ایر پاد <small class="ml-4">05.26 بعد از ظهر</small></h6>
+                            <p class="mb-0 small-font">جاش دانمارکی: سیب نام تجاری اصلی است !</p>
+                        </div>
+                        <div class="star">
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="media align-items-center">
+                        <img src="~/Admin/assets/images/avatars/avatar-14.png" alt="user avatar" class="customer-img rounded-circle">
+                        <div class="media-body ml-3">
+                            <h6 class="mb-0">مکبوک پرو <small class="ml-4">06.45 صبح</small></h6>
+                            <p class="mb-0 small-font">اسم فرضی: محصول عالی و کیفیت عالی</p>
+                        </div>
+                        <div class="star">
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="media align-items-center">
+                        <img src="~/Admin/assets/images/avatars/avatar-16.png" alt="user avatar" class="customer-img rounded-circle">
+                        <div class="media-body ml-3">
+                            <h6 class="mb-0">ایر پاد <small class="ml-4">08.45 صبح</small></h6>
+                            <p class="mb-0 small-font">کریستین: سیب نام تجاری اصلی است !</p>
+                        </div>
+                        <div class="star">
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item">
+                    <div class="media align-items-center">
+                        <img src="~/Admin/assets/images/avatars/avatar-17.png" alt="user avatar" class="customer-img rounded-circle">
+                        <div class="media-body ml-3">
+                            <h6 class="mb-0">مکبوک <small class="ml-4">08.45 صبح</small></h6>
+                            <p class="mb-0 small-font">مایکل: سیب نام تجاری اصلی است !</p>
+                        </div>
+                        <div class="star">
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star"></i>
+                            <i class="zmdi zmdi-star text-light"></i>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div><!--End Row-->
+
+<div class="row">
+    <div class="col-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                جداول اخیر سفارش
+                <div class="card-action">
+                    <div class="dropdown">
+                        <a href="javascript:void();" class="dropdown-toggle dropdown-toggle-nocaret" data-toggle="dropdown">
+                            <i class="icon-options"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" href="javascript:void();">اقدام</a>
+                            <a class="dropdown-item" href="javascript:void();">اقدام دیگر</a>
+                            <a class="dropdown-item" href="javascript:void();">چیز دیگری اینجاست</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="javascript:void();">پیوند جدا شده</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table align-items-center table-flush table-borderless">
+                    <thead>
+                        <tr>
+                            <th>محصول</th>
+                            <th>عکس</th>
+                            <th>شناسه محصول</th>
+                            <th>درامد</th>
+                            <th>تاریخ</th>
+                            <th>حمل و نقل</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ایفون 5</td>
+                            <td><img src="~/Admin/assets/images/products/01.png" class="product-img" alt="product img"></td>
+                            <td>#9405822</td>
+                            <td>1250.00 تومان</td>
+                            <td>03 آگوست 2017</td>
+                            <td>
+                                <div class="progress shadow" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 90%"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>گوشی ال جی</td>
+                            <td><img src="~/Admin/assets/images/products/02.png" class="product-img" alt="product img"></td>
+                            <td>#9405820</td>
+                            <td>1500.00 تومان</td>
+                            <td>03 آگوست 2017</td>
+                            <td>
+                                <div class="progress shadow" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 60%"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>دوربین دست HD</td>
+                            <td><img src="~/Admin/assets/images/products/03.png" class="product-img" alt="product img"></td>
+                            <td>#9405830</td>
+                            <td>$ 1400.00</td>
+                            <td>03 آگوست 2017</td>
+                            <td>
+                                <div class="progress shadow" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 70%"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>کفش کلاسیک</td>
+                            <td><img src="~/Admin/assets/images/products/04.png" class="product-img" alt="product img"></td>
+                            <td>#9405825</td>
+                            <td>1200.00 تومان</td>
+                            <td>03 آگوست 2017</td>
+                            <td>
+                                <div class="progress shadow" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>ساعت مچی</td>
+                            <td><img src="~/Admin/assets/images/products/05.png" class="product-img" alt="product img"></td>
+                            <td>#9405840</td>
+                            <td>1800.00 تومان</td>
+                            <td>03 آگوست 2017</td>
+                            <td>
+                                <div class="progress shadow" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 40%"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>کفش کلاسیک</td>
+                            <td><img src="~/Admin/assets/images/products/06.png" class="product-img" alt="product img"></td>
+                            <td>#9405825</td>
+                            <td>1200.00 تومان</td>
+                            <td>03 آگوست 2017</td>
+                            <td>
+                                <div class="progress shadow" style="height: 3px;">
+                                    <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div><!--End Row-->
