@@ -26,7 +26,9 @@ namespace Eshop.Domain.Context
         public DbSet<TicketMessage> TicketsMessages { get; set; }
         #endregion
 
-     
+        #region Slider
+        public DbSet<Slider> Sliders { get; set; }
+        #endregion
 
         #region SiteSetting
 

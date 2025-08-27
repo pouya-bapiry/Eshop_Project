@@ -1,0 +1,29 @@
+﻿@using Eshop.Application.EntitiesExtensions
+@model List<Eshop.Domain.Entities.Site.Slider>
+
+    
+<section class="main-slider">
+    <div class="container-fluid position-relative">
+        <!-- Adding a heading for SEO purposes, but hiding it visually -->
+        <h2 class="section-title visually-hidden">اسلایدر</h2> <!-- Hidden from view but present for SEO -->
+
+        <div class="slider">
+            <div class="swiper" id="homeSlider">
+                <div class="swiper-wrapper">
+                    @foreach (var slide in Model)
+                    {
+                        <div class="swiper-slide">
+                            <a href="@slide.Link">
+                                <img src="@slide.GetSliderImageAddress()" class="img-fluid w-100" 
+                                     alt="@slide.Description" title="@slide.Description">
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+            </div>
+        </div>
+    </div>
+</section>

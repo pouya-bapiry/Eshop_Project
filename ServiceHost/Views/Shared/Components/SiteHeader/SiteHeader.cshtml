@@ -1,4 +1,8 @@
-﻿<header class="header">
+﻿﻿@using Eshop.Application.Utilities
+@inject IAuthHelper _authHelper
+
+
+<header class="header">
 	<div class="container-fluid">
 		<div class="row gy-3 position-relative align-items-center">
 			<!-- responsive menu -->
@@ -368,6 +372,15 @@
 							<li class="nav-item">
 								<a asp-controller="Home" asp-action="ContactUs" class="nav-link font-12 bs-text-gray-600">تماس با ما</a>
 							</li>
+							@if (_authHelper.CurrentAccountRole() == Roles.Administrator ||
+														_authHelper.CurrentAccountRole() == Roles.AdminAssistant ||
+														_authHelper.CurrentAccountRole() == Roles.ContentUploader)
+							{
+								<li class="nav-item">
+									<a asp-area="Administration" asp-controller="Home" asp-action="Index"
+									   class="nav-link font-13 text-info">مدیریت سایت</a>
+								</li>
+							}
 							@if (User.Identity.IsAuthenticated)
 							{
 								<li class="nav-item text-danger ">

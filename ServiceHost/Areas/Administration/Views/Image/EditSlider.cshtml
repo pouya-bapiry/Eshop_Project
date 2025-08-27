@@ -1,0 +1,65 @@
+﻿@model Eshop.Domain.Dtos.Site.Slider.EditSliderDto
+
+@{
+    ViewData["Title"] = "ویرایش اسلایدر";
+}
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت تصاویر</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-edit"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Image" asp-action="EditSlider" method="post" enctype="multipart/form-data" id="filter-form">
+                    <input type="hidden" asp-for="Id" />
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>توضیحات</label>
+                            <textarea asp-for="Description" class="form-control" rows="10"></textarea>
+                            <span class="text-danger float-right" asp-validation-for="Description"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>آدرس لینک</label>
+                            <input class="form-control" asp-for="Link" />
+                            <span class="text-danger float-right" asp-validation-for="Link"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>آپلود تصویر اصلی</label>
+                            <input type="file" name="sliderImage" class="form-control" accept=".png, .jpeg, .jpg" />
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>آپلود تصویر موبایل</label>
+                            <input type="file" name="mobileSliderImage" class="form-control" accept=".png, .jpeg, .jpg" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">ویرایش اسلایدر</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

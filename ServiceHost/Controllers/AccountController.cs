@@ -193,13 +193,18 @@ namespace ServiceHost.Controllers
                     case UserLoginResult.Error:
                         TempData[ErrorMessage] = "در ورود به حساب کاربری خطایی رخ داد. لطفا دوباره تلاش نمایید.";
                         break;
+                    case UserLoginResult.IsBlocked:
+                        TempData[InfoMessage] = "لطفا با پشتیبانی سایت تماس حاصل فرمایید";
+                        TempData[WarningMessage] = "کاربری مورد نظر بلاک شده است. ";
+                        ModelState.AddModelError("Mobile", "کاربری با این مشخصات یافت نشد.");
+                        break;
                     case UserLoginResult.Success:
                         var user = await _userService.GetUserByMobile(login.Mobile);
                         var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.MobilePhone, user.Mobile),
                             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                            new Claim(ClaimTypes.Email, user.Email),
+                            //new Claim(ClaimTypes.Email, user.Email),
                             new Claim(ClaimTypes.Name,user.FirstName+" "+user.LastName),
                             new Claim(ClaimTypes.Role, user.RoleId.ToString()),
                         };
@@ -282,10 +287,10 @@ namespace ServiceHost.Controllers
 
             }
             return View(forgot);
-        } 
-            #endregion
+        }
+        #endregion
 
-            #endregion
-        
+        #endregion
+
     }
 }

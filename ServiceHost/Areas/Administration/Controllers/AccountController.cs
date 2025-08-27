@@ -45,8 +45,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                 return RedirectToAction("PageNotFound", "Home");
             }
 
-            user.Roles = await _userService.GetRoles();
-            ViewBag.roles = user.Roles;
+            ViewBag.roles = await _userService.GetRoles();
 
 
             return View(user);
@@ -55,18 +54,21 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpPost("edit-user/{userId}")]
         public async Task<IActionResult> EditUser(EditUserDto edit)
         {
-            var user = await _userService.GetUserById(User.GetUserId());
-            var username = user.FirstName + " " + user.LastName;
-            var result = await _userService.EditUser(edit, username);
-
-            switch (result)
+            if (ModelState.IsValid)
             {
-                case EditUserResult.UserNotFound:
-                    TempData[ErrorMessage] = "کاربر مورد نظر یافت نشد";
-                    break;
-                case EditUserResult.Success:
-                    TempData[SuccessMessage] = "ویرایش کاربر با موفقیت انجام شد";
-                    return RedirectToAction("UserList", "Account");
+                var user = await _userService.GetUserById(User.GetUserId());
+                var username = user.FirstName + " " + user.LastName;
+                var result = await _userService.EditUser(edit, username);
+
+                switch (result)
+                {
+                    case EditUserResult.UserNotFound:
+                        TempData[ErrorMessage] = "کاربر مورد نظر یافت نشد";
+                        break;
+                    case EditUserResult.Success:
+                        TempData[SuccessMessage] = "ویرایش کاربر با موفقیت انجام شد";
+                        return RedirectToAction("UserList", "Account");
+                }
             }
 
             ViewBag.roles = await _userService.GetRoles();

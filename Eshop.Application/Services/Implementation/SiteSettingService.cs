@@ -65,7 +65,7 @@ namespace Eshop.Application.Services.Implementation
         #endregion
 
         #region AboutUs
-        //public async Task<List<AboutUsDto>> GetAboutUs()
+        public async Task<List<AboutUsDto>> GetAboutUs()
         {
             return await _aboutUsRepository.GetQuery().AsQueryable()
                 .Select(x => new AboutUsDto

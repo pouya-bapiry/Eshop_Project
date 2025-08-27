@@ -2,7 +2,7 @@
 @using Eshop.Application.Utilities
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using ServiceHost.PresentationExtensions
-@* @inject IAuthHelper _authHelper *@
+ @inject IAuthHelper _authHelper 
 @inject IUserService _userService
 
 @{
@@ -46,7 +46,7 @@
                         <img class="mr-3 side-user-img" src="@(!string.IsNullOrEmpty(avatar) ? PathExtension.UserAvatarOrigin + avatar : PathExtension.DefaultAvatar)"  alt="user avatar">
                     </div>
 
-                    @* @if (User.Identity.IsAuthenticated)
+                     @if (User.Identity.IsAuthenticated)
                     {
                         <div class="media-body">
                             <h6 class="side-user-name">@User.Identity.Name</h6>
@@ -63,7 +63,7 @@
                                     break;
                             }
                         </div>
-                    } *@
+                    } 
                 </div>
                 <div id="user-dropdown" class="collapse">
                     <ul class="user-setting-menu">

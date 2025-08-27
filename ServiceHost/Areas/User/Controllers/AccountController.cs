@@ -1,14 +1,17 @@
 ﻿using Eshop.Application.Services.Interfaces;
+using Eshop.Application.Utilities;
 using Eshop.Domain.Dtos.Account;
+using Eshop.Domain.Dtos.Account.User;
 using MarketPlace.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
 using ServiceHost.PresentationExtensions;
+
 
 namespace ServiceHost.Areas.User.Controllers
 {
+    [Authorize("UserManagement", Roles = Roles.Administrator)]
     public class AccountController : UserBaseController
     {
         #region Fields and ctor

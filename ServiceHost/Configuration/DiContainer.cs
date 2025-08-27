@@ -7,6 +7,7 @@ using MarketPlace.Application.Services.Implementations;
 using MarketPlace.Application.Services.Interfaces;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Eshop.Application.Services.Implementations;
 using Eshop.Application.Utilities;
 
 namespace ServiceHost.Configuration
@@ -30,6 +31,7 @@ namespace ServiceHost.Configuration
             services.AddTransient<ISiteSettingService, SiteSettingService>();
             services.AddTransient<ISmsService, SmsService>();
             services.AddTransient<IContactService, ContactService>();
+            services.AddTransient<ISiteImagesService, SiteImagesService>();
             
            
 

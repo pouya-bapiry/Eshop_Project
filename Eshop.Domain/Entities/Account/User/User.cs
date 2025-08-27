@@ -1,6 +1,7 @@
 ﻿using Eshop.Domain.Entities.Common;
 using Eshop.Domain.Entities.Contact;
 using Eshop.Domain.Entities.Contact.Ticket;
+using Eshop.Domain.Entities.Site;
 using System.ComponentModel.DataAnnotations;
 
 namespace Eshop.Domain.Entities.Account.User
@@ -71,6 +72,8 @@ namespace Eshop.Domain.Entities.Account.User
         public ICollection<ContactUs> ContactUs { get; set; }
         public ICollection<Ticket> Tickets { get; set; }
         public ICollection<TicketMessage> TicketMessages { get; set; }
+
+        public ICollection<Slider> sliders { get; set; }
 
 
 

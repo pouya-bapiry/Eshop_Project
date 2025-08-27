@@ -208,37 +208,7 @@
 <!--============ end section story ==============-->
 <!--============ start section main slider ==============-->
 
-<section class="main-slider">
-    <div class="container-fluid position-relative">
-        <!-- Adding a heading for SEO purposes, but hiding it visually -->
-        <h2 class="section-title visually-hidden">اسلایدر</h2> <!-- Hidden from view but present for SEO -->
-
-        <div class="slider">
-            <div class="swiper" id="homeSlider">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="~/MainTemplate/assets/image/slider/slider-1.webp" class="img-fluid w-100" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="~/MainTemplate/assets/image/slider/slider-2.webp" class="img-fluid w-100" alt="">
-                        </a>
-                    </div>
-                    <div class="swiper-slide">
-                        <a href="">
-                            <img src="~/MainTemplate/assets/image/slider/slider-3.gif" class="img-fluid w-100" alt="">
-                        </a>
-                    </div>
-                </div>
-                <div class="swiper-pagination"></div>
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
-            </div>
-        </div>
-    </div>
-</section>
+@await Component.InvokeAsync("HomeSlider")
 
 <!--============ end section main slider ==============-->
 <!--============ start section category ==============-->

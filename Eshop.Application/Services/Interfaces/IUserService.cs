@@ -12,7 +12,6 @@ namespace Eshop.Application.Services.Interfaces
         #region User    
         Task<RegisterUserResult> RegisterUser(RegisterUserDto register);
         Task<bool> IsUserExistByMobile(string mobile);
-
         Task<UserLoginResult> UserLogin(LoginUserDto login);
         Task<User> GetUserByMobile(string mobile);
         Task<User> GetUserById(long id);
