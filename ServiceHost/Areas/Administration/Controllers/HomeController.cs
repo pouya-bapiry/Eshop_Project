@@ -1,6 +1,7 @@
 ﻿using Eshop.Application.Services.Interfaces;
 using Eshop.Domain.Dtos.Contact;
 using Eshop.Domain.Dtos.Site;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using ServiceHost.PresentationExtensions;
 
@@ -156,6 +157,14 @@ namespace ServiceHost.Areas.Administration.Controllers
             return View();
         }
         #endregion
+
+
+        [HttpGet("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Redirect("/");
+        }
 
         #endregion
 

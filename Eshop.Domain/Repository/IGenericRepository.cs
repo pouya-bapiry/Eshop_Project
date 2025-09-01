@@ -16,6 +16,7 @@ namespace Eshop.Domain.Repository
         Task<TEntity> GetEntityById(long entityId);
         void EditEntity(TEntity entity);
         void EditEntityByUser(TEntity entity,string username);
+        void AddEntityByUser(TEntity entity,string username);
         void DeleteEntity(TEntity entity);
         Task DeleteEntityById(long entityId);
         void DeletPermanent(TEntity entity);

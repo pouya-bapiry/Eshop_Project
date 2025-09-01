@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Eshop.Domain.Dtos.Account
 {
-    public class LoginUserDto : CaptchaDto
+    public class LoginUserDto/* : CaptchaDto*/
     {
 
         [Display(Name = "تلفن همراه")]

@@ -1,0 +1,36 @@
+﻿@model List<Eshop.Domain.Entities.Site.SiteBanner>
+@using Eshop.Application.EntitiesExtensions
+
+
+
+
+
+
+@* @{
+	var banners = ViewBag.banners as List<SiteBanner>;
+} *@
+
+
+
+	<div class="row">
+		@foreach (var item in Model@* .Where(x => x.Placement == BannerPlacement.First) *@)
+		{
+			<div class="@item.ColSize">
+				<a href="@item.Url">
+					<div class="banner-image-parent">
+						<div class="banner-image-main">
+							<img class="rounded-4 h-auto" src="@item.GetSiteMainImageAddress()" alt="@item.Description" title="@item.Description">
+						</div>
+						<div class="banner-image-blur">
+							<img src="@item.GetSiteMainImageAddress()" alt="@item.Description" title="@item.Description">
+						</div>
+					</div>
+				</a>
+			</div>
+		}
+	</div>
+
+
+
+
+

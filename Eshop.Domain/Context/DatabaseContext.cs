@@ -30,6 +30,12 @@ namespace Eshop.Domain.Context
         public DbSet<Slider> Sliders { get; set; }
         #endregion
 
+        #region Banner
+
+        public DbSet<SiteBanner> SiteBanners { get; set; }
+
+        #endregion
+        
         #region SiteSetting
 
         public DbSet<SiteSetting> SiteSettings { get; set; }

@@ -86,7 +86,7 @@
                                                     <td>@(Html.Raw(item.Description.Substring(0, Math.Min(item.Description.Length, 50)) + "..."))</td>
                                                     <td>@item.Link</td>
                                                     <td>@(item.IsActive == true ? "فعال" : "غیر فعال")</td>
-                                                    <td>@item.CreateDate.ToStringShamsiDate()</td>
+                                                    <td>@item.CreateDate.ToStringShamsiDate()| @item.UserName</td>
                                                     <td>@item.LastUpdateDate.ToStringShamsiDate() | @item.UserName</td>
                                                     <td>
                                                         <a class="btn btn-sm btn-warning"

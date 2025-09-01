@@ -3,12 +3,18 @@ using Eshop.Application.Services.Interfaces;
 using Eshop.Application.Utilities;
 
 using Eshop.Domain.Dtos.Site.Slider;
-using Eshop.Domain.Entities.Site;
+
 using Eshop.Domain.Migrations;
 using Eshop.Domain.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using SixLabors.ImageSharp;
+using System.Linq;
+using Eshop.Domain.Dtos.Site.Banner;
+
+using static Eshop.Domain.Dtos.Site.Banner.FilterBannerDto;
+using Eshop.Domain.Entities.Site;
+
 
 namespace Eshop.Application.Services.Implementations
 {
@@ -17,12 +23,12 @@ namespace Eshop.Application.Services.Implementations
         #region Constructor
 
         private readonly IGenericRepository<Slider> _sliderRepository;
-        //private readonly IGenericRepository<SiteBanner> _siteBannerRepository;
+        private readonly IGenericRepository<SiteBanner> _siteBannerRepository;
 
-        public SiteImagesService(IGenericRepository<Slider> sliderRepository)
+        public SiteImagesService(IGenericRepository<Slider> sliderRepository, IGenericRepository<SiteBanner> siteBannerRepository)
         {
             _sliderRepository = sliderRepository;
-            //_siteBannerRepository = siteBannerRepository;
+            _siteBannerRepository = siteBannerRepository;
         }
 
         #endregion
@@ -43,7 +49,7 @@ namespace Eshop.Application.Services.Implementations
                 .OrderByDescending(s => s.Id)
                 .ToListAsync();
         }
-        public async Task<CreateSliderResult> CreateSlider(CreateSliderDto slider, IFormFile sliderImage, IFormFile mobileSliderImage)
+        public async Task<CreateSliderResult> CreateSlider(CreateSliderDto slider, IFormFile sliderImage, IFormFile mobileSliderImage,string username)
         {
             if (sliderImage.IsImage() && mobileSliderImage.IsImage())
             {
@@ -66,7 +72,7 @@ namespace Eshop.Application.Services.Implementations
                     CreateDate = DateTime.Now
                 };
 
-                await _sliderRepository.AddEntity(newSlider);
+                 _sliderRepository.AddEntityByUser(newSlider,username);
                 await _sliderRepository.SaveChanges();
             }
 
@@ -114,7 +120,7 @@ namespace Eshop.Application.Services.Implementations
                 mainSlider.ImageName = imageName;
             }
 
-            if (sliderImage != null && sliderImage.IsImage())
+            if (mobileSliderImage != null && mobileSliderImage.IsImage())
             {
                 var mobileImageName = Guid.NewGuid().ToString("N") + Path.GetExtension(mobileSliderImage.FileName);
                 mobileSliderImage.AddImageToServer(mobileImageName, PathExtension.MobileSliderOriginServer,
@@ -176,154 +182,157 @@ namespace Eshop.Application.Services.Implementations
 
         #endregion
 
-        //#region Site Banners
+        #region Site Banners
 
-        //public async Task<List<SiteBanner>> GetSiteBannersByLocations(List<BannersLocations> locations)
-        //{
-        //    return await _siteBannerRepository
-        //        .GetQuery()
-        //        .AsQueryable()
-        //        .Where(x => locations.Contains(x.BannersLocations) && !x.IsDelete)
-        //        .ToListAsync();
-        //}
-        //public async Task<List<SiteBanner>> GetAllBanners()
-        //{
-        //    return await _siteBannerRepository
-        //    .GetQuery()
-        //    .AsQueryable()
-        //        .ToListAsync();
-        //}
-        //public async Task<CreateBannerResult> CreateBanner(CreateBannerDto banner, IFormFile bannerImage)
-        //{
-        //    if (bannerImage != null && bannerImage.IsImage())
-        //    {
-        //        var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(bannerImage.FileName);
-        //        bannerImage.AddImageToServer(imageName, PathExtension.BannerOriginServer,
-        //            100, 100, PathExtension.BannerThumbServer);
+        public async Task<List<SiteBanner>> GetBannersByPlacement(BannerPlacement placement)
+        {
+            return await _siteBannerRepository
+                .GetQuery()
+                .AsQueryable()
+                .Where(b => b.Placement == placement)
+                .ToListAsync();
 
-        //        var newBanner = new SiteBanner
-        //        {
-        //            BannersLocations = (BannersLocations)banner.BannersLocation,
-        //            ColSize = banner.ColSize,
-        //            Url = banner.Url,
-        //            ImageName = imageName,
-        //            Description = banner.Description
+        }
+        public async Task<List<SiteBanner>> GetAllBanners()
+        {
+            return await _siteBannerRepository
+            .GetQuery()
+            .AsQueryable()
+                .ToListAsync();
+        }
+        public async Task<CreateBannerResult> CreateBanner(CreateBannerDto banner, IFormFile bannerImage, string username)
+        {
+            if (bannerImage != null && bannerImage.IsImage())
+            {
+                var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(bannerImage.FileName);
+                bannerImage.AddImageToServer(imageName, PathExtension.BannerOriginServer,
+                    100, 100, PathExtension.BannerThumbServer);
 
-        //        };
+                var newBanner = new SiteBanner
+                {
+                    Placement = (BannerPlacement)banner.Placement,
+                    ColSize = banner.ColSize,
+                    Url = banner.Url,
+                    ImageName = imageName,
+                    Description = banner.Description
 
-        //        await _siteBannerRepository.AddEntity(newBanner);
-        //        await _siteBannerRepository.SaveChanges();
+                };
 
-        //        return CreateBannerResult.Success;
-        //    }
+                _siteBannerRepository.AddEntityByUser(newBanner, username);
+                await _siteBannerRepository.SaveChanges();
 
-        //    return CreateBannerResult.Error;
-        //}
-        //public async Task<EditBannerDto> GetBannerForEdit(long bannerId)
-        //{
-        //    var banner = await _siteBannerRepository
-        //        .GetQuery()
-        //        .AsQueryable()
-        //        .SingleOrDefaultAsync(x => x.Id == bannerId);
+                return CreateBannerResult.Success;
+            }
 
-        //    if (banner == null)
-        //    {
-        //        return null;
-        //    }
+            return CreateBannerResult.Error;
+        }
+        public async Task<EditBannerDto> GetBannerForEdit(long bannerId)
+        {
+            var banner = await _siteBannerRepository
+                .GetQuery()
+                .AsQueryable()
+                .SingleOrDefaultAsync(x => x.Id == bannerId);
 
-        //    return new EditBannerDto
-        //    {
-        //        Id = banner.Id,
-        //        BannersLocation = (CreateBannerDto.BannersLocations)banner.BannersLocations,
-        //        Url = banner.Url,
-        //        ImageName = banner.ImageName,
-        //        ColSize = banner.ColSize,
-        //        Description = banner.Description,
-        //    };
-        //}
-        //public async Task<EditBannerResult> EditBanner(EditBannerDto edit, IFormFile bannerImage)
-        //{
-        //    var mainBanner = await _siteBannerRepository
-        //        .GetQuery()
-        //        .AsQueryable()
-        //        .SingleOrDefaultAsync(x => x.Id == edit.Id);
+            if (banner == null)
+            {
+                return null;
+            }
 
-        //    if (mainBanner == null)
-        //    {
-        //        return EditBannerResult.Error;
-        //    }
+            return new EditBannerDto
+            {
+                Id = banner.Id,
+                Placement = (EditBannerDto.BannerPlacement)banner.Placement,
+                Url = banner.Url,
+                ImageName = banner.ImageName,
+                ColSize = banner.ColSize,
+                Description = banner.Description,
+            };
+        }
+        public async Task<EditBannerResult> EditBanner(EditBannerDto edit, IFormFile bannerImage, string username)
+        {
+            var mainBanner = await _siteBannerRepository
+                .GetQuery()
+                .AsQueryable()
+                .SingleOrDefaultAsync(x => x.Id == edit.Id);
 
-        //    if (bannerImage != null && bannerImage.IsImage())
-        //    {
-        //        var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(bannerImage.FileName);
-        //        bannerImage.AddImageToServer(imageName, PathExtension.BannerOriginServer,
-        //            100, 100, PathExtension.BannerThumbServer, mainBanner.ImageName);
+            if (mainBanner == null)
+            {
+                return EditBannerResult.Error;
+            }
 
-        //        mainBanner.ImageName = imageName;
-        //    }
+            if (bannerImage != null && bannerImage.IsImage())
+            {
+                var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(bannerImage.FileName);
+                bannerImage.AddImageToServer(imageName, PathExtension.BannerOriginServer,
+                    100, 100, PathExtension.BannerThumbServer, mainBanner.ImageName);
 
-        //    mainBanner.Id = edit.Id;
-        //    mainBanner.BannersLocations = (BannersLocations)edit.BannersLocation;
-        //    mainBanner.Url = edit.Url;
-        //    mainBanner.ColSize = edit.ColSize;
-        //    mainBanner.Description = edit.Description;
+                mainBanner.ImageName = imageName;
+            }
 
-        //    _siteBannerRepository.EditEntity(mainBanner);
-        //    await _siteBannerRepository.SaveChanges();
+            mainBanner.Id = edit.Id;
+            mainBanner.Placement = (BannerPlacement)edit.Placement;
+            mainBanner.Url = edit.Url;
+            mainBanner.ColSize = edit.ColSize;
+            mainBanner.Description = edit.Description;
 
-        //    return EditBannerResult.Success;
+            _siteBannerRepository.EditEntityByUser(mainBanner, username);
+            await _siteBannerRepository.SaveChanges();
 
-        //}
-        //public async Task<bool> ActiveBanner(long bannerId)
-        //{
-        //    var banner = await _siteBannerRepository.GetQuery()
-        //        .AsQueryable()
-        //        .SingleOrDefaultAsync(x => x.Id == bannerId);
+            return EditBannerResult.Success;
 
-        //    if (banner == null)
-        //    {
-        //        return false;
-        //    }
+        }
+        public async Task<bool> ActiveBanner(long bannerId, string username)
+        {
+            var banner = await _siteBannerRepository.GetQuery()
+                .AsQueryable()
+                .SingleOrDefaultAsync(x => x.Id == bannerId);
 
-        //    banner.IsDelete = false;
+            if (banner == null)
+            {
+                return false;
+            }
 
-        //    _siteBannerRepository.EditEntity(banner);
-        //    await _siteBannerRepository.SaveChanges();
+            banner.IsDelete = false;
 
-        //    return true;
-        //}
-        //public async Task<bool> DeActiveBanner(long bannerId)
-        //{
-        //    var banner = await _siteBannerRepository.GetQuery()
-        //        .AsQueryable()
-        //        .SingleOrDefaultAsync(x => x.Id == bannerId);
+            _siteBannerRepository.EditEntityByUser(banner, username);
+            await _siteBannerRepository.SaveChanges();
 
-        //    if (banner == null)
-        //    {
-        //        return false;
-        //    }
+            return true;
+        }
+        public async Task<bool> DeActiveBanner(long bannerId, string username)
+        {
+            var banner = await _siteBannerRepository.GetQuery()
+                .AsQueryable()
+                .SingleOrDefaultAsync(x => x.Id == bannerId);
 
-        //    banner.IsDelete = true;
+            if (banner == null)
+            {
+                return false;
+            }
 
-        //    _siteBannerRepository.EditEntity(banner);
-        //    await _siteBannerRepository.SaveChanges();
+            banner.IsDelete = true;
 
-        //    return true;
-        //}
+            _siteBannerRepository.EditEntityByUser(banner, username);
+            await _siteBannerRepository.SaveChanges();
+
+            return true;
+        }
 
 
-        //#endregion
+        #endregion
 
         #region Dispose
 
         public async ValueTask DisposeAsync()
         {
-            if (_sliderRepository != null)
+            if (_sliderRepository != null&& _siteBannerRepository!=null)
             {
                 await _sliderRepository.DisposeAsync();
+                await _siteBannerRepository.DisposeAsync();
             }
         }
 
+      
         #endregion
     }
 }

@@ -1,0 +1,171 @@
+﻿@using Eshop.Application.Utilities
+@using Eshop.Domain.Entities.Site
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<Eshop.Domain.Entities.Site.SiteBanner>
+
+@{
+    ViewData["Title"] = "لیست بنر ها";
+}
+
+
+@section scripts
+    {
+    <partial name="_AdminJqueryValidators" />
+
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت تصاویر</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-plus"></i> افزودن بنر</div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="form-group col-lg-12">
+                        <label>افزودن بنر</label>
+                        <a class="btn btn-sm btn-success btn-block form-control"
+                           asp-area="Administration" asp-controller="Image"
+                           asp-action="CreateBanner">
+                            افزودن بنر جدید
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-table"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model != null && Model.Any())
+                                {
+                                    <table id="default-datatable" class="table table-bordered dataTable" role="grid" aria-describedby="default-datatable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc">شناسه</th>
+                                                <th class="sorting">تصویر</th>
+                                                <th class="sorting">توضیحات</th>
+                                                <th class="sorting">موقعیت بنر</th>
+                                                <th class="sorting">وضعیت</th>
+                                                <th class="sorting">سایز بنر</th>
+                                                <th class="sorting">تاریخ ایجاد</th>
+                                                <th class="sorting">ویرایش شده</th>
+                                                <th class="sorting">دستورات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr id="ajax-url-item-@item.Id" role="row" class="odd">
+                                                    <td>@item.Id</td>
+                                                    <td class="sorting">
+                                                        <img style="width: 90px; height: 60px;"
+                                                             src="@(!string.IsNullOrEmpty(item.ImageName) ? PathExtension.BannerOrigin + item.ImageName : PathExtension.NoImage)" alt="@item.Description" title="@item.Description" />
+                                                    </td>
+                                                    <td>@(Html.Raw(item.Description.Substring(0, Math.Min(item.Description.Length, 50)) + "..."))</td>
+                                                    <td>
+
+                                                        @switch (item.Placement)
+                                                        {
+                                                            case BannerPlacement.First:
+                                                                <span>بنر اول</span>
+                                                                break;
+                                                                case BannerPlacement.Second:
+                                                                <span>بنر دوم</span>
+                                                                break;
+                                                            case BannerPlacement.Third:
+                                                                <span>بنر سوم</span>
+                                                                break;
+                                                            case BannerPlacement.Forth:
+                                                                <span>بنر چهارم</span>
+                                                                break;
+                                                        }
+                                                    </td>
+                                                    <td>@(item.IsDelete == false ? "فعال" : "غیر فعال")</td>
+                                                    <td>@item.ColSize</td>
+                                                    <td>@item.CreateDate.ToStringShamsiDate()</td>
+                                                    <td>@item.LastUpdateDate.ToStringShamsiDate() | @item.UserName</td>
+                                                    <td>
+                                                        <a class="btn btn-sm btn-warning"
+                                                           asp-area="Administration" asp-controller="Image"
+                                                           asp-action="EditBanner"
+                                                           asp-route-bannerId="@item.Id">
+                                                            ویرایش بنر
+                                                        </a>
+
+                                                        @if (!item.IsDelete)
+                                                        {
+                                                            <a class="btn btn-sm btn-danger"
+                                                               asp-area="Administration" asp-controller="Image"
+                                                               asp-action="DeactiveBanner"
+                                                               asp-route-bannerId="@item.Id">
+                                                                غیرفعال
+                                                            </a>
+                                                        }
+                                                        else
+                                                        {
+                                                            <a class="btn btn-sm btn-success"
+                                                               asp-area="Administration" asp-controller="Image"
+                                                               asp-action="ActiveBanner"
+                                                               asp-route-bannerId="@item.Id">
+                                                                فعال
+                                                            </a>
+                                                        }
+
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="alert-message text-dark">
+                                            <span><strong>هشدار!</strong> هیچ اطلاعاتی یافت نشد</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_info" id="default-datatable_info" role="status" aria-live="polite">
+                        نمایش تعداد 10 بنر در هر صفحه از تعداد کل :
+                        @{
+                            System.Diagnostics.Debug.Assert(Model != null, nameof(Model) + " != null");
+                        }
+                        @Model.Count بنر
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

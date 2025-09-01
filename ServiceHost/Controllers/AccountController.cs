@@ -170,12 +170,12 @@ namespace ServiceHost.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginUserDto login)
         {
-            if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
-            {
-                TempData[ErrorMessage] = "کد کپچای شما تایید نشد. چند ثانیه بعد دوباره تلاش کنید";
-                TempData[InfoMessage] = "لطفا از اتصال اینترنت خود مطمئن شوید";
-                return View(login);
-            }
+            //if (!await _captchaValidator.IsCaptchaPassedAsync(login.Captcha))
+            //{
+            //    TempData[ErrorMessage] = "کد کپچای شما تایید نشد. چند ثانیه بعد دوباره تلاش کنید";
+            //    TempData[InfoMessage] = "لطفا از اتصال اینترنت خود مطمئن شوید";
+            //    return View(login);
+            //}
             if (ModelState.IsValid)
             {
                 var result = await _userService.UserLogin(login);

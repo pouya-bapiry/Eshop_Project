@@ -74,6 +74,7 @@ namespace Eshop.Domain.Entities.Account.User
         public ICollection<TicketMessage> TicketMessages { get; set; }
 
         public ICollection<Slider> sliders { get; set; }
+        //public ICollection<SiteBanner> SiteBanners { get; set; }
 
 
 

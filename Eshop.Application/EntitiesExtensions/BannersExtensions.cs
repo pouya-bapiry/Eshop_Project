@@ -10,9 +10,9 @@ namespace Eshop.Application.EntitiesExtensions
 {
     public static class BannersExtensions
     {
-        //public static string GetSiteMainImageAddress(this SiteBanner banner)
-        //{
-        //    return PathExtension.BannerOrigin + banner.ImageName;
-        //}
+        public static string GetSiteMainImageAddress(this SiteBanner banner)
+        {
+            return PathExtension.BannerOrigin + banner.ImageName;
+        }
     }
 }

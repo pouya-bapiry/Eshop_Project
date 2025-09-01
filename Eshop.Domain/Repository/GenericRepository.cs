@@ -55,6 +55,13 @@ namespace Eshop.Domain.Repository
            await _dbSet.AddAsync(entity);
 
         }
+        public async void AddEntityByUser(TEntity entity, string username)
+        {
+            entity.CreateDate = DateTime.Now;
+            entity.LastUpdateDate = entity.CreateDate;
+            entity.UserName = username;
+            await _dbSet.AddAsync(entity);
+        }
 
         public async Task AddRangeEntities(List<TEntity> entities)
         {
@@ -102,6 +109,8 @@ namespace Eshop.Domain.Repository
         {
             //todo
         }
+
+        
 
         #endregion
 
