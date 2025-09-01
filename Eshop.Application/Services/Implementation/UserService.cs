@@ -247,12 +247,15 @@ namespace Eshop.Application.Services.Implementation
         #region Edit User Profile
         public async Task<string?> GetUserImage(long userId)
         {
-            var user = await _userRepository.GetQuery().AsQueryable().FirstOrDefaultAsync(x => x.Id == userId);
+            var user = await _userRepository.GetQuery().AsQueryable()
+                .FirstOrDefaultAsync(x => x.Id == userId);
+
             return user?.Avatar;
         }
         public async Task<EditUserProfileDto> GetProfileForEdit(long userId)
         {
-            var user = await _userRepository.GetEntityById(userId);
+            var user = await _userRepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.Id == userId);
+
 
             if (user == null)
             {
@@ -272,7 +275,7 @@ namespace Eshop.Application.Services.Implementation
 
         public async Task<EditUserProfileResult> EditUserProfile(EditUserProfileDto profile, long userId, IFormFile avatarImage)
         {
-            var user = await _userRepository.GetEntityById(userId);
+            var user = await _userRepository.GetQuery().AsQueryable().SingleOrDefaultAsync(x => x.Id == userId);
             if (user == null)
             {
                 return EditUserProfileResult.NotFound;

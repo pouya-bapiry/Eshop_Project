@@ -31,13 +31,13 @@ namespace ServiceHost.Controllers
         #endregion
 
         #region AboutUs
-        [HttpGet("AboutUs")]
+        [HttpGet("about-us")]
         public async Task<IActionResult> AboutUs()
         {
-            var about = _siteSettingService.GetAboutUs();
-
-            return View();
+            var about = await _siteSettingService.GetAboutUs();
+            return View(about);
         }
+
         #endregion
 
         #region ContactUs

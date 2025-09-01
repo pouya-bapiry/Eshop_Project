@@ -8,7 +8,7 @@ namespace Eshop.Domain.Entities.Site
     {
         #region Properties
 
-        //public long? UserId { get; set; }
+        public long? UserId { get; set; }
         [Display(Name = "تصویر")]
         [MaxLength(200, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
         public string? ImageName { get; set; }
@@ -31,7 +31,7 @@ namespace Eshop.Domain.Entities.Site
 
         #endregion
 
-        //public User User { get; set; }
+        public User User { get; set; }
     }
 
     public enum BannerPlacement

@@ -16,40 +16,7 @@
             <!-- side nav -->
             <div class="col-xl-3">
                 <!--   start panel menu mobile  -->
-                <div class="custom-filter d-xl-none d-block">
-                    <button class="btn btn-filter-float border-0 btn-dark shadow-box px-4 rounded-3 position-fixed" style="z-index: 999;bottom:75px;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
-                        <i class="bi bi-funnel font-20 fw-bold text-white"></i>
-                        <span class="d-block font-14 text-white">منو</span>
-                    </button>
-                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-                        <div class="offcanvas-header">
-                            <h5 class="offcanvas-title" id="offcanvasRightLabel1">منو</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        </div>
-                        <div class="offcanvas-body">
-                            <aside class="profile-card">
-                                <div class="profile-header d-flex align-items-center">
-                                    <img src="~/MainTemplate/assets/image/user/user.png" alt="کاربر">
-                                    <div class="ms-3">
-                                        <h6 class="mt-2">امیر رضایی</h6>
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <p class="text-muted small mt-1">طراح و برنامه نویس</p>
-                                            <a href="" class="ms-2"><i class="bi bi-pencil-square"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="profile-menu">
-                                    <a href="#" class="active"><i class="bi bi-shop-window"></i> خلاصه فعالیت</a>
-                                    <a href="#"><i class="bi bi-bag"></i> سفارش‌ها</a>
-                                    <a href="#"><i class="bi bi-bell"></i> دیدگاه‌ها</a>
-                                    <a href="#"><i class="bi bi-heart"></i> لیست علاقه‌مندی</a>
-                                    <a href="#"><i class="bi bi-person"></i> اطلاعات حساب کاربری</a>
-                                    <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> خروج</a>
-                                </div>
-                            </aside>
-                        </div>
-                    </div>
-                </div>
+                @await Component.InvokeAsync("UserMobileDashboard")
                 <!--   end panel menu mobile   -->
                 <!--   start panel menu desktop  -->
                 @await Component.InvokeAsync("UserSidebarDashboard")
@@ -58,56 +25,69 @@
             <!-- main content -->
             <div class="col-xl-9">
                 <!-- status card -->
-                <form asp-area="User" asp-controller="Account" asp-action="EditProfile" method="post" enctype="multipart/form-data">
-                    <div class="row g-4 bg-white">
-                        <div class="col-md-4">
-                            <div class="comment-item">
-                                <input asp-for="FirstName" type="text" class="form-control" placeholder="نام خود را وارد کنید...">
-                                <label class="form-label label-float fw-bold font-16">
-                                    نام
-                                    <span class="text-danger">*</span>
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="comment-item">
-                                <input asp-for="LastName" type="text" class="form-control" placeholder="نام خانوادگی خود را وارد کنید ...">
-                                <label class="form-label label-float fw-bold">
-                                    نام خانوادگی
-                                    <span class="text-danger">*</span>
-                                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="comment-item">
-                                <input asp-for="Email" type="text" class="form-control" placeholder="ایمیل خود را وارد کنید">
-                                <label class="form-label label-float fw-bold">
-                                    ایمیل
-                                </label>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="comment-item">
-                                <div class="card-body">
-                                    <div class="account-settings d-flex align-items-center">
-                                        <div class="form-group">
-                                            <label class="form-label">بارگذاری عکس پروفایل</label>
-                                            <input asp-for="Avatar" type="file" class="form-control">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <button type="submit" class="btn main-color-one-bg border-0">
-                                    ویرایش
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                <form asp-area="User" asp-controller="Account" asp-action="EditProfile" method="post" enctype="multipart/form-data" >
+	             @*    <input type="hidden" asp-for="Id" /> *@
+	                <div class="row g-4 bg-white">
+		                <div class="col-md-4">
+			                <div class="comment-item">
+				                <input asp-for="FirstName" type="text" class="form-control" placeholder="نام خود را وارد کنید...">
+				                <label class="form-label label-float fw-bold font-16">
+					                نام
+					                <span class="text-danger">*</span>
+					                <span asp-validation-for="FirstName" class="text-danger"></span>
+				                </label>
+			                </div>
+		                </div>
+		                <div class="col-md-4">
+			                <div class="comment-item">
+				                <input asp-for="LastName" type="text" class="form-control" placeholder="نام خانوادگی خود را وارد کنید ...">
+				                <label class="form-label label-float fw-bold">
+					                نام خانوادگی
+					                <span class="text-danger">*</span>
+					                <span asp-validation-for="FirstName" class="text-danger"></span>
+				                </label>
+			                </div>
+		                </div>
+		                <div class="col-md-4">
+			                <div class="comment-item">
+				                <input asp-for="Email" type="text" class="form-control" placeholder="ایمیل خود را وارد کنید">
+				                <label class="form-label label-float fw-bold">
+					                ایمیل
+				                </label>
+			                </div>
+		                </div>
+		                <div class="col-md-12">
+			                <div class="comment-item">
+				                <div class="card-body">
+					                <div class="account-settings d-flex align-items-center">
+						                <div class="form-group">
+							                <label class="form-label">بارگذاری عکس پروفایل</label>
+							                <input asp-for="Avatar" type="file" class="form-control">
+						                </div>
+					                </div>
+				                </div>
+			                </div>
+		                </div>
+		                <div class="col-6">
+			                <div class="form-group">
+				                <button type="submit" class="btn main-color-one-bg border-0">
+					                ویرایش
+				                </button>
+
+				                <a onclick=" history.back()" class="btn main-color-one-bg border-0">
+					                ویرایش
+				                </a>
+			                </div>
+			                <div class="col-6">
+			                <div class="form-group">
+				                <a asp-controller="Home" asp-action="Dashboard" class="btn main-color-one-bg border-0">
+					                ویرایش
+				                </a>
+
+							
+			                </div>
+		                </div>
+	                </div>
                 </form>
             </div>
         </div>

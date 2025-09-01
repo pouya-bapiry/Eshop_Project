@@ -5,6 +5,7 @@
 }
 
 
+
 <section class="about">
     <div class="container-fluid">
         <div class="section-title mt-xl-0 mt-5 pt-xl-0 pt-5 mb-4">
@@ -38,12 +39,12 @@
         </div>
 
         <div class="row mb-5 gy-5 align-items-center">
-            @foreach (var about in Model)
+            @foreach (var item in Model)
             {
                 <div class="col-xl-12">
-                    <h3 class="fw-900 fs-1"> @about.HeaderTitle</h3>
+                    <h3 class="fw-900 fs-1"> @item.HeaderTitle</h3>
                     <p class="my-3 text-muted text-justify">
-                        @about.Description
+                        @item.Description
                     </p>
                 </div>
             }

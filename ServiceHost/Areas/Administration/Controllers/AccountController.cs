@@ -1,11 +1,14 @@
 ﻿using Eshop.Application.Services.Interfaces;
+using Eshop.Application.Utilities;
 using Eshop.Domain.Dtos.Account.User;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceHost.PresentationExtensions;
 
 namespace ServiceHost.Areas.Administration.Controllers
 {
+    [Authorize("UserManagement", Roles = Roles.Administrator)]
     public class AccountController : AdminBaseController
     {
         #region Fields and ctor
@@ -36,7 +39,6 @@ namespace ServiceHost.Areas.Administration.Controllers
         #region EditUser
 
         [HttpGet("edit-user/{userId}")]
-
         public async Task<IActionResult> EditUser(long userId)
         {
             var user = await _userService.GetUserForEdit(userId);

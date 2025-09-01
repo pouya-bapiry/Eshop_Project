@@ -34,6 +34,7 @@ namespace ServiceHost.Areas.User.Controllers
             {
                 return RedirectToAction("PageNotFound", "Home");
             }
+
             return View(userProfile);
 
         }
