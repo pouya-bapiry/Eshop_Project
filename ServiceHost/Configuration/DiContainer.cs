@@ -32,7 +32,7 @@ namespace ServiceHost.Configuration
             services.AddTransient<ISmsService, SmsService>();
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<ISiteImagesService, SiteImagesService>();
-            
+            services.AddTransient<IProductService, ProductService>();
            
 
             #endregion

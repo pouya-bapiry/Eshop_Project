@@ -1,0 +1,269 @@
+﻿@using Eshop.Application.Utilities
+@model Eshop.Domain.Dtos.Product.CreateProductDto
+
+@{
+    ViewData["Title"] = "ایجاد محصول";
+    //var categories = ViewBag.Categories as List<ProductCategory>;
+}
+
+@section Scripts
+{
+    <partial name="_JqueryValidators" />
+}
+
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت محصولات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-pen"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+                <form asp-area="Administration" asp-controller="Product" asp-action="CreateProduct" method="post" enctype="multipart/form-data" id="create_product_form">
+
+                    <input type="hidden" asp-for="ProductImage" />
+                    <br />
+                    <div class="form-group">
+                        @*  <label class="form-label font-20">انتخاب دسته بندی محصول<span class="text-danger ms-1">*</span></label>
+                        <br />
+                        <br /> *@
+                        @* @if (categories != null && categories.Any())
+                        {
+                            @foreach (var category in categories.Where(x => x.ParentId == null))
+                            {
+                                var isParentCategorySelected = Model.SelectedCategories.Any(x => x == category.Id);
+                                        <ul>
+                                            <li>
+                                                <label style="padding-left: 5px;">@category.Title</label>
+                                                <input type="checkbox" style="margin-top: 7px; width: 15px; height: 15px;"
+                                                       value="@category.Id" main_category_checkbox="@category.Id"
+                                                       name="@nameof(Model.SelectedCategories)"
+                                        @(isParentCategorySelected ? "checked" : "")>
+                                                <br />
+                                        @if (categories.Any(x => x.ParentId == category.Id))
+                                        {
+                                                        <div id="sub_categories_@category.Id" style="display: @(isParentCategorySelected ? "block" : "none")">
+                                                @foreach (var subCategory in categories.Where(x => x.ParentId == category.Id))
+                                                {
+                                                    var isSubCategorySelected = Model.SelectedCategories.Any(x => x == subCategory.Id);
+
+                                                                    <label style="padding-left: 5px;">@subCategory.Title</label>
+                                                                    <input type="checkbox" style="margin-top: 7px; margin-left: 5px; width: 15px; height: 15px;"
+                                                                           parent-category-id="@category.Id"
+                                                                           value="@subCategory.Id" main_category_checkbox="@subCategory.Id"
+                                                                           name="@nameof(Model.SelectedCategories)"
+                                                    @(isSubCategorySelected ? "checked" : "")>
+
+
+                                                                    <div id="sub_categories_@subCategory.Id" style="display: @(isSubCategorySelected ? "block" : "none")">
+                                                        @foreach (var secondSubCategory in categories.Where(x => x.ParentId == subCategory.Id))
+                                                        {
+                                                            var isSecondSubCategorySelected = Model.SelectedCategories.Any(x => x == secondSubCategory.Id);
+
+                                                                                <label style="padding-left: 5px;">@secondSubCategory.Title</label>
+                                                                                <input type="checkbox" style="margin-top: 7px; margin-left: 5px; width: 15px; height: 15px;"
+                                                                                       parent-category-id="@subCategory.Id"
+                                                                                       value="@secondSubCategory.Id"
+                                                                                       name="@nameof(Model.SelectedCategories)"
+                                                            @(isSecondSubCategorySelected ? "checked" : "")>
+                                                                                <br />
+                                                        }
+                                                                    </div>
+                                                }
+                                                        </div>
+                                                        <br />
+                                        }
+                                            </li>
+                                        </ul>
+                                        <hr />
+                            }
+                        } *@
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">نام محصول<span class="text-danger ms-1">*</span></label>
+                                <input asp-for="Title" type="text" class="form-control rounded-pill" placeholder="نام محصول">
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">کد یا مدل محصول<span class="text-danger ms-1">*</span></label>
+                                <input asp-for="Code" type="text" class="form-control rounded-pill" placeholder="کد یا مدل محصول">
+                                <span asp-validation-for="Code" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">قیمت محصول<span class="text-danger ms-1"> (تومان)*</span></label>
+                                <input id="priceInput" asp-for="Price" type="text" class="form-control rounded-pill" placeholder="قیمت محصول - مثال : 15000">
+                                <span asp-validation-for="Price" class="text-danger"></span>
+                            </div>
+                            @* <div class="col-md-6">
+                                <label class="form-label">برند محصول<span class="text-danger ms-1">*</span></label>
+                                <input id="ProductBrandName" asp-for="BrandName" type="text" class="form-control rounded-pill" style="font-size: 18px; font-family: 'yekan';" placeholder="برند محصول . مـثال : تاژ، چی توز، لادن و ...">
+                                <span asp-validation-for="BrandName" class="text-danger"></span>
+                            </div> *@
+                            <div class="form-group col-md-3" style="margin-top: 25px;">
+                                <label>نمایش محصول در سایت</label>
+                                <input type="checkbox" style="width: 30px; height: 30px;" value="true"
+                                       name="@nameof(Model.IsActive)" @(Model.IsActive ? "checked" : "")>
+                                <span class="text-danger float-right" asp-validation-for="IsActive"></span>
+                            </div>
+                            <br />
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label">توضیحات کوتاه<span class="text-danger ms-1">*</span></label>
+                                <textarea class="form-control" asp-for="ShortDescription" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label">توضیحات کامل<span class="text-danger ms-1">*</span></label>
+                                <textarea class="form-control" asp-for="Description" ckeditor="1" rows="5"></textarea>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <hr />
+                        @* <label class="form-label font-20">افزودن ویژگی های محصول<span class="text-danger ms-1">*</span></label>
+                        <br />
+                        <br /> *@
+                        @* <div class="row col-md-12">
+
+                            <div class="form-group col-md-5">
+                                <label>ویژگی محصول</label>
+                                <input type="text" id="product_feature_title_input" class="form-control" placeholder="وزن، ابعاد و ...">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <label>عنوان ویژگی محصول</label>
+                                <input type="text" id="product_feature_value_input" class="form-control" placeholder="مثال: 4 کیلوگرم، آلیاژ برنج و ...">
+                            </div>
+
+                            <div class="form-group col-md-2">
+                                <br />
+                                <a id="add_feature_button" class="btn btn btn-success btn-block text-white" style="margin-top: 9px;" title="افزودن ویژگی">
+                                    <i class="fa fa-plus-square"></i>
+                                    افزودن ویژگی
+                                </a>
+                            </div>
+                        </div> *@
+                        <br />
+                        @* <table class="table table-striped table-bordered main-table text-center">
+                            <thead class="thead-dark" style="background: #A4EBF3; color: #000000;">
+                                <tr>
+                                    <th scope="col">نام ویژگی</th>
+                                    <th scope="col">عنوان ویژگی</th>
+                                    <th scope="col">عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list_of_product_features">
+                                @if (Model.ProductFeatures != null && Model.ProductFeatures.Any())
+                                {
+                                    foreach (var feature in Model.ProductFeatures)
+                                    {
+                                                <tr feature-table-item="@feature.FeatureTitle-@feature.FeatureValue">
+                                                    <td>@feature.FeatureTitle</td>
+                                                    <td>@feature.FeatureValue</td>
+                                                    <td>
+                                                        <a class="btn btn-lg text-danger" style="float: none;" title="حذف ویژگی" onclick="removeProductFeature('@feature.FeatureTitle-@feature.FeatureValue')">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table> *@
+                        <br />
+                        <hr />
+                        @* <label class="form-label font-20">افزودن سایز های محصول<span class="text-danger ms-1">*</span></label>
+                        <br />
+                        <br />
+                        <div class="row col-md-12">
+                        <div class="form-group col-md-5">
+                        <label>سایز محصول</label>
+                        <input type="text" id="product_size_title_input" class="form-control" placeholder="مثال : 15 در 15 سانتیمتر ...">
+                        </div>
+                        <div class="form-group col-md-5">
+                        <label>قیمت مضاف سایز محصول</label>
+                        <input type="text" id="product_size_price_input" class="form-control">
+                        </div>
+
+                        <div class="form-group col-md-2">
+                        <br />
+                        <a id="add_size_button" class="btn btn-main-primary btn-block btn-round text-white" title="افزودن سایز">
+                        <i class="bi bi-plus-circle-fill"></i>
+                        افزودن سایز
+                        </a>
+                        </div>
+                        </div>
+                        <br />
+                        <table class="table table-responsive table-bordered main-table text-center text-center">
+                        <thead style="background: #A4EBF3; color: #000000;">
+                        <tr>
+                        <th scope="col">عنوان سایز</th>
+                        <th scope="col">قیمت</th>
+                        <th scope="col">عملیات</th>
+                        </tr>
+                        </thead>
+                        <tbody id="list_of_product_sizes">
+                        @if (Model.ProductSize != null && Model.ProductSize.Any())
+                        {
+                        foreach (var size in Model.ProductSize)
+                        {
+                        <tr size-table-item="@size.SizeTitle-@size.Price">
+                        <td>@size.SizeTitle</td>
+                        <td>@size.Price</td>
+                        <td>
+                        <a class="btn btn-lg text-danger" style="float: none;" title="حذف سایز" onclick="removeProductSize('@size.SizeTitle-@size.Price')">
+                        <i class="bi bi-x-octagon-fill"></i>
+                        </a>
+                        </td>
+                        </tr>
+                        }
+                        }
+                        </tbody>
+                        </table>
+                        <hr />
+                        <hr />
+                        *@
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="center">
+	                                <div class="form-input">
+		                                <label for="file-ip-1"><i class="bi bi-cloud-upload-fill" style="padding-left: 5px;"></i>آپلود تصویر محصول</label>
+		                                <input type="file" name="productImage" id="file-ip-1" accept="image/*" onchange="showPreview(event, 1);">
+										 <hr/>
+                                        <span asp-validation-for="ProductImage" class="text-danger"></span> </div>
+	                            
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <img id="file-ip-1-preview" style="border-radius: 10%; width: 20%"
+                                     src="@(!string.IsNullOrEmpty(Model.ProductImage) ? PathExtension.ProductOrigin + Model.ProductImage : PathExtension.NoImage)"
+                                     alt="تصویر محصول" title="تصویر محصول" />
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">ایجاد محصول</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -4,6 +4,7 @@ using Eshop.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eshop.Domain.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20250902163923_add_product_entity")]
+    partial class add_product_entity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -291,8 +294,8 @@ namespace Eshop.Domain.Migrations
                         .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Image")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
@@ -327,92 +330,6 @@ namespace Eshop.Domain.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductCategory", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Icon")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("Image")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("ParentId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("UrlName")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ParentId");
-
-                    b.ToTable("ProductCategories");
-                });
-
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductSelectedCategory", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("ProductCategoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductCategoryId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductSelectedCategories");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Site.AboutUs", b =>
@@ -663,35 +580,6 @@ namespace Eshop.Domain.Migrations
                     b.Navigation("Ticket");
                 });
 
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductCategory", b =>
-                {
-                    b.HasOne("Eshop.Domain.Entities.Product.ProductCategory", "Parent")
-                        .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Parent");
-                });
-
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductSelectedCategory", b =>
-                {
-                    b.HasOne("Eshop.Domain.Entities.Product.ProductCategory", "ProductCategory")
-                        .WithMany("ProductSelectedCategories")
-                        .HasForeignKey("ProductCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Eshop.Domain.Entities.Product.Product", "Product")
-                        .WithMany("ProductSelectedCategories")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-
-                    b.Navigation("ProductCategory");
-                });
-
             modelBuilder.Entity("Eshop.Domain.Entities.Site.SiteBanner", b =>
                 {
                     b.HasOne("Eshop.Domain.Entities.Account.User.User", "User")
@@ -733,16 +621,6 @@ namespace Eshop.Domain.Migrations
             modelBuilder.Entity("Eshop.Domain.Entities.Contact.Ticket.Ticket", b =>
                 {
                     b.Navigation("TicketMessages");
-                });
-
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.Product", b =>
-                {
-                    b.Navigation("ProductSelectedCategories");
-                });
-
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductCategory", b =>
-                {
-                    b.Navigation("ProductSelectedCategories");
                 });
 #pragma warning restore 612, 618
         }

@@ -2,6 +2,7 @@
 using Eshop.Domain.Entities.Account.User;
 using Eshop.Domain.Entities.Contact;
 using Eshop.Domain.Entities.Contact.Ticket;
+using Eshop.Domain.Entities.Product;
 using Eshop.Domain.Entities.Site;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,16 @@ namespace Eshop.Domain.Context
 
         #endregion
 
+        #region Contact
+        public DbSet<ContactUs> ContactUs { get; set; }
+        #endregion 
+
+        #region SiteSetting
+
+        public DbSet<SiteSetting> SiteSettings { get; set; }
+        public DbSet<AboutUs> AboutUs { get; set; }
+        #endregion
+
         #region Ticket
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<TicketMessage> TicketsMessages { get; set; }
@@ -35,21 +46,29 @@ namespace Eshop.Domain.Context
         public DbSet<SiteBanner> SiteBanners { get; set; }
 
         #endregion
-        
-        #region SiteSetting
 
-        public DbSet<SiteSetting> SiteSettings { get; set; }
-        public DbSet<AboutUs> AboutUs { get; set; }
+        #region Product
+
+        public DbSet<Product> Products { get; set; }
+
         #endregion
-        #region Contact
-        public DbSet<ContactUs> ContactUs { get; set; }
+
+        #region Product Category
+
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<ProductSelectedCategory> ProductSelectedCategories { get; set; }
+
+
         #endregion
+
+
+
 
         #region OnModelCreating
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-     
+
 
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(s => s.GetForeignKeys()))
             {
