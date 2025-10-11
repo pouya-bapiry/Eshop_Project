@@ -1,4 +1,11 @@
-﻿<div class="mega-menu menu pb-3 d-lg-block d-none mega-menu-top">
+﻿@using Eshop.Domain.Entities.Product
+@using Microsoft.EntityFrameworkCore.Design.Internal
+
+@{
+    var categories = ViewBag.ProductCategories as List<ProductCategory>;
+}
+
+<div class="mega-menu menu pb-3 d-lg-block d-none mega-menu-top">
     <div class="container-fluid">
         <div class="row position-relative">
             <!-- mega menu -->
@@ -10,199 +17,46 @@
                             <li class="nav-item main-menu-head">
                                 <a class="btn text-white btn-xl rounded-4 font-16 main-color-one-bg" href="">
                                     <i class="bi bi-grid"></i>
-                                    مگا تب منو
+                                    دسته بندی محصولات
                                 </a>
                                 <ul class="main-menu mega-container">
-                                    <li class="">
-                                        <a href="">
-                                            <i class="bi bi-phone"></i>
-                                            موبایل
-                                        </a>
-                                        <ul class="main-menu-sub back-menu"
-                                            style=" background: #fff url('~/MainTemplate/assets/image/mobiles.png') no-repeat;">
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">برند های مختلف گوشی</a>
-                                            </li>
-                                            <li><a href="">گوشی اپل</a></li>
-                                            <li><a href="">گوشی سامسونگ</a></li>
-                                            <li><a href="">گوشی شیائومی</a></li>
-                                            <li><a href="">گوشی بلک بری</a></li>
-                                            <li><a href="">گوشی ایرانی</a></li>
-                                            <li><a class="title my-flex-baseline" href="">گوشی بر اساس قیمت</a></li>
-                                            <li><a href="">گوشی تا 2 میلیون</a></li>
-                                            <li><a href="">گوشی تا 5 میلیون</a></li>
-                                            <li><a href="">گوشی تا 10 میلیون</a></li>
-                                            <li><a href="">گوشی تا 12 میلیون</a></li>
-                                            <li><a href="">گوشی تا 15 میلیون</a></li>
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">
-                                                    گوشی براساس حافظه
-                                                    داخلی
-                                                </a>
-                                            </li>
-                                            <li><a href="">گوشی تا 16 گیگابایت</a></li>
-                                            <li><a href="">گوشی تا 32 گیگابایت</a></li>
-                                            <li><a href="">گوشی تا 64 گیگابایت</a></li>
-                                            <li><a href="">گوشی تا 128 گیگابایت</a></li>
-                                            <li><a href="">گوشی تا 256 گیگابایت</a></li>
-                                            <li><a href="">گوشی تا 512 گیگابایت</a></li>
-                                            <li><a href="">گوشی تا 1 ترابایت</a></li>
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">گوشی براساس کاربری</a>
-                                            </li>
-                                            <li><a href="">گوشی اقتصادی</a></li>
-                                            <li><a href="">گوشی دانش آموزی</a></li>
-                                            <li><a href="">گوشی لاکچری</a></li>
-                                            <li><a href="">گوشی پرچمدار</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="">
-                                        <a href=""><i class="bi bi-tablet"></i> تبلت</a>
-                                        <ul class="main-menu-sub back-menu"
-                                            style=" background: #fff url('~/MainTemplate/assets/image/tablet-menu.png') no-repeat;">
+                                    @if (categories != null && categories.Any())
+                                    {
+                                        @foreach (var category in categories.Where(x => x.ParentId == null && x.IsActive))
+                                        {
                                             <li class="">
-                                                <a class="title my-flex-baseline" href="">
-                                                    برند های مختلف
-                                                    تبلت
+                                                <a href="">
+                                                    <i class="@category.Icon"></i>
+                                                    @category.Title
                                                 </a>
+                                                <ul class="main-menu-sub back-menu"
+                                                    style=" background: #fff url('~/MainTemplate/assets/image/mobiles.png') no-repeat;">
+                                                    @if (categories.Any(x => x.ParentId == category.Id))
+                                                    {
+                                                        @foreach (var subCategory in categories.Where(x => x.ParentId == category.Id))
+                                                        {
+                                                            <li>
+                                                                <a class="title my-flex-baseline" href="">@subCategory.Title</a>
+                                                            </li>
+                                                            @if (categories.Any(x => x.ParentId == subCategory.Id))
+                                                            {
+                                                                foreach (var secondSubCategory in categories.Where(x => x.ParentId == subCategory.Id))
+                                                                {
+                                                                    <li>
+                                                                        <a class="text-secondary" href="">@secondSubCategory.Title</a>
+                                                                    </li>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+
+                                                    @*  <li><a href="">گوشی اپل</a></li>
+                                                    <li><a href="">گوشی سامسونگ</a></li>
+                                                    <li><a href="">گوشی شیائومی</a></li> *@
+                                                </ul>
                                             </li>
-                                            <li><a href="">تبلت اپل</a></li>
-                                            <li><a href="">تبلت سامسونگ</a></li>
-                                            <li><a href="">تبلت شیائومی</a></li>
-                                            <li class=""><a href="">تبلت بلک بری</a></li>
-                                            <li class=""><a href="">تبلت ایرانی</a></li>
-                                            <li class="">
-                                                <a class="title my-flex-baseline" href="">تبلت بر اساس قیمت</a>
-                                            </li>
-                                            <li class=""><a href="">تبلت تا 2 میلیون</a></li>
-                                            <li class=""><a href="">تبلت تا 5 میلیون</a></li>
-                                            <li><a href="">تبلت تا 10 میلیون</a></li>
-                                            <li><a href="">تبلت تا 12 میلیون</a></li>
-                                            <li><a href="">تبلت تا 15 میلیون</a></li>
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">
-                                                    تبلت براساس حافظه
-                                                    داخلی
-                                                </a>
-                                            </li>
-                                            <li><a href="">تبلت تا 16 گیگابایت</a></li>
-                                            <li><a href="">تبلت تا 32 گیگابایت</a></li>
-                                            <li><a href="">تبلت تا 64 گیگابایت</a></li>
-                                            <li><a href="">تبلت تا 128 گیگابایت</a></li>
-                                            <li><a href="">تبلت تا 256 گیگابایت</a></li>
-                                            <li><a href="">تبلت تا 512 گیگابایت</a></li>
-                                            <li><a href="">تبلت تا 1 ترابایت</a></li>
-                                            <li class="">
-                                                <a class="title my-flex-baseline" href="">
-                                                    تبلت براساس
-                                                    کاربری
-                                                </a>
-                                            </li>
-                                            <li class=""><a href="">گتبلتوشی اقتصادی</a></li>
-                                            <li><a href="">تبلت دانش آموزی</a></li>
-                                            <li><a href="">تبلت لاکچری</a></li>
-                                            <li><a href="">تبلت پرچمدار</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="main-menu-sub-active-li">
-                                        <a href="">
-                                            <i class="bi bi-shield"></i>آنتی
-                                            ویروس
-                                        </a>
-                                        <ul class="main-menu-sub back-menu main-menu-sub-active"
-                                            style=" background: #fff url('~/MainTemplate/assets/image/EAV.png') no-repeat;">
-                                            <li><a class="title my-flex-baseline" href="">براساس برند</a></li>
-                                            <li><a href="">نود 32</a></li>
-                                            <li><a href="">کسپر اسکای</a></li>
-                                            <li><a href="">360 سکوریتی</a></li>
-                                            <li><a href="">بیت دیفیندر</a></li>
-                                            <li><a href="">ایمن</a></li>
-                                            <li><a class="title my-flex-baseline" href="">براساس ویندوز</a></li>
-                                            <li><a href="">ویندوز 7</a></li>
-                                            <li><a href="">ویندوز 8</a></li>
-                                            <li><a href="">ویندوز 8.1</a></li>
-                                            <li><a href="">ویندوز 10</a></li>
-                                            <li><a href="">ویندوز 11</a></li>
-                                            <li><a class="title my-flex-baseline" href="">براساس برند</a></li>
-                                            <li><a href="">نود 32</a></li>
-                                            <li><a href="">کسپر اسکای</a></li>
-                                            <li><a href="">360 سکوریتی</a></li>
-                                            <li><a href="">بیت دیفیندر</a></li>
-                                            <li><a href="">ایمن</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="">
-                                        <a href=""><i class="bi bi-laptop"></i>لبتاپ</a>
-                                        <ul class="main-menu-sub back-menu"
-                                            style=" background: #fff url('~/MainTemplate/assets/image/labtop.png') no-repeat;">
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">برند های مختلف لبتاپ</a>
-                                            </li>
-                                            <li><a href="">لبتاپ اپل</a></li>
-                                            <li><a href="">لبتاپ سامسونگ</a></li>
-                                            <li><a href="">لبتاپ شیائومی</a></li>
-                                            <li><a href="">لبتاپ بلک بری</a></li>
-                                            <li><a href="">لبتاپ ایرانی</a></li>
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">لبتاپ بر اساس قیمت</a>
-                                            </li>
-                                            <li><a href="">لبتاپ تا 2 میلیون</a></li>
-                                            <li><a href="">لبتاپ تا 5 میلیون</a></li>
-                                            <li><a href="">لبتاپ تا 10 میلیون</a></li>
-                                            <li><a href="">لبتاپ تا 12 میلیون</a></li>
-                                            <li><a href="">لبتاپ تا 15 میلیون</a></li>
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">
-                                                    لبتاپ براساس حافظه
-                                                    داخلی
-                                                </a>
-                                            </li>
-                                            <li><a href="">لبتاپ تا 16 گیگابایت</a></li>
-                                            <li><a href="">لبتاپ تا 32 گیگابایت</a></li>
-                                            <li><a href="">لبتاپ تا 64 گیگابایت</a></li>
-                                            <li><a href="">لبتاپ تا 128 گیگابایت</a></li>
-                                            <li><a href="">لبتاپ تا 256 گیگابایت</a></li>
-                                            <li><a href="">لبتاپ تا 512 گیگابایت</a></li>
-                                            <li><a href="">لبتاپ تا 1 ترابایت</a></li>
-                                            <li>
-                                                <a class="title my-flex-baseline" href="">لبتاپ براساس کاربری</a>
-                                            </li>
-                                            <li><a href="">لبتاپ اقتصادی</a></li>
-                                            <li><a href="">لبتاپ دانش آموزی</a></li>
-                                            <li><a href="">لبتاپ لاکچری</a></li>
-                                            <li><a href="">لبتاپ پرچمدار</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="">
-                                        <a href=""><i class="bi bi-tag"></i>پر فروش ترین ها</a>
-                                        <ul class="main-menu-sub back-menu"
-                                            style=" background: #fff url('~/MainTemplate/assets/image/top-sales.jpeg') no-repeat;">
-                                            <li><a class="title my-flex-baseline" href="">زیر منو شماره 1 </a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a class="title my-flex-baseline" href="">زیر منو شماره 1 </a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a class="title my-flex-baseline" href="">زیر منو شماره 1 </a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a class="title my-flex-baseline" href="">زیر منو شماره 1 </a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                            <li><a href="">زیر منو شماره 1</a></li>
-                                        </ul>
-                                    </li>
+                                        }
+                                    }
                                 </ul>
                             </li>
                             <li class="nav-item">
@@ -212,41 +66,22 @@
                                 </a>
                                 <ul class="list-unstyled shadow-lg back-menu sub-menu mega-container"
                                     style="background: #fff url('~/MainTemplate/assets/image/banner-11.jpg') no-repeat;background-size: 400px !important;">
-                                    <li><a class="title" href="">بـرند</a></li>
-                                    <li><a href="">سامـسونگ</a></li>
-                                    <li><a href="">اپـل</a></li>
-                                    <li><a href="">شیـائومی</a></li>
-                                    <li><a href="">ال جی</a></li>
-                                    <li><a href="">وان پـلاس</a></li>
-                                    <li><a href="">جی ال ایـکس</a></li>
-                                    <li><a href="">هـو آوی</a></li>
-                                    <li><a href="">بلک بـری</a></li>
-                                    <li><a href="">توشـیبا</a></li>
-                                    <li><a href="">دایـناکورد</a></li>
-                                    <li>
-                                        <a class="title" href="">براساس رده بندی </a>
-                                    </li>
-                                    <li><a href="">دکـمه ای</a></li>
-                                    <li><a href="">لـمسـی</a></li>
-                                    <li><a href="">نـظـامی</a></li>
-                                    <li><a href="">ضـد آب</a></li>
-                                    <li><a href="">مسـافرتی</a></li>
-                                    <li><a href="">خـارنی</a></li>
-                                    <li><a class="title" href="">براساس کشور </a></li>
-                                    <li><a href="">ایران</a></li>
-                                    <li><a href="">ژاپن</a></li>
-                                    <li><a href="">فرانسه</a></li>
-                                    <li><a href="">کره جنوبی</a></li>
-                                    <li><a href="">آمریکا</a></li>
-                                    <li><a href="">سوئد</a></li>
-                                    <li><a href="">تایوان</a></li>
-                                    <li><a class="title" href="">براساس رنگ</a></li>
-                                    <li><a href="">قرمز</a></li>
-                                    <li><a href="">قهوه ای</a></li>
-                                    <li><a href="">سبز</a></li>
-                                    <li><a href="">بنفش</a></li>
-                                    <li><a href="">نارنجی</a></li>
-                                    <li><a href="">نیلی</a></li>
+                                    @if (categories != null && categories.Any())
+                                    {
+                                        @foreach (var category in categories.Where(x => x.ParentId == null))
+                                        {
+                                            <li><a class="title" href="">@category.Title</a></li>
+                                            @if (categories.Any(x => x.ParentId == category.Id))
+                                            {
+                                                @foreach (var subCategory in categories.Where(x => x.ParentId == category.Id))
+                                                {
+                                                    <li><a href="">@subCategory.Title</a></li>
+                                                }
+
+                                            }
+                                        }
+                                    }
+
                                 </ul>
                             </li>
                             <li class="nav-item">

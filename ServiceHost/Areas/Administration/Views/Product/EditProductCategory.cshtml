@@ -1,0 +1,64 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model Eshop.Domain.Dtos.ProductCategory.EditProductCategoryDto
+@{
+    ViewData["Title"] = "ویرایش دسته بندی";
+}
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت دسته بندی محصولات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-plus"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Product" asp-action="EditProductCategory" method="post" enctype="multipart/form-data" id="filter-form">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ParentId" />
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            <label>عنوان دسته محصول</label>
+                            <input class="form-control" asp-for="Title" />
+                            <span class="text-white float-right" asp-validation-for="Title"></span>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <label>لینک</label>
+                            <input class="form-control" asp-for="UrlName" placeholder="همنام با عنوان دسته محصول باید باشد" />
+                            <span class="text-white float-right" asp-validation-for="UrlName"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>تصویر آیکون</label>
+                            <input class="form-control" asp-for="Icon" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <label>آپلود تصویر</label>
+                            <input type="file" name="categoryImage" class="form-control" accept=".png, .jpeg, .jpg" />
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-warning btn-block">ویرایش دسته محصول</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

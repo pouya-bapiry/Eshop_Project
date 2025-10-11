@@ -30,6 +30,7 @@ namespace Eshop.Domain.Dtos.Product
         public int MobileSelectedMinPrice { get; set; }
         public int MobileSelectedMaxPrice { get; set; }
         public bool InStock { get; set; }
+        public int? ViewCount { get; set; }
         public List<Entities.Product.Product> Products { get; set; }
         public FilterProductState ProductState { get; set; }
         public FilterProductOrderBy OrderBy { get; set; }

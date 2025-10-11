@@ -2,11 +2,17 @@ using Eshop.Application.Utilities;
 using Eshop.Domain.Context;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using ServiceHost.Configuration;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
+//var mvcBuilder = builder.Services.AddControllersWithViews();
+
+//#if DEBUG
+//mvcBuilder.AddRazorRuntimeCompilation();
+//#endif
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
