@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Eshop.Application.Services.Interfaces;
 
-public interface IProductService:IAsyncDisposable
+public interface IProductService : IAsyncDisposable
 {
     #region Product
 
@@ -16,6 +16,15 @@ public interface IProductService:IAsyncDisposable
 
     Task<List<Product>> GetProductWithMaximumView(int take);
     Task<List<Product>> GetLatestArrivalProducts(int take);
+    #endregion
+
+    #region Product Color
+
+    Task<List<FilterProductColorDto>> GetAllProductColorInAdminPanel(long productId);
+    Task<CreateProductColorResult> CreateProductColor(CreateProductColorDto color, long productId);
+    Task<EditProductColorDto> GetProductColorForEdit(long colorId);
+    Task<EditProductColorResult> EditProductColor(EditProductColorDto color, long colorId);
+
     #endregion
 
 

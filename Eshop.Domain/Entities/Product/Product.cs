@@ -49,6 +49,7 @@ namespace Eshop.Domain.Entities.Product
         #region Relations
 
         public ICollection<ProductSelectedCategory> ProductSelectedCategories { get; set; } 
+        public ICollection<ProductColor> ProductColors { get; set; }
 
         #endregion
 

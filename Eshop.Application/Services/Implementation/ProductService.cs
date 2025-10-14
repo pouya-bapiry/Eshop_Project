@@ -17,12 +17,17 @@ public class ProductService : IProductService
     private readonly IGenericRepository<Product> _productRepository;
     private readonly IGenericRepository<ProductCategory> _productCategoryRepository;
     private readonly IGenericRepository<ProductSelectedCategory> _productSelectedRepository;
+    private readonly IGenericRepository<ProductColor> _productColorRepository;
 
-    public ProductService(IGenericRepository<Product> productRepository, IGenericRepository<ProductCategory> productCategoryRepository, IGenericRepository<ProductSelectedCategory> productSelectedRepository)
+    public ProductService(IGenericRepository<Product> productRepository,
+        IGenericRepository<ProductCategory> productCategoryRepository,
+        IGenericRepository<ProductSelectedCategory> productSelectedRepository,
+        IGenericRepository<ProductColor> productColorRepository)
     {
         _productRepository = productRepository;
         _productCategoryRepository = productCategoryRepository;
         _productSelectedRepository = productSelectedRepository;
+        _productColorRepository = productColorRepository;
     }
 
     #endregion
@@ -283,7 +288,95 @@ public class ProductService : IProductService
     }
 
 
+
     #endregion
+    #endregion
+
+    #region Product Color
+    public async Task<List<FilterProductColorDto>> GetAllProductColorInAdminPanel(long productId)
+    {
+        return await _productColorRepository
+            .GetQuery()
+            .AsQueryable()
+            .Include(x => x.Product)
+            .Where(x => x.ProductId == productId)
+            .Select(x => new FilterProductColorDto
+            {
+                Id = x.Id,
+                ProductId = productId,
+                ColorName = x.ColorName,
+                ColorCode = x.ColorCode,
+                Price = x.Price,
+                CreateDate = x.CreateDate.ToStringShamsiDate(),
+            }).ToListAsync();
+    }
+
+    public async Task<CreateProductColorResult> CreateProductColor(CreateProductColorDto color, long productId)
+    {
+        var product = await _productRepository.GetEntityById(productId);
+
+        if (product == null)
+        {
+            return CreateProductColorResult.ProductNotFound;
+        }
+
+        await AddProductColors(productId, color.ProductColors);
+        await _productColorRepository.SaveChanges();
+
+
+        return CreateProductColorResult.Success;
+    }
+
+    public async Task<EditProductColorDto> GetProductColorForEdit(long colorId)
+    {
+        var productColor = await _productColorRepository
+            .GetQuery()
+            .Include(x => x.Product)
+            .SingleOrDefaultAsync(x => x.Id == colorId);
+
+        if (productColor == null)
+        {
+            return null;
+        }
+
+        return new EditProductColorDto
+        {
+            Id = productColor.Id,
+            ColorName = productColor.ColorName,
+            ColorCode = productColor.ColorCode,
+            Price = productColor.Price,
+        };
+    }
+
+    public async Task<EditProductColorResult> EditProductColor(EditProductColorDto color, long colorId)
+    {
+        var mainColor = await _productColorRepository
+            .GetQuery()
+            .AsQueryable()
+            .Include(x => x.Product)
+            .SingleOrDefaultAsync(x => x.Id == colorId);
+
+        if (mainColor == null)
+        {
+            return EditProductColorResult.ColorNotFound;
+        }
+
+        var isDuplicateColorTitle =
+            await _productColorRepository.GetQuery().AnyAsync(x => x.ColorName == mainColor.ColorName);
+
+        if (isDuplicateColorTitle) return EditProductColorResult.DuplicateColor;
+
+
+        mainColor.ColorName = color.ColorName;
+        mainColor.ColorCode = color.ColorCode;
+        mainColor.Price = color.Price;
+
+         _productColorRepository.EditEntity(mainColor);
+        _productColorRepository.SaveChanges();
+        return EditProductColorResult.Success;
+    }
+
+
     #endregion
 
     #region Product Category
@@ -534,6 +627,32 @@ public class ProductService : IProductService
         }
 
         await _productSelectedRepository.AddRangeEntities(productSelectedCategories);
+    }
+
+    #endregion
+
+    #region Add or Remove Product Color
+
+    public async Task AddProductColors(long productId, List<CreateProductColorDto> colors)
+    {
+        var productSelectedColor = new List<ProductColor>();
+
+        foreach (var productColor in colors)
+        {
+            if (productSelectedColor.All(x => x.ColorName != productColor.ColorName))
+            {
+                productSelectedColor.Add(new ProductColor
+                {
+                    ProductId = productId,
+                    ColorName = productColor.ColorName,
+                    ColorCode = productColor.ColorCode,
+                    Price = productColor.Price
+                });
+            }
+
+        }
+
+        await _productColorRepository.AddRangeEntities(productSelectedColor);
     }
 
     #endregion

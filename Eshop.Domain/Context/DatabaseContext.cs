@@ -24,7 +24,8 @@ namespace Eshop.Domain.Context
 
         #region Contact
         public DbSet<ContactUs> ContactUs { get; set; }
-        #endregion 
+        #endregion
+
 
         #region SiteSetting
 
@@ -62,7 +63,11 @@ namespace Eshop.Domain.Context
         #endregion
 
 
+        #region ProductColor
 
+        public DbSet<ProductColor> ProductColors { get; set; }
+
+        #endregion
 
         #region OnModelCreating
 

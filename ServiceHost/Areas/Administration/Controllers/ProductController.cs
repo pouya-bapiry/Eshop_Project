@@ -270,6 +270,67 @@ namespace ServiceHost.Areas.Administration.Controllers
         }
         #endregion
         #endregion
+
+        #region Product Color
+
+        #region Product color list
+
+      
+        [HttpGet("product-color-list/{productId}")]
+        public async Task<IActionResult> FilterProductColor(long productId)
+        {
+            ViewBag.ProductId = productId;
+            //ProductId = productId;
+            var productColor = await _productService.GetAllProductColorInAdminPanel(productId);
+
+            if (productColor == null)
+            {
+                return RedirectToAction("PageNotFound", "Home", new { area = "Administration" });
+            }
+
+            return View(productColor);
+        }
+
+        #endregion
+
+        #region Create Color
+
+
+        [HttpGet("create-product-color/{productId}")]
+        public async Task<IActionResult> CreateProductColor(long productId)
+        {
+            var model = new CreateProductColorDto();
+            return View(model);
+        }
+
+        [HttpPost("create-product-color/{productId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProductColor(CreateProductColorDto color, long productId)
+        {
+            var result = await _productService.CreateProductColor(color, productId);
+
+            switch (result)
+            {
+                case CreateProductColorResult.Error:
+                    TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد";
+                    break;
+                case CreateProductColorResult.ProductNotFound:
+                    TempData[ErrorMessage] = "محصول مورد نظر یافت نشد";
+                    break;
+                case CreateProductColorResult.DuplicateColor:
+                    TempData[WarningMessage] = "رنگ انتخابی وارد شده تکراری می باشد";
+                    break;
+
+                case CreateProductColorResult.Success:
+                    TempData[SuccessMessage] = $"رنگ های انتخابی با موفقیت افزوده شدند.";
+                    return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", ProductId = productId });
+            }
+
+            return View(color);
+        }
+
+        #endregion
+
+        #endregion
         #endregion
     }
 }
