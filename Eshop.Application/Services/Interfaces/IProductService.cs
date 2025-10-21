@@ -1,5 +1,6 @@
 ﻿using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
+using Eshop.Domain.Dtos.ProductFeatures;
 using Eshop.Domain.Entities.Product;
 using Microsoft.AspNetCore.Http;
 
@@ -38,6 +39,14 @@ public interface IProductService : IAsyncDisposable
     Task<EditProductCategoryDto> GetProductCategoryForEdit(long categoryId);
     Task<EditProductCategoryResult> EditProductCategory(EditProductCategoryDto edit, IFormFile image);
 
+    #endregion
+
+    #region Product Features
+
+    Task<FilterProductFeatureDto> GettAllActiveProductFeatures(long productId);
+    Task<CreateProductFeatureResult> CreateProductFeature(CreateProductFeatureDto feature, long productId);
+    Task<EditProductFeatureDto> GetProductFeatureForEdit(long featureId);
+    Task<EditProductFeatureResult> EditProductFeature(EditProductFeatureDto feature);
     #endregion
 
 }

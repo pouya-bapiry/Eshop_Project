@@ -1,7 +1,9 @@
-﻿using Eshop.Application.Services.Interfaces;
+﻿ using Eshop.Application.Services.Interfaces;
 using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
+using Eshop.Domain.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 
 namespace ServiceHost.Areas.Administration.Controllers
 {
@@ -282,11 +284,12 @@ namespace ServiceHost.Areas.Administration.Controllers
             ViewBag.ProductId = productId;
             //ProductId = productId;
             var productColor = await _productService.GetAllProductColorInAdminPanel(productId);
-
-            if (productColor == null)
+            if (productColor == null )
             {
-                return RedirectToAction("PageNotFound", "Home", new { area = "Administration" });
+                return RedirectToAction("PageNotFound", "Home");
             }
+
+
 
             return View(productColor);
         }
@@ -306,7 +309,9 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpPost("create-product-color/{productId}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProductColor(CreateProductColorDto color, long productId)
         {
-            var result = await _productService.CreateProductColor(color, productId);
+            if (!ModelState.IsValid)
+            {
+               var result = await _productService.CreateProductColor(color, productId);
 
             switch (result)
             {
@@ -323,9 +328,50 @@ namespace ServiceHost.Areas.Administration.Controllers
                 case CreateProductColorResult.Success:
                     TempData[SuccessMessage] = $"رنگ های انتخابی با موفقیت افزوده شدند.";
                     return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", ProductId = productId });
+            }   
             }
+          
 
             return View(color);
+        }
+
+        #endregion
+
+        #region Edit Product Color
+
+        [HttpGet("edit-product-color/{colorId}/")]
+        public async Task<IActionResult> EditProductColor(long colorId)
+        {
+            var productColor = await _productService.GetProductColorForEdit(colorId );
+           
+            if (productColor == null)
+            {
+                return RedirectToAction("PageNotFound", "Home");
+            }
+            return View(productColor);
+        }
+
+        [HttpPost("edit-product-color/{colorId}/")]
+        public async Task<IActionResult> EditProductColor(EditProductColorDto edit, long colorId)
+        {
+            if (ModelState.IsValid)
+            {
+                
+                var result = await _productService.EditProductColor(edit,colorId);
+                switch (result)
+                {
+                    case EditProductColorResult.ColorNotFound:
+                        TempData[WarningMessage] = "اطلاعات مورد نظر یافت نشد";
+                        break;
+                    case EditProductColorResult.DuplicateColor:
+                        TempData[WarningMessage] = "رنگ انتخابی وارد شده تکراری می باشد";
+                        break;
+                    case EditProductColorResult.Success:
+                        TempData[SuccessMessage] = "ویرایش اطلاعات رنگ محصول با موفقیت انجام شد";
+                        return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", productId=edit.ProductId });
+                }
+            }
+            return View();
         }
 
         #endregion

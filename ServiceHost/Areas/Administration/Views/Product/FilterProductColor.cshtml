@@ -1,5 +1,106 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<Eshop.Domain.Dtos.Product.FilterProductColorDto>
+
 @{
+    ViewData["Title"] = "لیست رنگ محصولات";
 }
+
+
+@section scripts
+{
+    <partial name="_JqueryValidators" />
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت محصولات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-plus"></i> افزودن رنگ محصول</div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-lg-12">
+                        <label>افزودن رنگ محصول</label>
+                        <a class="btn btn-sm btn-success btn-block form-control"
+                           asp-area="Administration" asp-controller="Product"
+                           asp-action="CreateProductColor" asp-route-productId="@ViewBag.ProductId">
+                            افزودن رنگ جدید
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model != null && Model.Any())
+                                {
+                                    <table id="default-datatable" class="table table-bordered dataTable" role="grid" aria-describedby="default-datatable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc">شناسه</th>
+                                                <th class="sorting">نام رنگ</th>
+                                                <th class="sorting">رنگ</th>
+                                                <th class="sorting">قیمت رنگ مضاف</th>
+                                                <th class="sorting">تاریخ ایجاد</th>
+                                                <th class="sorting">دستورات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var color in Model)
+                                            {
+                                                <tr role="row" class="odd">
+                                                    <td>@color.Id</td>
+                                                    <td>@color.ColorName</td>
+                                                    <td>
+                                                        <div style="border-radius:50%; width:40px; height:40px; border: 2px solid black; ;background-color : @color.ColorCode;"></div>
+                                                    </td>
+                                                    <td>@color.Price.ToString("##,###") تومان</td>
+                                                    <td>@color.CreateDate</td>
+                                                    <td>
+                                                        <a asp-area="Administration" asp-controller="Product" asp-action="EditProductColor" asp-route-colorId="@color.Id" class="btn btn-sm btn-warning">
+                                                            ویرایش اطلاعات
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="alert-message text-dark">
+                                            <span><strong>هشدار!</strong> هیچ اطلاعاتی یافت نشد</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+            </div>
+        </div>
+    </div>
+</div>

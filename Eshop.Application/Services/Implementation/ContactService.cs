@@ -42,12 +42,7 @@ namespace Eshop.Application.Services.Implementation
 
         #endregion
 
-
-
         #region Methods
-
-
-
         #region ContactUs
         public async Task CreateContactUs(CreateContactUsDto contact, string userIp, long? userId)
         {
@@ -100,13 +95,6 @@ namespace Eshop.Application.Services.Implementation
 
         }
         #endregion
-
-
-
-
-
-
-
 
         #region AboutUs
 
@@ -179,9 +167,6 @@ namespace Eshop.Application.Services.Implementation
         #endregion
 
         #endregion
-
-
-
 
         #region Ticket
 
@@ -436,12 +421,6 @@ namespace Eshop.Application.Services.Implementation
         }
 
         #endregion
-
-
-
-       
-
-
 
         #region Dispose
         public async ValueTask DisposeAsync()

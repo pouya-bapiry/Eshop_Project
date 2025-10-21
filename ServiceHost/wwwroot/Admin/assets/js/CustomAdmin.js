@@ -138,7 +138,6 @@ productCheckboxes.forEach(checkbox => {
 
 
 
-
 $('#add_color_button').on('click', function (e) {
 
     e.preventDefault();
@@ -153,7 +152,8 @@ $('#add_color_button').on('click', function (e) {
 
         var isExistsSelectedColor = $('[color-name-hidden-input][value="' + colorName + '"]');
 
-        if (isExistsSelectedColor.lenght !== 0) {
+        if (isExistsSelectedColor.length === 0) {
+
 
             var colorNameNode = `<input type="hidden" value="${colorName}" name="ProductColors[${index}].ColorName" color-name-hidden-input="${colorName}-${colorPrice}">`;
             var colorPriceNode = `<input type="hidden" value="${colorPrice}" name="ProductColors[${index}].Price" color-price-hidden-input="${colorName}-${colorPrice}">`;
@@ -196,8 +196,6 @@ $('#add_color_button').on('click', function (e) {
     }
 
 });
-
-
 $('#add_feature_button').on('click', function (e) {
 
     e.preventDefault();

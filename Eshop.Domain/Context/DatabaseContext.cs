@@ -69,6 +69,12 @@ namespace Eshop.Domain.Context
 
         #endregion
 
+        #region prooduct Features
+
+        public DbSet<ProductFeatures> ProductFeatures { get; set; }
+
+        #endregion
+
         #region OnModelCreating
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
