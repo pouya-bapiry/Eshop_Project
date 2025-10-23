@@ -1,0 +1,80 @@
+﻿@model Eshop.Domain.Dtos.ProductFeatures.CreateProductFeatureDto
+
+
+@{
+    ViewData["Title"] = "افزودن ویژگی جدید";
+    
+}
+
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+    
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت کاربران</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت ویژگی ها</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-plus"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="Product" asp-action="CreateProductFeature" method="post" id="filter-form" @*  id="create_product_form" *@>
+                    <input type="hidden" asp-for="ProductId" />
+                    <input type="hidden" asp-for="ProductFeatureCategoryId" />
+
+                    <div class="row">
+                        <div class="form-group col-lg-3">
+                            <label>عنوان ویژگی</label>
+                            <input class="form-control" asp-for="FeatureTitle" @* id="product_feature_title_input" *@ asp-for="FeatureTitle" />
+                            <span class="text-danger float-right" asp-validation-for="FeatureTitle"></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label>مقدار ویژگی</label>
+                            <input class="form-control" asp-for="FeatureValue" @* id="product_feature_value_input" *@ asp-for="FeatureValue" />
+                            <span class="text-danger float-right" asp-validation-for="FeatureValue"></span>
+                        </div>
+                        <div class="form-group col-lg-3">
+                           <label> انتخاب دسته بندی</label>
+                            <select class="form-control" asp-for="ProductFeatureCategoryId" asp-items='new SelectList(ViewBag.category, "Id", "FeatureCategoryTitle")'>
+                                <option value="0">عنوان نقش مورد نظر را انتخاب نمایید...</option>
+                            </select>
+                            <span class="text-danger float-right" asp-validation-for="ProductFeatureCategoryId"></span> 
+                        </div>
+                 @*        <div class="form-group col-lg-3">
+                            <a id="add_feature_button" class="btn btn-round text-white" style="margin-top:30px;" title="افزودن ویژگی">
+                                <i class="fa fa-plus-circle fa-2x"></i>
+                            </a>
+                        </div> 
+                    </div>
+                    <br />
+                    <table id="default-datatable" class="table table-bordered table-striped text-center dataTable" role="grid" aria-describedby="default-datatable_info">
+                        <thead class="bg-warning text-dark">
+                            <tr role="row">
+                                <th class="sorting">عنوان ویژگی</th>
+                                <th class="sorting">مقدار ویژگی</th>
+                                <th class="sorting">دستورات</th>
+                            </tr>
+                        </thead>
+                        <tbody id="list_of_product_features">
+                        </tbody>
+                    </table>
+                    <br /> *@ 
+                    <hr />
+                    <button type="submit" class="btn btn-success btn-block">ایجاد ویژگی جدید</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

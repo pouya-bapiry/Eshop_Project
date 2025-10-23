@@ -1,6 +1,8 @@
-﻿ using Eshop.Application.Services.Interfaces;
+﻿using Eshop.Application.Services.Interfaces;
 using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
+using Eshop.Domain.Dtos.ProductFeatures;
+using Eshop.Domain.Dtos.ProductFeaturesCategory;
 using Eshop.Domain.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -252,10 +254,10 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpPost("edit-product-category/{id}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> EditProductCategory(EditProductCategoryDto edit, IFormFile categoryImage)
         {
-            if (ModelState.IsValid||edit.Image == null)
+            if (ModelState.IsValid || edit.Image == null)
             {
                 var result = await _productService.EditProductCategory(edit, categoryImage);
-                
+
                 switch (result)
                 {
                     case EditProductCategoryResult.NotFound:
@@ -277,14 +279,14 @@ namespace ServiceHost.Areas.Administration.Controllers
 
         #region Product color list
 
-      
+
         [HttpGet("product-color-list/{productId}")]
         public async Task<IActionResult> FilterProductColor(long productId)
         {
             ViewBag.ProductId = productId;
             //ProductId = productId;
             var productColor = await _productService.GetAllProductColorInAdminPanel(productId);
-            if (productColor == null )
+            if (productColor == null)
             {
                 return RedirectToAction("PageNotFound", "Home");
             }
@@ -311,26 +313,26 @@ namespace ServiceHost.Areas.Administration.Controllers
         {
             if (!ModelState.IsValid)
             {
-               var result = await _productService.CreateProductColor(color, productId);
+                var result = await _productService.CreateProductColor(color, productId);
 
-            switch (result)
-            {
-                case CreateProductColorResult.Error:
-                    TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد";
-                    break;
-                case CreateProductColorResult.ProductNotFound:
-                    TempData[ErrorMessage] = "محصول مورد نظر یافت نشد";
-                    break;
-                case CreateProductColorResult.DuplicateColor:
-                    TempData[WarningMessage] = "رنگ انتخابی وارد شده تکراری می باشد";
-                    break;
+                switch (result)
+                {
+                    case CreateProductColorResult.Error:
+                        TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد";
+                        break;
+                    case CreateProductColorResult.ProductNotFound:
+                        TempData[ErrorMessage] = "محصول مورد نظر یافت نشد";
+                        break;
+                    case CreateProductColorResult.DuplicateColor:
+                        TempData[WarningMessage] = "رنگ انتخابی وارد شده تکراری می باشد";
+                        break;
 
-                case CreateProductColorResult.Success:
-                    TempData[SuccessMessage] = $"رنگ های انتخابی با موفقیت افزوده شدند.";
-                    return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", ProductId = productId });
-            }   
+                    case CreateProductColorResult.Success:
+                        TempData[SuccessMessage] = $"رنگ های انتخابی با موفقیت افزوده شدند.";
+                        return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", ProductId = productId });
+                }
             }
-          
+
 
             return View(color);
         }
@@ -342,8 +344,8 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpGet("edit-product-color/{colorId}/")]
         public async Task<IActionResult> EditProductColor(long colorId)
         {
-            var productColor = await _productService.GetProductColorForEdit(colorId );
-           
+            var productColor = await _productService.GetProductColorForEdit(colorId);
+
             if (productColor == null)
             {
                 return RedirectToAction("PageNotFound", "Home");
@@ -356,8 +358,8 @@ namespace ServiceHost.Areas.Administration.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-                var result = await _productService.EditProductColor(edit,colorId);
+
+                var result = await _productService.EditProductColor(edit, colorId);
                 switch (result)
                 {
                     case EditProductColorResult.ColorNotFound:
@@ -368,7 +370,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                         break;
                     case EditProductColorResult.Success:
                         TempData[SuccessMessage] = "ویرایش اطلاعات رنگ محصول با موفقیت انجام شد";
-                        return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", productId=edit.ProductId });
+                        return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", productId = edit.ProductId });
                 }
             }
             return View();
@@ -377,6 +379,121 @@ namespace ServiceHost.Areas.Administration.Controllers
         #endregion
 
         #endregion
+
+        #region Product Features
+
+        #region Get
+
+        [HttpGet("filter-product-features/{productId}")]
+        public async Task<IActionResult> FilterProductFeatures( long productId)
+        {
+            ViewBag.ProductId = productId;
+
+            var productFeature = await _productService.GettAllActiveProductFeatures(productId);
+
+            if (productFeature == null)
+            {
+                return RedirectToAction("PageNotFound", "Home", new { area = "Administration" });
+            }
+
+            return View(productFeature);
+        }
+
         #endregion
+
+        #region Create
+        [HttpGet("create-product-feature/{productId}")]
+        public async Task<IActionResult> CreateProductFeature(long productId)
+        {
+       
+            var model = new CreateProductFeatureDto();
+            ViewBag.category = await _productService.GetAllFeatureCategories();
+            return View(model);
+        }
+
+        [HttpPost("create-product-feature/{productId}")]
+        public async Task<IActionResult> CreateProductFeature(CreateProductFeatureDto feature, long productId)
+        {
+            var result = await _productService.CreateProductFeature(feature, productId);
+
+            switch (result)
+            {
+                case CreateProductFeatureResult.Error:
+                    TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد";
+                    break;
+                case CreateProductFeatureResult.ProductNotFound:
+                    TempData[ErrorMessage] = "محصول مورد نظر یافت نشد";
+                    break;
+                case CreateProductFeatureResult.DuplicateFeature:
+                    TempData[WarningMessage] = "ویژگی انتخابی وارد شده تکراری می باشد";
+                    break;
+
+                case CreateProductFeatureResult.Success:
+                    TempData[SuccessMessage] = $"ویژگی های انتخابی با موفقیت افزوده شدند.";
+                    return RedirectToAction("FilterProductFeature", "Product", new { area = "Administration", ProductId = productId });
+            }
+
+            ViewBag.category = await _productService.GetAllFeatureCategories();
+
+            return View();
+        }
+
+        #endregion
+
+        #region Category
+
+        #region Get
+        [HttpGet("feature-category-list")]
+        public async Task<IActionResult> FilterFeatureCategory(FilterProductFeaturesCategoryDto filter)
+        {
+            var category = await _productService.GetFilterProductFeaturesCategory(filter);
+            return View(category);
+        }
+        #endregion
+
+        #region Create
+
+        [HttpGet("create-feature-category")]
+        public async Task<IActionResult> CreateFeatureCategory()
+        {
+            var model = new CreateProductFeaturesCategoryDto();
+            return View(model);
+        }
+
+        [HttpPost("create-feature-category")]
+        public async Task<IActionResult> CreateFeatureCategory(CreateProductFeaturesCategoryDto category)
+        {
+            if (ModelState.IsValid)
+            {
+
+                var result = await _productService.CreateProductFeatureCategory(category);
+                switch (result)
+                {
+                    case CreateProductFeaturesCategoryResult.Success:
+                        TempData[SuccessMessage] = $"عملیات با موفقیت انجام شد";
+                        return RedirectToAction("FilterFeatureCategory", "Product");
+                        break;
+                    case CreateProductFeaturesCategoryResult.Error:
+                        break;
+                    case CreateProductFeaturesCategoryResult.Duplicate:
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            return View();
+
+            #endregion
+
+            #endregion
+
+
+        #endregion
+
+
+        #endregion
+
+        }
     }
 }

@@ -5,6 +5,7 @@ using Eshop.Domain.Dtos.Paging;
 using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
 using Eshop.Domain.Dtos.ProductFeatures;
+using Eshop.Domain.Dtos.ProductFeaturesCategory;
 using Eshop.Domain.Entities.Product;
 using Eshop.Domain.Repository;
 using Microsoft.AspNetCore.Http;
@@ -19,16 +20,23 @@ public class ProductService : IProductService
     private readonly IGenericRepository<ProductCategory> _productCategoryRepository;
     private readonly IGenericRepository<ProductSelectedCategory> _productSelectedRepository;
     private readonly IGenericRepository<ProductColor> _productColorRepository;
+    private readonly IGenericRepository<ProductFeatures> _productFeaturesRepository;
+    private readonly IGenericRepository<ProductFeatureCategory> _productFeatureCategoryRepository;
+
 
     public ProductService(IGenericRepository<Product> productRepository,
         IGenericRepository<ProductCategory> productCategoryRepository,
         IGenericRepository<ProductSelectedCategory> productSelectedRepository,
-        IGenericRepository<ProductColor> productColorRepository)
+        IGenericRepository<ProductColor> productColorRepository,
+        IGenericRepository<ProductFeatureCategory> productFeatureCategoryRepository,
+        IGenericRepository<ProductFeatures> productFeaturesRepository)
     {
         _productRepository = productRepository;
         _productCategoryRepository = productCategoryRepository;
         _productSelectedRepository = productSelectedRepository;
         _productColorRepository = productColorRepository;
+        _productFeatureCategoryRepository = productFeatureCategoryRepository;
+        _productFeaturesRepository = productFeaturesRepository;
     }
 
     #endregion
@@ -629,17 +637,48 @@ public class ProductService : IProductService
     #region Get
 
 
-    public Task<FilterProductFeatureDto> GettAllActiveProductFeatures(long productId)
+    public async Task<List<FilterProductFeatureDto>> GettAllActiveProductFeatures(long productId)
     {
-        throw new NotImplementedException();
+        return await _productFeaturesRepository
+                 .GetQuery()
+                 .AsQueryable()             
+                .Include(x=>x.ProductFeatureCategory)
+                .Where(x => x.ProductId == productId)
+                 .Select(x => new FilterProductFeatureDto
+                 {
+                     Id = x.Id,
+                     ProductId = productId,
+
+                     FeatureTitle = x.FeatureTitle,
+                     FeatureValue = x.FeatureValue,
+                     CreateDate = x.CreateDate.ToStringShamsiDate(),
+                 }).ToListAsync();
     }
     #endregion
 
     #region Create
 
-    public Task<CreateProductFeatureResult> CreateProductFeature(CreateProductFeatureDto feature, long productId)
+    public async Task<CreateProductFeatureResult> CreateProductFeature(CreateProductFeatureDto feature, long productId)
     {
-        throw new NotImplementedException();
+        var product = await _productRepository.GetEntityById(productId);
+
+        if (product == null)
+        {
+            return CreateProductFeatureResult.ProductNotFound;
+        }
+        var newFeature = new ProductFeatures
+        {
+            ProductId=feature.ProductId,
+            FeatureTitle = feature.FeatureTitle,
+            FeatureValue = feature.FeatureValue,
+            ProductFeatureCategoryId = feature.ProductFeatureCategoryId,
+
+        };
+        await _productFeaturesRepository.AddEntity(newFeature);
+        await _productFeaturesRepository.SaveChanges();
+
+
+        return CreateProductFeatureResult.Success;
     }
 
     #endregion
@@ -658,6 +697,68 @@ public class ProductService : IProductService
 
     #endregion
 
+    #region Category
+
+    #region Get
+    public async Task<List<FilterProductFeaturesCategoryDto>> GetFilterProductFeaturesCategory(FilterProductFeaturesCategoryDto filter)
+    {
+        return await _productFeatureCategoryRepository.GetQuery().AsQueryable().Where(x => x.IsDelete == false).Select(x => new FilterProductFeaturesCategoryDto
+        {
+            Id = filter.Id,
+            FeatureCategoryTitle = filter.FeatureCategoryTitle,
+            CreateDate = DateTime.Now.ToStringShamsiDate()
+        }).ToListAsync();
+
+
+
+    }
+    #endregion
+
+    #region Create
+    public async Task<CreateProductFeaturesCategoryResult> CreateProductFeatureCategory(CreateProductFeaturesCategoryDto category)
+    {
+        var newCategory = new ProductFeatureCategory
+        {
+         
+            FeatureCategoryTitle = category.FeatureCategoryTitle,
+
+
+        };
+
+        await _productFeatureCategoryRepository.AddEntity(newCategory);
+        await _productFeatureCategoryRepository.SaveChanges();
+        return CreateProductFeaturesCategoryResult.Success;
+    }
+    #endregion
+    #region Edit
+    public Task<EditProductFeaturesCategoryDto> GetEditProductFeaturesCategoryForEdit(long Id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<EditProductFeaturesCategoryResult> EditProductFeatureCategory(EditProductFeaturesCategoryDto edit)
+    {
+        throw new NotImplementedException();
+    }
+    #endregion
+
+
+    public async Task<List<ProductFeatureCategory>> GetAllFeatureCategories()
+    {
+        return await _productFeatureCategoryRepository
+            .GetQuery()
+            .AsQueryable()
+            .Where(x=>x.IsDelete==false)
+            .Select(x=>new ProductFeatureCategory
+            {
+                FeatureCategoryTitle = x.FeatureCategoryTitle,
+                
+            }).ToListAsync() ;
+    }
+
+
+
+    #endregion
 
 
     #endregion
@@ -745,7 +846,14 @@ public class ProductService : IProductService
         {
             await _productSelectedRepository.DisposeAsync();
         }
+        if (_productFeatureCategoryRepository != null)
+        {
+            await _productFeatureCategoryRepository.DisposeAsync();
+        }
     }
+
+   
+
 
     #endregion
 

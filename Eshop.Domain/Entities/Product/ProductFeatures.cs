@@ -13,6 +13,7 @@ namespace Eshop.Domain.Entities.Product
         #region Properties
 
         public long ProductId { get; set; }
+        public long ProductFeatureCategoryId { get; set; }
 
         [Display(Name = "عنوان ویژگی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -24,6 +25,7 @@ namespace Eshop.Domain.Entities.Product
         public string FeatureValue { get; set; }
 
         public Product Product { get; set; }
+        public ProductFeatureCategory ProductFeatureCategory { get; set; }
 
         #endregion
 

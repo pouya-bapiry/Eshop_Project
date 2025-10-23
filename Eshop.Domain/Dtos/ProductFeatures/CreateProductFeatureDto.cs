@@ -12,6 +12,8 @@ namespace Eshop.Domain.Dtos.ProductFeatures
 
         public long ProductId { get; set; }
 
+        public long ProductFeatureCategoryId { get; set; }
+
         [Display(Name = "عنوان ویژگی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(300, ErrorMessage = "{0} نمی تواند بیشتر از {1} کاراکتر باشد")]
@@ -21,7 +23,7 @@ namespace Eshop.Domain.Dtos.ProductFeatures
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string FeatureValue { get; set; }
 
-        public List<CreateProductFeatureDto> ProductFeatures { get; set; }
+        //public List<CreateProductFeatureDto> ProductFeatures { get; set; }
     }
 
     public enum CreateProductFeatureResult

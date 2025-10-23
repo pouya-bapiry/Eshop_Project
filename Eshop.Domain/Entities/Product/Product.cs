@@ -50,7 +50,6 @@ namespace Eshop.Domain.Entities.Product
 
         public ICollection<ProductSelectedCategory> ProductSelectedCategories { get; set; } 
         public ICollection<ProductColor> ProductColors { get; set; }
-
         public ICollection<ProductFeatures> ProductFeatures { get; set; }
 
         #endregion

@@ -44,6 +44,9 @@
 					<a asp-area="Administration" asp-controller="Product" asp-action="ProductCategoryList">
 						<i class="zmdi zmdi-long-arrow-right"></i>لیست دسته محصولات
 					</a>
+					<a asp-area="Administration" asp-controller="Product" asp-action="FilterFeatureCategory">
+						<i class="zmdi zmdi-long-arrow-right"></i>لیست دسته بندی ویژگی محصول
+					</a>
 				</li>
 			</ul>
 		</li>
@@ -226,12 +229,13 @@
 		<li><a href="javaScript:void();" class="waves-effect"><i class="zmdi zmdi-share text-info"></i> <span>اطلاعات</span></a></li>
 	</ul>
 
-}else if (_authHelper.CurrentAccountRole() == Roles.ContentUploader)
+}
+else if (_authHelper.CurrentAccountRole() == Roles.ContentUploader)
 {
 	<ul class="sidebar-menu do-nicescrol">
 
 		<li class="sidebar-header">منوی اصلی</li>
-		
+
 		<li>
 			<a href="javaScript:void();" class="waves-effect">
 				<i class="zmdi zmdi-shopping-basket"></i>
@@ -286,7 +290,7 @@
 			</ul>
 		</li>
 
-	@* 	<li>
+		@* 	<li>
 			<a href="javaScript:void();" class="waves-effect">
 				<i class="zmdi zmdi-accounts"></i>
 				<span>مدیریت کاربران</span> <i class="fa fa-angle-left pull-right"></i>

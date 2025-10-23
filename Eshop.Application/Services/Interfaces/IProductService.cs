@@ -1,6 +1,7 @@
 ﻿using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
 using Eshop.Domain.Dtos.ProductFeatures;
+using Eshop.Domain.Dtos.ProductFeaturesCategory;
 using Eshop.Domain.Entities.Product;
 using Microsoft.AspNetCore.Http;
 
@@ -42,8 +43,16 @@ public interface IProductService : IAsyncDisposable
     #endregion
 
     #region Product Features
+    #region Category
+    Task<List<FilterProductFeaturesCategoryDto>> GetFilterProductFeaturesCategory(FilterProductFeaturesCategoryDto filter);
+    Task<CreateProductFeaturesCategoryResult> CreateProductFeatureCategory(CreateProductFeaturesCategoryDto category);
+    Task<EditProductFeaturesCategoryDto> GetEditProductFeaturesCategoryForEdit(long Id);
+    Task<EditProductFeaturesCategoryResult> EditProductFeatureCategory(EditProductFeaturesCategoryDto edit);
 
-    Task<FilterProductFeatureDto> GettAllActiveProductFeatures(long productId);
+    Task<List<ProductFeatureCategory>> GetAllFeatureCategories();
+    #endregion
+
+    Task<List<FilterProductFeatureDto>> GettAllActiveProductFeatures(long productId);
     Task<CreateProductFeatureResult> CreateProductFeature(CreateProductFeatureDto feature, long productId);
     Task<EditProductFeatureDto> GetProductFeatureForEdit(long featureId);
     Task<EditProductFeatureResult> EditProductFeature(EditProductFeatureDto feature);
