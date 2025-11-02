@@ -641,8 +641,8 @@ public class ProductService : IProductService
     {
         return await _productFeaturesRepository
                  .GetQuery()
-                 .AsQueryable()             
-                .Include(x=>x.ProductFeatureCategory)
+                 .AsQueryable()
+                .Include(x => x.ProductFeatureCategory)
                 .Where(x => x.ProductId == productId)
                  .Select(x => new FilterProductFeatureDto
                  {
@@ -660,25 +660,36 @@ public class ProductService : IProductService
 
     public async Task<CreateProductFeatureResult> CreateProductFeature(CreateProductFeatureDto feature, long productId)
     {
-        var product = await _productRepository.GetEntityById(productId);
-
-        if (product == null)
+        try
         {
-            return CreateProductFeatureResult.ProductNotFound;
+            var product = await _productRepository.GetEntityById(productId);
+
+            if (product == null)
+            {
+                return CreateProductFeatureResult.ProductNotFound;
+            }
+            var newFeature = new ProductFeatures
+            {
+                ProductId = feature.ProductId,
+                FeatureTitle = feature.FeatureTitle,
+                FeatureValue = feature.FeatureValue,
+                ProductFeatureCategoryId = feature.ProductFeatureCategoryId,
+
+            };
+            await _productFeaturesRepository.AddEntity(newFeature);
+            await _productFeaturesRepository.SaveChanges();
+
+
+            return CreateProductFeatureResult.Success;
         }
-        var newFeature = new ProductFeatures
+        catch (Exception ex)
         {
-            ProductId=feature.ProductId,
-            FeatureTitle = feature.FeatureTitle,
-            FeatureValue = feature.FeatureValue,
-            ProductFeatureCategoryId = feature.ProductFeatureCategoryId,
+            //نوشتن خطای مورد نظر 
+            Logger.ShowError(ex);
+            // نمایش پیغام مناسب به کاربر
+            return CreateProductFeatureResult.Error;
+        }
 
-        };
-        await _productFeaturesRepository.AddEntity(newFeature);
-        await _productFeaturesRepository.SaveChanges();
-
-
-        return CreateProductFeatureResult.Success;
     }
 
     #endregion
@@ -719,7 +730,7 @@ public class ProductService : IProductService
     {
         var newCategory = new ProductFeatureCategory
         {
-         
+
             FeatureCategoryTitle = category.FeatureCategoryTitle,
 
 
@@ -748,12 +759,12 @@ public class ProductService : IProductService
         return await _productFeatureCategoryRepository
             .GetQuery()
             .AsQueryable()
-            .Where(x=>x.IsDelete==false)
-            .Select(x=>new ProductFeatureCategory
+            .Where(x => x.IsDelete == false)
+            .Select(x => new ProductFeatureCategory
             {
                 FeatureCategoryTitle = x.FeatureCategoryTitle,
-                
-            }).ToListAsync() ;
+
+            }).ToListAsync();
     }
 
 
@@ -852,7 +863,7 @@ public class ProductService : IProductService
         }
     }
 
-   
+
 
 
     #endregion
