@@ -15,6 +15,6 @@ namespace Eshop.Domain.Dtos.ProductFeaturesCategory
 
 
         public string CreateDate { get; set; }
-        public List<Entities.Product.ProductFeatureCategory> FeatureCategories { get; set; }
+       // public List<Entities.Product.ProductFeatureCategory> FeatureCategories { get; set; }
     }
 }

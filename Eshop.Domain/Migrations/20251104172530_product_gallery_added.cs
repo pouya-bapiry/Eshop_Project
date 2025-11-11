@@ -6,20 +6,20 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Eshop.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class add_product_features : Migration
+    public partial class product_gallery_added : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "ProductFeatures",
+                name: "ProductGallery",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
-                    FeatureTitle = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
-                    FeatureValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayPriority = table.Column<int>(type: "int", nullable: true),
+                    ImageName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsDelete = table.Column<bool>(type: "bit", nullable: false),
                     CreateDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -27,9 +27,9 @@ namespace Eshop.Domain.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductFeatures", x => x.Id);
+                    table.PrimaryKey("PK_ProductGallery", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductFeatures_Products_ProductId",
+                        name: "FK_ProductGallery_Products_ProductId",
                         column: x => x.ProductId,
                         principalTable: "Products",
                         principalColumn: "Id",
@@ -37,8 +37,8 @@ namespace Eshop.Domain.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductFeatures_ProductId",
-                table: "ProductFeatures",
+                name: "IX_ProductGallery_ProductId",
+                table: "ProductGallery",
                 column: "ProductId");
         }
 
@@ -46,7 +46,7 @@ namespace Eshop.Domain.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProductFeatures");
+                name: "ProductGallery");
         }
     }
 }

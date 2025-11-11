@@ -6,10 +6,12 @@ using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
 using Eshop.Domain.Dtos.ProductFeatures;
 using Eshop.Domain.Dtos.ProductFeaturesCategory;
+using Eshop.Domain.Dtos.ProductGallery;
 using Eshop.Domain.Entities.Product;
 using Eshop.Domain.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Eshop.Application.Services.Implementation;
 
@@ -21,15 +23,17 @@ public class ProductService : IProductService
     private readonly IGenericRepository<ProductSelectedCategory> _productSelectedRepository;
     private readonly IGenericRepository<ProductColor> _productColorRepository;
     private readonly IGenericRepository<ProductFeatures> _productFeaturesRepository;
-    private readonly IGenericRepository<ProductFeatureCategory> _productFeatureCategoryRepository;
+    private readonly IGenericRepository<ProductFeaturesCategory> _productFeatureCategoryRepository;
+    private readonly IGenericRepository<ProductGallery> _productGalleryRepository;
 
 
     public ProductService(IGenericRepository<Product> productRepository,
         IGenericRepository<ProductCategory> productCategoryRepository,
         IGenericRepository<ProductSelectedCategory> productSelectedRepository,
         IGenericRepository<ProductColor> productColorRepository,
-        IGenericRepository<ProductFeatureCategory> productFeatureCategoryRepository,
-        IGenericRepository<ProductFeatures> productFeaturesRepository)
+        IGenericRepository<ProductFeaturesCategory> productFeatureCategoryRepository,
+        IGenericRepository<ProductFeatures> productFeaturesRepository,
+        IGenericRepository<ProductGallery> productGalleryRepository)
     {
         _productRepository = productRepository;
         _productCategoryRepository = productCategoryRepository;
@@ -37,6 +41,7 @@ public class ProductService : IProductService
         _productColorRepository = productColorRepository;
         _productFeatureCategoryRepository = productFeatureCategoryRepository;
         _productFeaturesRepository = productFeaturesRepository;
+        _productGalleryRepository = productGalleryRepository;
     }
 
     #endregion
@@ -642,7 +647,7 @@ public class ProductService : IProductService
         return await _productFeaturesRepository
                  .GetQuery()
                  .AsQueryable()
-                .Include(x => x.ProductFeatureCategory)
+                .Include(x => x.ProductFeaturesCategory)
                 .Where(x => x.ProductId == productId)
                  .Select(x => new FilterProductFeatureDto
                  {
@@ -673,7 +678,7 @@ public class ProductService : IProductService
                 ProductId = feature.ProductId,
                 FeatureTitle = feature.FeatureTitle,
                 FeatureValue = feature.FeatureValue,
-                ProductFeatureCategoryId = feature.ProductFeatureCategoryId,
+                ProductFeaturesCategoryId = feature.ProductFeatureCategoryId,
 
             };
             await _productFeaturesRepository.AddEntity(newFeature);
@@ -728,7 +733,7 @@ public class ProductService : IProductService
     #region Create
     public async Task<CreateProductFeaturesCategoryResult> CreateProductFeatureCategory(CreateProductFeaturesCategoryDto category)
     {
-        var newCategory = new ProductFeatureCategory
+        var newCategory = new ProductFeaturesCategory
         {
 
             FeatureCategoryTitle = category.FeatureCategoryTitle,
@@ -754,13 +759,13 @@ public class ProductService : IProductService
     #endregion
 
 
-    public async Task<List<ProductFeatureCategory>> GetAllFeatureCategories()
+    public async Task<List<ProductFeaturesCategory>> GetAllFeatureCategories()
     {
         return await _productFeatureCategoryRepository
             .GetQuery()
             .AsQueryable()
             .Where(x => x.IsDelete == false)
-            .Select(x => new ProductFeatureCategory
+            .Select(x => new ProductFeaturesCategory
             {
                 FeatureCategoryTitle = x.FeatureCategoryTitle,
 
@@ -772,6 +777,103 @@ public class ProductService : IProductService
     #endregion
 
 
+    #endregion
+
+    #region ProductGallery
+    #region Get
+public async Task<List<FilterProductGallery>> FilterProductGalleries(long productId)
+    {
+        return await _productGalleryRepository.GetQuery().AsQueryable().Where(x => x.ProductId == productId).Select(x => new FilterProductGallery
+        {
+            Id = x.Id,
+            ProductId = productId,
+            ImageName = x.ImageName,
+            DisplayPriority=x.DisplayPriority,
+            CreateDate = x.CreateDate.ToStringShamsiDate(),
+        }).ToListAsync();
+    }
+    #endregion
+
+    #region Create
+    public async Task<CreateProductGalleryResult> CreateProductGallery(CreateProductGallery gallery, long productId, IFormFile galleryImage)
+    {
+        var product = await _productRepository.GetEntityById(productId);
+
+        if (product == null)
+        {
+            return CreateProductGalleryResult.ProductNotFound;
+        }
+
+        if (galleryImage == null || !galleryImage.IsImage())
+        {
+            return CreateProductGalleryResult.ImageIsNull;
+        }
+
+        var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(galleryImage.FileName);
+        galleryImage.AddImageToServer(imageName, PathExtension.ProductGalleryOriginServer, 100, 100, PathExtension.ProductGalleryThumbServer);
+
+        var newGallery = new ProductGallery
+        {
+            ProductId = productId,
+            ImageName = imageName,
+            DisplayPriority = gallery.DisplayPriority
+        };
+
+        await _productGalleryRepository.AddEntity(newGallery);
+        await _productGalleryRepository.SaveChanges();
+
+        return CreateProductGalleryResult.Success;
+    }
+    #endregion
+    #region Edit
+    public async Task<EditProductGallery> GetProductGalleryForEdit(long galleryId)
+    {
+        var gallery = await _productGalleryRepository
+            .GetQuery()
+            .Include(x => x.Product)
+            .SingleOrDefaultAsync(x => x.Id == galleryId);
+
+        if (gallery == null)
+        {
+            return null;
+        }
+
+        return new EditProductGallery
+        {
+            ImageName = gallery.ImageName,
+            DisplayPriority = gallery.DisplayPriority
+        };
+    }
+    public async Task<EditProductGalleryResult> EditProductGallery(EditProductGallery gallery, long galleryId, IFormFile galleryImage)
+    {
+        var mainGallery = await _productGalleryRepository
+            .GetQuery()
+            .Include(x => x.Product)
+            .FirstOrDefaultAsync(x => x.Id == galleryId);
+
+        if (mainGallery == null)
+        {
+            return EditProductGalleryResult.ProductNotFound;
+        }
+
+        if (galleryImage != null)
+        {
+
+            var imageName = Guid.NewGuid().ToString("N") + Path.GetExtension(galleryImage.FileName);
+            galleryImage.AddImageToServer(imageName, PathExtension.ProductGalleryOriginServer, 100, 100,
+                PathExtension.ProductGalleryThumbServer, mainGallery.ImageName);
+
+            mainGallery.ImageName = imageName;
+        }
+
+        mainGallery.DisplayPriority = gallery.DisplayPriority;
+
+        _productGalleryRepository.EditEntity(mainGallery);
+        await _productGalleryRepository.SaveChanges();
+
+        return EditProductGalleryResult.Success;
+    }
+    #endregion
     #endregion
 
     #region Add or Remove Product Category
@@ -862,6 +964,10 @@ public class ProductService : IProductService
             await _productFeatureCategoryRepository.DisposeAsync();
         }
     }
+
+   
+
+
 
 
 

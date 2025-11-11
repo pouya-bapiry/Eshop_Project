@@ -2,6 +2,7 @@
 using Eshop.Domain.Dtos.ProductCategory;
 using Eshop.Domain.Dtos.ProductFeatures;
 using Eshop.Domain.Dtos.ProductFeaturesCategory;
+using Eshop.Domain.Dtos.ProductGallery;
 using Eshop.Domain.Entities.Product;
 using Microsoft.AspNetCore.Http;
 
@@ -29,7 +30,6 @@ public interface IProductService : IAsyncDisposable
 
     #endregion
 
-
     #region Product Category
 
     Task<FilterProductCategoryDto> FilterProductCategory(FilterProductCategoryDto filter);
@@ -49,13 +49,22 @@ public interface IProductService : IAsyncDisposable
     Task<EditProductFeaturesCategoryDto> GetEditProductFeaturesCategoryForEdit(long Id);
     Task<EditProductFeaturesCategoryResult> EditProductFeatureCategory(EditProductFeaturesCategoryDto edit);
 
-    Task<List<ProductFeatureCategory>> GetAllFeatureCategories();
+    Task<List<ProductFeaturesCategory>> GetAllFeatureCategories();
     #endregion
 
     Task<List<FilterProductFeatureDto>> GettAllActiveProductFeatures(long productId);
     Task<CreateProductFeatureResult> CreateProductFeature(CreateProductFeatureDto feature, long productId);
     Task<EditProductFeatureDto> GetProductFeatureForEdit(long featureId);
     Task<EditProductFeatureResult> EditProductFeature(EditProductFeatureDto feature);
+    #endregion
+
+    #region ProductGallery
+
+    Task<List<FilterProductGallery>> FilterProductGalleries(long productId);
+    Task<CreateProductGalleryResult> CreateProductGallery(CreateProductGallery gallery, long productId, IFormFile galleryImage);
+    Task<EditProductGallery> GetProductGalleryForEdit(long galleryId);
+    Task<EditProductGalleryResult> EditProductGallery(EditProductGallery gallery, long galleryId, IFormFile galleryImage);
+
     #endregion
 
 }

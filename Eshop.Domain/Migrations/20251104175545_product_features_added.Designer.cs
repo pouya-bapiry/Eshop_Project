@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eshop.Domain.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20251020154255_add_product_features")]
-    partial class add_product_features
+    [Migration("20251104175545_product_features_added")]
+    partial class product_features_added
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -465,6 +465,43 @@ namespace Eshop.Domain.Migrations
                     b.ToTable("ProductFeatures");
                 });
 
+            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductGallery", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DisplayPriority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductGallery");
+                });
+
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductSelectedCategory", b =>
                 {
                     b.Property<long>("Id")
@@ -780,6 +817,17 @@ namespace Eshop.Domain.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductGallery", b =>
+                {
+                    b.HasOne("Eshop.Domain.Entities.Product.Product", "Product")
+                        .WithMany("ProductGalleries")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductSelectedCategory", b =>
                 {
                     b.HasOne("Eshop.Domain.Entities.Product.ProductCategory", "ProductCategory")
@@ -847,6 +895,8 @@ namespace Eshop.Domain.Migrations
                     b.Navigation("ProductColors");
 
                     b.Navigation("ProductFeatures");
+
+                    b.Navigation("ProductGalleries");
 
                     b.Navigation("ProductSelectedCategories");
                 });

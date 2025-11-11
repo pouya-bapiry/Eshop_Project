@@ -71,7 +71,7 @@ namespace Eshop.Domain.Context
 
         #region prooduct Features
 
-        public DbSet<ProductFeatures> ProductFeatures { get; set; }
+       // public DbSet<ProductFeatures> ProductFeatures { get; set; }
 
         #endregion
 

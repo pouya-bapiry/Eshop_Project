@@ -49,7 +49,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles", (string)null);
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Account.User.User", b =>
@@ -125,7 +125,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Contact.ContactUs", b =>
@@ -179,7 +179,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("ContactUs", (string)null);
+                    b.ToTable("ContactUs");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Contact.Ticket.Ticket", b =>
@@ -229,7 +229,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("OwnerId");
 
-                    b.ToTable("Ticket", (string)null);
+                    b.ToTable("Ticket");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Contact.Ticket.TicketMessage", b =>
@@ -268,7 +268,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("TicketId");
 
-                    b.ToTable("TicketsMessages", (string)null);
+                    b.ToTable("TicketsMessages");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Product.Product", b =>
@@ -326,7 +326,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductCategory", b =>
@@ -377,7 +377,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("ProductCategories", (string)null);
+                    b.ToTable("ProductCategories");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductColor", b =>
@@ -420,42 +420,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductColors", (string)null);
-                });
-
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductFeatureCategory", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("FeatureCategoryTitle")
-                        .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime>("LastUpdateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long>("ProductId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductFeatureCategory", (string)null);
+                    b.ToTable("ProductColors");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductFeatures", b =>
@@ -484,7 +449,7 @@ namespace Eshop.Domain.Migrations
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("ProductFeatureCategoryId")
+                    b.Property<long>("ProductFeaturesCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProductId")
@@ -495,11 +460,78 @@ namespace Eshop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductFeatureCategoryId");
+                    b.HasIndex("ProductFeaturesCategoryId");
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductFeatures", (string)null);
+                    b.ToTable("ProductFeatures");
+                });
+
+            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductFeaturesCategory", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FeatureCategoryTitle")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductFeaturesCategory");
+                });
+
+            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductGallery", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DisplayPriority")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDelete")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastUpdateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("ProductId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductGallery");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductSelectedCategory", b =>
@@ -534,7 +566,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ProductSelectedCategories", (string)null);
+                    b.ToTable("ProductSelectedCategories");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Site.AboutUs", b =>
@@ -568,7 +600,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AboutUs", (string)null);
+                    b.ToTable("AboutUs");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Site.SiteBanner", b =>
@@ -619,7 +651,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("SiteBanners", (string)null);
+                    b.ToTable("SiteBanners");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Site.SiteSetting", b =>
@@ -681,7 +713,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SiteSettings", (string)null);
+                    b.ToTable("SiteSettings");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Site.Slider", b =>
@@ -731,7 +763,7 @@ namespace Eshop.Domain.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Sliders", (string)null);
+                    b.ToTable("Sliders");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Account.User.User", b =>
@@ -806,22 +838,11 @@ namespace Eshop.Domain.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductFeatureCategory", b =>
-                {
-                    b.HasOne("Eshop.Domain.Entities.Product.Product", "Product")
-                        .WithMany("ProductFeatureCategory")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductFeatures", b =>
                 {
-                    b.HasOne("Eshop.Domain.Entities.Product.ProductFeatureCategory", "ProductFeatureCategory")
+                    b.HasOne("Eshop.Domain.Entities.Product.ProductFeaturesCategory", "ProductFeaturesCategory")
                         .WithMany("ProductFeatures")
-                        .HasForeignKey("ProductFeatureCategoryId")
+                        .HasForeignKey("ProductFeaturesCategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -833,7 +854,18 @@ namespace Eshop.Domain.Migrations
 
                     b.Navigation("Product");
 
-                    b.Navigation("ProductFeatureCategory");
+                    b.Navigation("ProductFeaturesCategory");
+                });
+
+            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductGallery", b =>
+                {
+                    b.HasOne("Eshop.Domain.Entities.Product.Product", "Product")
+                        .WithMany("ProductGalleries")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductSelectedCategory", b =>
@@ -902,9 +934,9 @@ namespace Eshop.Domain.Migrations
                 {
                     b.Navigation("ProductColors");
 
-                    b.Navigation("ProductFeatureCategory");
-
                     b.Navigation("ProductFeatures");
+
+                    b.Navigation("ProductGalleries");
 
                     b.Navigation("ProductSelectedCategories");
                 });
@@ -914,7 +946,7 @@ namespace Eshop.Domain.Migrations
                     b.Navigation("ProductSelectedCategories");
                 });
 
-            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductFeatureCategory", b =>
+            modelBuilder.Entity("Eshop.Domain.Entities.Product.ProductFeaturesCategory", b =>
                 {
                     b.Navigation("ProductFeatures");
                 });

@@ -1,0 +1,63 @@
+﻿@model Eshop.Domain.Dtos.ProductGallery.EditProductGallery
+@using Eshop.Application.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+
+@{
+    ViewData["Title"] = "ویرایش گالری تصویر";
+}
+
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت محصولات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-pen"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+                <form asp-area="Administration" asp-controller="Product" asp-action="EditProductGallery" method="post" enctype="multipart/form-data" >
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="ProductId" />
+                    <br />
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="form-label">ترتیب اولویت تصویر<span class="text-danger ms-1">*</span></label>
+                                <input asp-for="DisplayPriority" type="number" class="form-control rounded-pill">
+                                <span class="text-white " asp-validation-for="DisplayPriority"></span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="center">
+                                    <div class="form-input">
+                                        <label for="file-ip-1"><i class="bi bi-cloud-upload-fill" style="padding-left: 5px;"></i>آپلود تصویر گالری</label>
+                                        <input type="file" name="imageName" id="file-ip-1" accept="image/*" onchange="showPreview(event, 1);">
+                                        <span class="text-white float-right" asp-validation-for="ImageName"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <img id="file-ip-1-preview" style="border-radius: 10%; width: 20%"
+                                     src="@(!string.IsNullOrEmpty(Model.ImageName) ? PathExtension.ProductOrigin + Model.ImageName : PathExtension.NoImage)"
+                                     alt="تصویر گالری" title="تصویر گالری" />
+
+                            </div>
+                        </div>
+                        <br />
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">ایجاد گالری تصویر</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
 using Eshop.Domain.Dtos.ProductFeatures;
 using Eshop.Domain.Dtos.ProductFeaturesCategory;
+using Eshop.Domain.Dtos.ProductGallery;
 using Eshop.Domain.Entities.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -24,6 +25,8 @@ namespace ServiceHost.Areas.Administration.Controllers
         #endregion
 
         #region Actions
+
+
 
         #region Product
 
@@ -204,6 +207,7 @@ namespace ServiceHost.Areas.Administration.Controllers
 
 
         #endregion
+
         #region Create Product SubCategory
 
         [HttpGet("create-product-sub-category/{parentId}/{categoryName}")]
@@ -273,6 +277,7 @@ namespace ServiceHost.Areas.Administration.Controllers
             return View();
         }
         #endregion
+
         #endregion
 
         #region Product Color
@@ -385,7 +390,7 @@ namespace ServiceHost.Areas.Administration.Controllers
         #region Get
 
         [HttpGet("filter-product-features/{productId}")]
-        public async Task<IActionResult> FilterProductFeatures( long productId)
+        public async Task<IActionResult> FilterProductFeatures(long productId)
         {
             ViewBag.ProductId = productId;
 
@@ -405,7 +410,7 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpGet("create-product-feature/{productId}")]
         public async Task<IActionResult> CreateProductFeature(long productId)
         {
-       
+
             var model = new CreateProductFeatureDto();
             ViewBag.category = await _productService.GetAllFeatureCategories();
             return View(model);
@@ -430,7 +435,7 @@ namespace ServiceHost.Areas.Administration.Controllers
 
                 case CreateProductFeatureResult.Success:
                     TempData[SuccessMessage] = $"ویژگی های انتخابی با موفقیت افزوده شدند.";
-                    return RedirectToAction("FilterProductFeature", "Product", new { area = "Administration", ProductId = productId });
+                    return RedirectToAction("FilterProductFeatures", "Product", new { area = "Administration", ProductId = productId });
             }
 
             ViewBag.category = await _productService.GetAllFeatureCategories();
@@ -451,8 +456,8 @@ namespace ServiceHost.Areas.Administration.Controllers
         }
         #endregion
 
-        #region Create
 
+        #region Create
         [HttpGet("create-feature-category")]
         public async Task<IActionResult> CreateFeatureCategory()
         {
@@ -483,17 +488,109 @@ namespace ServiceHost.Areas.Administration.Controllers
 
             }
             return View();
-
-            #endregion
-
-            #endregion
-
-
-        #endregion
-
-
-        #endregion
-
         }
+        #endregion
+
+
+
+        #endregion
+
+
+        #endregion
+
+        #region Product Gallery
+
+        #region Get
+        [HttpGet("product-gallery-list/{productId}")]
+        public async Task<IActionResult> FilterProductGallery(long productId)
+        {
+            ViewBag.ProductId = productId;
+
+            var productGallery = await _productService.FilterProductGalleries(productId);
+
+            if (productGallery == null)
+            {
+                return RedirectToAction("PageNotFound", "Home", new { area = "Administration" });
+            }
+
+            return View(productGallery);
+        }
+        #endregion
+
+        #region Create
+        [HttpGet("create-product-gallery/{productId}")]
+        public async Task<IActionResult> CreateProductGallery(long productId)
+        {
+            var model = new CreateProductGallery();
+            return View(model);
+        }
+
+        [HttpPost("create-product-gallery/{productId}"), ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateProductGallery(CreateProductGallery gallery, long productId, IFormFile imageName)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _productService.CreateProductGallery(gallery, productId, imageName);
+
+                switch (result)
+                {
+                    case CreateProductGalleryResult.Error:
+                        TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد";
+                        break;
+                    case CreateProductGalleryResult.ProductNotFound:
+                        TempData[ErrorMessage] = "محصول مورد نظر یافت نشد";
+                        break;
+                    case CreateProductGalleryResult.Success:
+                        TempData[SuccessMessage] = $"گالری تصویر با موفقیت افزوده گردید";
+                        return RedirectToAction("FilterProductGallery", "Product",
+                            new { area = "Administration", ProductId = productId });
+                }
+            }
+
+
+            return View(gallery);
+        }
+
+
+        #endregion
+
+        #region Edit
+        [HttpGet("Edit-product-gallery/{galleryId}")]
+        public async Task<IActionResult> EditProductGallery(long gelleryId)
+        {
+            var model = new CreateProductGallery();
+            return View(model);
+        }
+
+        [HttpPost("edit-product-gallery/{galleryId}")]
+        public async Task<IActionResult> EditProductGallery(EditProductGallery gallery, long galleryId, IFormFile imageName)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _productService.EditProductGallery(  gallery , galleryId, imageName);
+
+                switch (result)
+                {
+                    case EditProductGalleryResult.Error:
+                        TempData[ErrorMessage] = "در ثبت اطلاعات خطایی رخ داد";
+                        break;
+                    case EditProductGalleryResult.ProductNotFound:
+                        TempData[ErrorMessage] = "محصول مورد نظر یافت نشد";
+                        break;
+                    case EditProductGalleryResult.Success:
+                        TempData[SuccessMessage] = $"گالری تصویر با موفقیت ویرایش گردید";
+                        return RedirectToAction("FilterProductGallery", "Product",
+                            new { area = "Administration", ProductId = gallery.ProductId });
+                }
+            }
+
+
+            return View(gallery);
+        }
+        #endregion
+
+        #endregion
+        #endregion
+
     }
 }

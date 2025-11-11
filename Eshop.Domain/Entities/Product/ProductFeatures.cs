@@ -1,19 +1,17 @@
-﻿using Eshop.Domain.Entities.Common;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Eshop.Domain.Entities.Common;
 
 namespace Eshop.Domain.Entities.Product
 {
-    public class ProductFeatures : BaseEntity
+    public class ProductFeatures:BaseEntity
     {
-        #region Properties
-
         public long ProductId { get; set; }
-        public long ProductFeatureCategoryId { get; set; }
+        public long ProductFeaturesCategoryId { get; set; }
 
         [Display(Name = "عنوان ویژگی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
@@ -24,10 +22,13 @@ namespace Eshop.Domain.Entities.Product
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public string FeatureValue { get; set; }
 
+        #region Relation
+
+
+        public ProductFeaturesCategory ProductFeaturesCategory { get; set; }
+        
         public Product Product { get; set; }
-        public ProductFeatureCategory ProductFeatureCategory { get; set; }
 
         #endregion
-
     }
 }
