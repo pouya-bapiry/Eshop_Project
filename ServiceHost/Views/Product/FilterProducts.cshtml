@@ -1,0 +1,404 @@
+﻿﻿@using Eshop.Application.Utilities
+@using Eshop.Domain.Dtos.Product
+@using Eshop.Domain.Entities.Product
+@model FilterProductDto;
+
+
+
+@{
+    ViewData["Title"] = "محصولات فروشگاه";
+
+    var categories = ViewBag.ProductCategories as List<ProductCategory>;
+}
+
+@section style {
+    <style>
+        .bi-chevron-down {
+            display: inline-block;
+            transition: transform 0.2s ease;
+        }
+
+        a[aria-expanded="true"] .bi-chevron-down {
+            transform: rotate(180deg);
+        }
+    </style>
+}
+
+@section script {
+            const input = document.querySelector('input[name="SelectedMinPrice"]');
+        input.addEventListener('focus', () => {
+          input.placeholder = '';
+        });
+        input.addEventListener('blur', () => {
+          if (!input.value) input.placeholder = 'تومان 1000';
+        });
+
+             const input = document.querySelector('input[name="SelectedMaxPrice"]');
+            input.addEventListener('focus', () => {
+              input.placeholder = '';
+            });
+            input.addEventListener('blur', () => {
+              if (!input.value) input.placeholder = 'تومان 100,000,000';
+            });
+
+}
+
+<section class="card-categories site-slider">
+    <div class="container-fluid">
+        <div class="section-title mt-xl-4 mt-5 pt-xl-0 pt-5 mb-2">
+            <div class="section-title-title">
+                <h1 class="fw-900 h4">محصولات<span class="with-highlight ms-1">فروشگاه</span></h1>
+                <div class="Dottedsquare"></div>
+            </div>
+        </div>
+        <div class="swiper pro-slider py-4 swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden">
+            <div class="swiper-wrapper free-swiper" id="swiper-wrapper-17b9ac603e6c1db8" aria-live="polite">
+                @foreach (var category in categories.Where(x => x.ParentId == null))
+                {
+                    <div class="swiper-slide swiper-slide-active" style="width: 281.2px; margin-left: 10px;" role="group" aria-label="1 / 8">
+                        <a asp-controller="Product" asp-action="FilterProducts" asp-route-category="@category.UrlName">
+                            <div class="cat-item d-flex flex-column align-items-center">
+                                <div class="cat-item-image">
+                                    <img src="@(!string.IsNullOrEmpty(category.Image) ? PathExtension.ProductCategoryOrigin + category.Image : PathExtension.NoImage)"
+                                         alt="@category.Title" title="@category.Title" class="img-fluid" width="80" height="60">
+                                </div>
+                                <div class="cat-item-desc ms-3">
+                                    <h6>@category.Title</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                }
+            </div>
+            <div class="swiper-nav">
+                <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-17b9ac603e6c1db8" aria-disabled="false"></div>
+                <div class="swiper-button-prev swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-17b9ac603e6c1db8" aria-disabled="true"></div>
+            </div>
+            <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+        </div>
+
+        <div class="row gy-4">
+            <!-- filter in mobile -->
+            <div class="col-lg-3 d-lg-none d-block">
+                <div class="custom-filter d-lg-none d-block">
+                    <button class="btn btn-filter-float border-0 main-color-two-bg shadow-box px-4 py-2 rounded-3 position-fixed" style="z-index: 9;bottom:80px;" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">
+                        <i class="bi bi-funnel font-20 fw-bold text-white"></i>
+                        <span class="d-block font-14 text-white">فیلتر</span>
+                    </button>
+
+                    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title">فیلتر ها</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <aside class="">
+                                <section class="mb-4 border-ui shadow-xl filter-container">
+                                    <!-- Adding a heading for SEO purposes, but hiding it visually -->
+                                    <h4 class="section-title visually-hidden">جستجوی محصولات</h4> <!-- Hidden from view but present for SEO -->
+                                    <label for="search-products-filter" class="filter-title">جستجو محصولات</label>
+                                    <div class="position-relative">
+                                        <input id="search-products-filter" type="text" class="form-control py-3 rounded-4 w-100 bs-bg-gray-100" placeholder="جستجوی محصول ...">
+                                        <span class="position-absolute me-3 end-0 top-50 translate-middle-y"><i class="bi bi-search"></i></span>
+                                    </div>
+                                </section>
+                                <section class="mb-4 border-ui shadow-xl filter-container">
+                                    <h2 class="filter-title">فیلتر قیمت</h2>
+                                    <div class="d-flex align-items-center flex-wrap">
+                                        <a href="#" class="btn m-1 ms-0 btn-outline-dark btn-sm align-items-center d-flex justify-content-between"><i class="bi bi-x float-end"></i>موجودی</a>
+                                        <a href="#" class="btn m-1 ms-0 btn-outline-dark btn-sm align-items-center d-flex justify-content-between"><i class="bi bi-x float-end"></i>تخفیف خورده</a>
+                                        <a href="#" class="btn m-1 ms-0 btn-outline-dark btn-sm align-items-center d-flex justify-content-between"><i class="bi bi-x float-end"></i>قرمز</a>
+                                        <a href="#" class="btn m-1 ms-0 btn-outline-dark btn-sm align-items-center d-flex justify-content-between"><i class="bi bi-x float-end"></i>سبز</a>
+                                        <a href="#" class="btn m-1 ms-0 btn-outline-dark btn-sm align-items-center d-flex justify-content-between"><i class="bi bi-x float-end"></i>آبی</a>
+                                    </div>
+                                </section>
+                                <section class="mb-4 border-ui shadow-xl filter-container">
+                                    <h2 class="filter-title">فیلتر قیمت</h2>
+                                    <div class="filter-price">
+                                        <div class="filter-slider">
+                                            <div class="price-slider noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-rtl"><div class="noUi-base"><div class="noUi-connects"><div class="noUi-connect" style="transform: translate(0%) scale(1);"></div></div><div class="noUi-origin" style="transform: translate(0%); z-index: 5;"><div class="noUi-handle noUi-handle-lower" data-handle="0" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="17700000.0" aria-valuenow="0.0" aria-valuetext="0"><div class="noUi-touch-area"></div></div></div><div class="noUi-origin" style="transform: translate(100%); z-index: 4;"><div class="noUi-handle noUi-handle-upper" data-handle="1" tabindex="0" role="slider" aria-orientation="horizontal" aria-valuemin="0.0" aria-valuemax="17700000.0" aria-valuenow="17700000.0" aria-valuetext="17700000"><div class="noUi-touch-area"></div></div></div></div></div>
+                                        </div>
+                                        <ul class="filter-range mb-4">
+                                            <li>
+                                                <input type="text" data-value="0" value="0" name="price[min]" data-range="0" class="js-slider-range-from min-price-filter" disabled="">
+                                                <span>تومان</span>
+                                            </li>
+                                            <li class="label fw-bold">تا</li>
+                                            <li>
+                                                <input type="text" data-value="17700000" value="17700000" name="price[max]" data-range="17700000" class="js-slider-range-to max-price-filter" disabled="">
+                                                <span>تومان</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="checkbox" id="available-products-filter">
+                                        <label class="form-check-label mt-1" for="available-products-filter">محصولات موجود</label>
+                                    </div>
+                                    <div class="form-check mt-2">
+                                        <input class="form-check-input" type="checkbox" id="discounted-products-filter">
+                                        <label class="form-check-label mt-1" for="discounted-products-filter">فقط تخفیف خورده‌ها</label>
+                                    </div>
+                                </section>
+                                <section class="mb-4 border-ui shadow-xl filter-container">
+                                    <h2 class="filter-title">رنگ‌ها</h2>
+                                    <div class="d-flex flex-wrap">
+                                        <div class="color-box position-relative" style="background-color: black;" onclick="selectColor(this)">
+                                            <i class="bi bi-check text-white position-absolute check-icon"></i>
+                                        </div>
+                                        <div class="color-box position-relative" style="background-color: gray;" onclick="selectColor(this)">
+                                            <i class="bi bi-check text-white position-absolute check-icon"></i>
+                                        </div>
+                                        <div class="color-box position-relative" style="background-color: white; border: 1px solid #aaa;" onclick="selectColor(this)">
+                                            <i class="bi bi-check text-dark position-absolute check-icon"></i>
+                                        </div>
+                                        <div class="color-box position-relative" style="background-color: red;" onclick="selectColor(this)">
+                                            <i class="bi bi-check text-white position-absolute check-icon"></i>
+                                        </div>
+                                        <div class="color-box position-relative" style="background-color: orange;" onclick="selectColor(this)">
+                                            <i class="bi bi-check text-white position-absolute check-icon"></i>
+                                        </div>
+                                        <div class="color-box position-relative" style="background-color: blue;" onclick="selectColor(this)">
+                                            <i class="bi bi-check text-white position-absolute check-icon"></i>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section class="mb-4 border-ui shadow-xl filter-container">
+                                    <h2 class="filter-title">برند</h2>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="brand-aeg-filter">
+                                        <label class="form-check-label font-16" for="brand-aeg-filter">AEG</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="brand-asus-filter">
+                                        <label class="form-check-label font-16" for="brand-asus-filter">ایسوس</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="brand-panasonic-filter">
+                                        <label class="form-check-label font-16" for="brand-panasonic-filter">پاناسونیک</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" id="brand-sony-filter">
+                                        <label class="form-check-label font-16" for="brand-sony-filter">سونی</label>
+                                    </div>
+                                </section>
+                                <section class="mb-4 border-ui shadow-xl filter-container">
+                                    <h2 class="filter-title">وضعیت</h2>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input px-3" name="hasStock" type="checkbox" role="switch" id="stock-available-filter" checked="" onchange="document.getElementById('stock-unavailable-filter').checked = false">
+                                        <label class="form-check-label" for="stock-available-filter">موجود</label>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input px-3" name="hasStock" type="checkbox" role="switch" id="stock-unavailable-filter" onchange="document.getElementById('stock-available-filter').checked = false">
+                                        <label class="form-check-label" for="stock-unavailable-filter">ناموجود</label>
+                                    </div>
+                                </section>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- filter in desktop -->
+            <div class="col-lg-3 d-lg-block d-none">
+                <form class="d-flex" asp-controller="Product" asp-action="FilterProducts" id="filter-form" method="get">
+                    <input type="hidden" asp-for="PageId" />
+                    <input type="hidden" asp-for="FilterMinPrice" />
+                    <input type="hidden" asp-for="FilterMaxPrice" />
+
+                    <aside class="">
+                        <section class="mb-4 border-ui  shadow-xl filter-container">
+                            <!-- Adding a heading for SEO purposes, but hiding it visually -->
+                            <h4 class="section-title visually-hidden">جستجوی محصولات</h4> <!-- Hidden from view but present for SEO -->
+                            <label for="search-products" class="filter-title">جستجو محصولات</label>
+                            <div class="position-relative">
+                                <div class="input-group">
+                                    <input type="text" name="title" class="form-control" placeholder="جستجوی محصولات ..." aria-label="Search">
+                                    <button class="btn btn-secondary" type="submit" title="جستجوی محصولات">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </section>
+                        <section class="mb-4 border-ui  shadow-xl filter-container">
+                            <h2 class="filter-title">فیلتر قیمت</h2>
+                            <div class="filter-price">
+                                <div class="form-group">
+                                    <label class="">قیمت از</label>
+                                    <input type="number"
+                                           asp-for="SelectedMinPrice"
+                                           class="form-control"
+                                           placeholder="تومان 1000"
+                                           value="@(Model.SelectedMinPrice == 0 ? "" : Model.SelectedMinPrice.ToString())" />
+                                    <br />
+                                    <label class="">قیمت تا</label>
+                                    <input type="number"
+                                           asp-for="SelectedMaxPrice"
+                                           class="form-control"
+                                           placeholder="تومان 100,000,000"
+                                           value="@(Model.SelectedMaxPrice == 0 ? "" : Model.SelectedMaxPrice.ToString())" />                                    <br />
+                                    <div class="show-more-btn mt-2 text-center">
+                                        <button class="btn border-0 main-color-two-bg shadow-box waves-effect waves-light" type="submit">
+                                            اعمال فیلتر <i class="bi bi-filter"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="mb-4 border-ui shadow-xl filter-container p-3">
+                            <div class="category-filter-box-desc">
+                                <ul class="list-unstyled">
+
+                                    @if (categories != null && categories.Any())
+                                    {
+                                        @foreach (var category in categories.Where(x => x.ParentId == null))
+                                        {
+                                            var parentId = $"collapse-{category.Id}";
+                                            <li class="mb-2">
+                                                <a class="d-flex align-items-center justify-content-between font-20 text-primary fw-bold"
+                                                   data-bs-toggle="collapse"
+                                                   href="#@parentId"
+                                                   role="button"
+                                                   aria-expanded="false"
+                                                   aria-controls="@parentId">
+
+                                                    <span>@category.Title</span>
+                                                    <i class="bi bi-chevron-down"></i>
+                                                </a>
+
+                                                <div class="collapse mt-2" id="@parentId">
+                                                    @if (categories.Any(x => x.ParentId == category.Id))
+                                                    {
+                                                        <ul class="list-unstyled ps-3">
+                                                            @foreach (var subCategory in categories.Where(x => x.ParentId == category.Id))
+                                                            {
+                                                                var subId = $"collapse-sub-{subCategory.Id}";
+                                                                <li class="mb-1">
+                                                                    <a class="d-flex align-items-center justify-content-between font-18 fw-semibold text-dark"
+                                                                       data-bs-toggle="collapse"
+                                                                       href="#@subId"
+                                                                       role="button"
+                                                                       aria-expanded="false"
+                                                                       aria-controls="@subId">
+                                                                        <span>@subCategory.Title</span>
+                                                                        <i class="bi bi-chevron-down small"></i>
+                                                                    </a>
+
+                                                                    <div class="collapse" id="@subId">
+                                                                        @if (categories.Any(x => x.ParentId == subCategory.Id))
+                                                                        {
+                                                                            <ul class="list-unstyled ps-4">
+                                                                                @foreach (var secondSubCategory in categories.Where(x => x.ParentId == subCategory.Id))
+                                                                                {
+                                                                                    <li>
+                                                                                        <a class="font-16 text-secondary d-block py-1"
+                                                                                           asp-area=""
+                                                                                           asp-controller="Product"
+                                                                                           asp-action="FilterProducts"
+                                                                                           asp-route-Category="@secondSubCategory.UrlName">
+                                                                                            <i class="bi bi-dot"></i>
+                                                                                            @secondSubCategory.Title
+                                                                                        </a>
+                                                                                    </li>
+                                                                                }
+                                                                            </ul>
+                                                                        }
+                                                                    </div>
+                                                                </li>
+                                                            }
+                                                        </ul>
+                                                    }
+                                                </div>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </section>
+
+                        
+                    </aside>
+                </form>
+            </div>
+            <!-- product -->
+            <div class="col-lg-9">
+                <div class="category-sort mb-3">
+                    <div class="content-box">
+                        <div class="container-fluid">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div class="box_filter d-lg-block d-none">
+                                    <ul class="list-inline text-start mb-0">
+                                        <li class="list-inline-item title-font ms-0">مرتب سازی بر اساس :</li>
+                                        
+                                        @foreach (var item in Html.GetEnumSelectList<FilterProductOrderBy>())
+                                        {
+                                            <span class="buttonFilter main-color-one-color">
+                                                <input type="radio" id="@item.Value" value="@item.Value" name="@nameof(Model.OrderBy)"
+                                                       @(Convert.ToInt32(item.Value) == Convert.ToInt32(Model.OrderBy) ? "checked" : "") />
+                                                <label class="font-16 fw-bold" style="margin-left:10px;" for="@item.Value">
+                                                    @item.Text
+                                                </label>
+                                            </span>
+                                        }
+
+                                        
+                                    </ul>
+                                </div>
+                                <div class="box_filter_counter fs-6"><i class="bi bi-card-list me-2"></i> 123 کالا</div>
+                            </div>
+                            <div class="d-lg-none d-block">
+                                    <h5 class="mb-3">مرتب سازی بر اساس</h5>
+                                    <select class="form-select">
+                                        <option value="">گران ترین</option>
+                                        <option value="">ارزان ترین</option>
+                                        <option value="">پرفروش ترین</option>
+                                        <option value="">داغ ترین</option>
+                                        <option value="">محبوب ترین</option>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row gy-4">
+                    @if (Model.Products != null && Model.Products.Any())
+                    {
+                        @foreach (var product in Model.Products)
+                        {
+                            <div class="col-lg-4">
+                                <div class="product-box border-ui">
+                                    <a asp-controller="Home" asp-action="ProductDetails" asp-route-productId="@product.Id">
+                                        <div class="product-image">
+                                            <img src="@(!string.IsNullOrEmpty(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)"
+                                                 alt="@product.Title" title="@product.Title" class="img-fluid">
+                                        </div>
+                                        <div class="d-flex h-80-px align-items-center justify-content-between ">
+                                            <h6 class="font-14 text-overflow-2 my-3 lh-lg">
+                                               @product.Title
+                                            </h6>
+                                        </div>
+                                        <div class="product-action bs-bg-gray-200 border-ui  rounded-3">
+                                            <div class="discount mt-1">
+                                                <span class="btn main-color-one-bg"><i class="bi bi-cart"></i></span>
+                                            </div>
+                                            <div class="price d-flex justify-content-end flex-column align-content-end">
+                                                <p class="new-price me-0 text-end"> @product.Price.ToString("##,###") <span class="fw-normal">تومان</span></p>
+                                                @* <p class="old-price">
+                                                    <span class="badge bg-danger rounded-pill me-2">25%</span>
+                                                    @product.Price.ToString("##,### تومان" )
+                                                </p> *@
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+                <div class="my-paginate mt-5">
+                    <partial name="_PagingPartial" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

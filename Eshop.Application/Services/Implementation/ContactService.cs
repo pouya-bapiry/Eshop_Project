@@ -334,6 +334,7 @@ namespace Eshop.Application.Services.Implementation
                 .Include(x => x.Owner)
                 .FirstOrDefaultAsync(x => x.Id == ticketId);
             return ownerAvatar?.Owner.Avatar;
+           
         }
 
         public async Task<string?> GetAdminUserAvatarTicket(long ticketId)

@@ -35,7 +35,7 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpGet("product-list")]
         public async Task<IActionResult> FilterProduct(FilterProductDto filter)
         {
-            var product = await _productService.FilterProducts(filter);
+            var product = await _productService.FilterProductsInAdmin(filter);
             return View(product);
         }
 
