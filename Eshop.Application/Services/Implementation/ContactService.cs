@@ -1,5 +1,6 @@
 ﻿using Eshop.Application.Services.Interfaces;
 using Eshop.Application.Utilities;
+using Eshop.Domain.Context;
 using Eshop.Domain.Dtos.Contact;
 using Eshop.Domain.Dtos.Contact.Ticket;
 using Eshop.Domain.Dtos.Paging;
@@ -21,6 +22,7 @@ namespace Eshop.Application.Services.Implementation
     {
 
         #region Fields and Ctor
+
         private readonly IGenericRepository<ContactUs> _contactRepository;
         private readonly IGenericRepository<Ticket> _ticketRepository;
         private readonly IGenericRepository<TicketMessage> _ticketMessageRepository;
@@ -217,8 +219,8 @@ namespace Eshop.Application.Services.Implementation
             var ticketMessage = await _ticketMessageRepository
                 .GetQuery()
                 .AsQueryable()
-                .Include(x=> x.Sender)
-                .Include(x => x.Ticket)           
+                .Include(x => x.Sender)
+                .Include(x => x.Ticket)
                 .ThenInclude(x => x.Owner)
                 .Where(x => x.TicketId == ticketId && !x.IsDelete)
                 .OrderByDescending(x => x.CreateDate)
@@ -334,11 +336,13 @@ namespace Eshop.Application.Services.Implementation
                 .Include(x => x.Owner)
                 .FirstOrDefaultAsync(x => x.Id == ticketId);
             return ownerAvatar?.Owner.Avatar;
-           
+
         }
 
         public async Task<string?> GetAdminUserAvatarTicket(long ticketId)
         {
+
+
             var adminAvatar = await _ticketMessageRepository
                  .GetQuery()
                  .AsQueryable()
