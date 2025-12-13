@@ -11,7 +11,7 @@ namespace Eshop.Domain.Entities.Product
     public class ProductFeatures:BaseEntity
     {
         public long ProductId { get; set; }
-        public long ProductFeaturesCategoryId { get; set; }
+        public long? ProductFeaturesCategoryId { get; set; }
 
         [Display(Name = "عنوان ویژگی")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]

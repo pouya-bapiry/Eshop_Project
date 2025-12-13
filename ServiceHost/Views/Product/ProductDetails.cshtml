@@ -1,0 +1,738 @@
+﻿@model Eshop.Domain.Dtos.Product.ProductDetailsDto
+@using Eshop.Application.Utilities
+
+
+
+@{
+    ViewData["Title"] = @Model.Title;
+}
+
+@section script
+{
+    <script>
+        $('.btn-number').click(function (e) {
+            e.preventDefault();
+
+            fieldName = $(this).attr('data-field');
+            type = $(this).attr('data-type');
+            var input = $("input[name='" + fieldName + "']");
+            var currentVal = parseInt(input.val());
+            if (!isNaN(currentVal)) {
+                if (type == 'minus') {
+
+                    if (currentVal > input.attr('min')) {
+                        input.val(currentVal - 1).change();
+                    }
+                    if (parseInt(input.val()) == input.attr('min')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                } else if (type == 'plus') {
+
+                    if (currentVal < input.attr('max')) {
+                        input.val(currentVal + 1).change();
+                    }
+                    if (parseInt(input.val()) == input.attr('max')) {
+                        $(this).attr('disabled', true);
+                    }
+
+                }
+            } else {
+                input.val(0);
+            }
+        });
+        $('.input-number').focusin(function () {
+            $(this).data('oldValue', $(this).val());
+        });
+        $('.input-number').change(function () {
+
+            minValue = parseInt($(this).attr('min'));
+            maxValue = parseInt($(this).attr('max'));
+            valueCurrent = parseInt($(this).val());
+
+            name = $(this).attr('name');
+            if (valueCurrent >= minValue) {
+                $(".btn-number[data-type='minus'][data-field='" + name + "']").removeAttr('disabled');
+            } else {
+                alert('Sorry, the minimum value was reached');
+                $(this).val($(this).data('oldValue'));
+            }
+            if (valueCurrent <= maxValue) {
+                $(".btn-number[data-type='plus'][data-field='" + name + "']").removeAttr('disabled');
+            } else {
+                alert('Sorry, the maximum value was reached');
+                $(this).val($(this).data('oldValue'));
+            }
+
+
+        });
+        $(".input-number").keydown(function (e) {
+            // Allow: backspace, delete, tab, escape, enter and .
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 190]) !== -1 ||
+                // Allow: Ctrl+A
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                // Allow: home, end, left, right
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                // let it happen, don't do anything
+                return;
+            }
+            // Ensure that it is a number and stop the keypress
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+
+
+    </script>
+}
+
+<section class="content">
+    <div class="bread-crumb py-0 mb-3">
+        <div class="container-fluid">
+            <div class="content-box">
+                <div class="container-fluid">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="font-14 text-muted">صفحه اصلی</a></li>
+                            <li class="breadcrumb-item"><a asp-controller="Product" asp-action="FilterProduct" class="font-14 text-muted">فروشگاه</a></li>
+                            <li class="breadcrumb-item active main-color-one-color font-14" aria-current="page">
+                                @Model.Title
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="content-box">
+            <div class="row gy-4">
+                <div class="col-lg-4">
+                    @if (Model.ProductDiscount != null && Model.ProductDiscount.ExpireDate >= DateTime.Now)
+                    {
+                        <div class="amazing-timer" style="padding: 0 0 15px 0;">
+                            <div class="d-flex align-items-center flex-wrap">
+                                <div class="d-grid gap-1">
+                                    <span class="font-14">
+                                        پیشنـهاد شگفت انگیـز
+                                    </span>
+                                    <span class="font-12 text-muted">فرصت باقی مانده</span>
+                                </div>
+                                <div class="flex-grow-1 text-end">
+                                    <div class='countdown' data-date="@Model.ProductDiscount.ExpireDate.ToString("yyyy-M-d")" data-time="00:00">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="pro_gallery">
+                        <div class="position-relative">
+                            <div class="swiper product-gallery">
+                                <div class="swiper-wrapper" title="برای بزرگنمایی تصویر دابل کلیک کنید">
+                                    @if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
+                                    {
+                                        @foreach (var item in Model.ProductGalleries)
+                                        {
+                                            <div class="swiper-slide">
+                                                <div class="swiper-zoom-container">
+                                                    <img src="@(!string.IsNullOrEmpty(item.ImageName) ? PathExtension.ProductGalleryOrigin + item.ImageName : PathExtension.NoImage)"
+                                                         alt="@item.Product.Title" title="@item.Product.Title" class="img-fluid">
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img src="@(!string.IsNullOrEmpty(Model.Image) ? PathExtension.ProductOrigin + Model.Image : PathExtension.NoImage)"
+                                             alt="@Model.Title" title="@Model.Title" class="img-fluid">
+                                    }
+                                </div>
+                                <div class="swiper-button-next d-none d-lg-flex"></div>
+                                <div class="swiper-button-prev d-none d-lg-flex"></div>
+                            </div>
+                            @if (Model.ProductDiscount != null && Model.ProductDiscount.ExpireDate >= DateTime.Now)
+                            {
+                                <div class="position-absolute z-3 top-0 start-0">
+                                    <span class="badge bg-danger w-70-px h-40-px fw-normal font-14 d-flex align-items-center justify-content-center text-center rounded-circle ms-3 mt-3 ">@Model.ProductDiscount.Percentage %  تخفیف</span>
+                                </div>
+                            }
+                        </div>
+                        <div class="swiper product-gallery-thumb">
+                            <div class="swiper-wrapper">
+                                @if (Model.ProductGalleries != null && Model.ProductGalleries.Any())
+                                {
+                                    foreach (var item in Model.ProductGalleries)
+                                    {
+                                        <div class="swiper-slide">
+                                            <img class="img-fluid" src="@(!string.IsNullOrEmpty(item.ImageName) ? PathExtension.ProductGalleryOrigin + item.ImageName : PathExtension.NoImage)"
+                                                 alt="@item.Product.Title" title="@item.Product.Title">
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="swiper-slide">
+                                        <img class="img-fluid" src="@(!string.IsNullOrEmpty(Model.Image) ? PathExtension.ProductOrigin + Model.Image : PathExtension.NoImage)"
+                                             alt="@Model.Title" title="@Model.Title">
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="product-meta">
+                        <div class="title mt-md-0 mt-3">
+                            <h1 class="font-16 mb-2">
+                                @Model.Title
+                            </h1>
+                            <p class="font-12 text-muted font-en">
+                                مدل : @Model.Code
+                            </p>
+                            <div class="d-flex align-items-center pb-2">
+                                <div class="star">
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-fill"></i>
+                                    <i class="bi bi-star-half"></i>
+                                    <i class="bi bi-star"></i>
+                                </div>
+                                <div class="ms-3">
+                                    <a href="" class="main-color-one-color font-14">
+                                        <span>11</span>
+                                        <span>دیدگاه</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="product-feature py-2">
+                            @if (Model.ProductFeatures != null && Model.ProductFeatures.Any())
+                            {
+                                <div class="product-meta-feature-items">
+                                    <h5 class="title font-16 mb-2 icon-circle">ویژگی های کالا</h5>
+                                    <ul class="navbar-nav">
+                                        @foreach (var item in Model.ProductFeatures)
+                                        {
+                                            <li class="nav item">
+                                                <span>@item.FeatureTitle:</span>
+                                                <strong>@item.FeatureValue</strong>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+
+                            }
+                            <div class="product-alert mt-3">
+                                <i class="bi bi-info-circle-fill me-1"></i>
+                                <span class="text-justify">امکان برگشت کالا با دلیل "انصراف از خرید" تنها در صورتی مورد قبول است که پلمب کالا باز نشده باشد.</span>
+                            </div>
+                            <div class="product-alert mt-2">
+                                <i class="bi bi-check-circle me-1"></i>
+                                <span class="text-justify">
+                                    @Model.ShortDescription
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="alert bs-bg-gray-100 border-ui">
+                        @if (Model.ProductColors != null && Model.ProductColors.Any())
+                        {
+                            <div class="d-flex border-ui bg-white alert align-items-center justify-content-between">
+                                <div class="product-meta-color">
+                                    <label class="font-16 fw-bold icon-circle">
+                                        انتخاب رنگ کالا
+                                    </label>
+                                    <div class="product-meta-color-items mt-3">
+                                        @foreach (var item in Model.ProductColors)
+                                        {
+                                            <input type="radio" class="btn-check" name="options" id="option1" checked="">
+                                            <label class="btn " for="option1">
+                                                <span style="background-color: @item.ColorCode;"></span>
+                                                @item.ColorName
+                                            </label>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        @if (Model.ProductDiscount != null && Model.ProductDiscount.ExpireDate >= DateTime.Now)
+                        {
+                            <div class="text-center my-3 d-flex align-items-center justify-content-center">
+                                <strong class="fs-3 fw-900">
+                                    <del>@Model.Price.ToString("##,###")</del>
+                                    <span class="text-muted font-14">تومان</span>
+                                </strong>
+                            </div>
+                            <div class="text-center my-3 d-flex align-items-center justify-content-center">
+                                <strong class="fs-3 fw-900 text-danger">
+                                    @(Convert.ToInt32(Model.Price - ((Model.Price * Model.ProductDiscount.Percentage) / (double)100)).ToString("#,0"))
+                                    <span class="text-muted font-14">تومان</span>
+                                </strong>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="text-center my-3 d-flex align-items-center justify-content-center">
+                                <strong class="fs-3 fw-900">@Model.Price.ToString("##,###")<span class="text-muted font-14">تومان</span></strong>
+                            </div>
+                        }
+
+                        <div class="d-flex align-items-center justify-content-between">
+                            <div class=" row align-items-center mb-2">
+                                <div class="col-sm-12 mb-4">
+                                    <div class="center">
+                                        <div class="input-group">
+                                            <button type="button" class="btn main-color-two-bg text-white fw-bold btn-number" data-type="minus" data-field="quant[2]">
+                                                <span class="bi bi-dash"></span>
+                                            </button>
+                                            <input type="text" style="text-align: center;" name="quant[2]" class="form-control font-20 numberInput input-number" id="number_of_products_in_basket" value="1" min="1" max="1000">
+                                            <button type="button" class="btn main-color-two-bg text-white fw-bold btn-number" data-type="plus" data-field="quant[2]">
+                                                <span class="bi bi-plus fw-bold"></span>
+                                            </button>
+                                        </div>
+                                        <p></p>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <a id="submitOrderForm" class="w-100 shadow-sm text-center btn main-color-two-bg waves-effect waves-light">
+                                        <i class="bi bi-cart-plus-fill font-18"></i>
+                                        افزودن به سبد خرید
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+
+<!--============ end main content ==============-->
+
+ <section class="product-desc">
+    <div class="container-fluid">
+        <div class="product-desc-tab">
+            <ul class="nav justify-content-start" id="productTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="waves-effect waves-light active" data-bs-target="#productDescLess-pane" data-bs-toggle="tab" id="productDescLess" type="button" aria-selected="true" role="tab">
+                        توضیحات کالا
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="waves-effect waves-light" data-bs-target="#productTable-pane" data-bs-toggle="tab" id="productTable" type="button" aria-selected="false" role="tab" tabindex="-1">
+                        مشخصات کالا
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="d-flex waves-effect waves-light" data-bs-target="#productComment-pane" data-bs-toggle="tab" id="productComment" type="button" aria-selected="false" tabindex="-1" role="tab">
+                        نظرات <span class="badge main-color-one-bg ms-2 lh-sm">17</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+        <div class="row mt-4 pt-2">
+            <div class="col-xl-12">
+                <div class="content-box">
+                    <div class="product-descs" id="prodesc">
+                        <div class="product-desc">
+                            <div class="product-desc-tab-content">
+                                <div class="tab-content" id="productTabContent">
+                                    <div class="tab-pane fade product-desc-less-contents active show" id="productDescLess-pane" role="tabpanel" aria-labelledby="productDescLess">
+                                        <div class="product-desc-content">
+                                            <h6 class="font-22 mb-2 title-font title-line-bottom">معرفی محصول</h6>
+                                            <p>
+                                                @Html.Raw(Model.Description)
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="productTable-pane" role="tabpanel" aria-labelledby="productTable">
+                                        <div class="tab-pane fade active show" role="tabpanel">
+                                            <h6 class="font-26 mb-2 title-font title-line-bottom">مشخصات فنی</h6>
+                                            <div class="box_list mt-4">
+                                                <p class="title">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-left-fill" viewBox="0 0 16 16">
+                                                        <path d="m3.86 8.753 5.482 4.796c.646.566 1.658.106 1.658-.753V3.204a1 1 0 0 0-1.659-.753l-5.48 4.796a1 1 0 0 0 0 1.506z">
+                                                        </path>
+                                                    </svg>
+                                                    مشخصات کلی
+                                                </p>
+                                                <div>
+                                                    <ul class="param_list list-inline">
+                                                        @foreach (var feature in Model.ProductFeatures)
+                                                        {
+                                                            <li class="list-inline-item col-md-3 pe-md-1 pe-md-3 p-0 m-0">
+                                                                <div class="box_params_list">
+                                                                    <p class="block border_right_custom1">
+                                                                        @feature.FeatureTitle
+                                                                    </p>
+                                                                </div>
+                                                            </li>
+                                                            <li class="list-inline-item col-md-8 p-0 m-0">
+                                                                <div class="box_params_list">
+                                                                    <p class="block border_right_custom2">
+                                                                        @feature.FeatureValue
+                                                                    </p>
+                                                                </div>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade product-comment-content" id="productComment-pane" role="tabpanel" aria-labelledby="productComment">
+
+                                        <div class="comment-form">
+                                            <h6 class="font-26 mb-2 title-font title-line-bottom">نظرت در مورد این
+                                                محصول
+                                                چیه؟</h6>
+                                            <p class="font-14 text-muted mt-2">برای ثبت نظر، از طریق دکمه افزودن
+                                                دیدگاه جدید
+                                                نمایید. اگر این محصول را قبلا خریده باشید، نظر شما به عنوان خریدار
+                                                ثبت خواهد
+                                                شد.</p>
+                                            <form>
+                                                <div class="row gy-4">
+                                                    <div class="col-md-4">
+                                                        <div class="product-rateing position-sticky top-0">
+                                                            <div class="row gy-2 align-items-center">
+                                                                <div class="number">
+                                                                    <h4 class="fw-light">متوسط امتیاز ها</h4>
+                                                                    <h2>3.00</h2>
+                                                                    <div class="star">
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star-fill"></i>
+                                                                        <i class="bi bi-star"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="prog-rating">
+                                                                    <div class="item w-100 mb-2">
+                                                                        <div class="d-flex align-items-center flex-wrap">
+                                                                            <span class="font-14">5 ستاره</span>
+                                                                            <div class="progress flex-grow-1 mx-2" style="height: 7px;">
+                                                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" class="progress-bar" role="progressbar" style="width: 25%"></div>
+                                                                            </div>
+                                                                            <span class="font-14">5</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item w-100 mb-2">
+                                                                        <div class="d-flex align-items-center flex-wrap">
+                                                                            <span class="font-14">4 ستاره</span>
+                                                                            <div class="progress flex-grow-1 mx-2" style="height: 7px;">
+                                                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" class="progress-bar" role="progressbar" style="width: 60%"></div>
+                                                                            </div>
+                                                                            <span class="font-14">17</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item w-100 mb-2">
+                                                                        <div class="d-flex align-items-center flex-wrap">
+                                                                            <span class="font-14">3 ستاره</span>
+                                                                            <div class="progress flex-grow-1 mx-2" style="height: 7px;">
+                                                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="78" class="progress-bar" role="progressbar" style="width: 78%"></div>
+                                                                            </div>
+                                                                            <span class="font-14">85</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item w-100 mb-2">
+                                                                        <div class="d-flex align-items-center flex-wrap">
+                                                                            <span class="font-14">2 ستاره</span>
+                                                                            <div class="progress flex-grow-1 mx-2" style="height: 7px;">
+                                                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="4" class="progress-bar" role="progressbar" style="width: 4%"></div>
+                                                                            </div>
+                                                                            <span class="font-14">3</span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="item w-100">
+                                                                        <div class="d-flex align-items-center flex-wrap">
+                                                                            <span class="font-14">1 ستاره</span>
+                                                                            <div class="progress flex-grow-1 mx-2" style="height: 7px;">
+                                                                                <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="82" class="progress-bar" role="progressbar" style="width: 82%"></div>
+                                                                            </div>
+                                                                            <span class="font-14">652</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="row">
+                                                            <div class="col-sm-6">
+                                                                <div class="form-floating mb-3 form-group">
+                                                                    <input class="form-control" id="floatingInputEmail1" placeholder="ایمیل خود را وارد کنید" type="email">
+                                                                    <label for="floatingInputEmail1">ایمیل خود را
+                                                                        وارد
+                                                                        کنید</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-sm-6">
+                                                                <div class="form-floating mb-3 form-group">
+                                                                    <input class="form-control" id="floatingInputName" placeholder="نام خود را وارد کنید" type="text">
+                                                                    <label for="floatingInputName">نام خود را وارد
+                                                                        کنید</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group form-check">
+                                                                    <input class="form-check-input" id="rememberComment" type="checkbox">
+                                                                    <label class="form-check-label d-block" for="rememberComment">
+                                                                        ذخیره
+                                                                        نام، ایمیل و وبسایت من در مرورگر برای زمانی
+                                                                        که دوباره
+                                                                        دیدگاهی می‌نویسم.
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-group">
+                                                                    <label class="my-3">امتیاز شما</label>
+                                                                    <fieldset class="rating" id="commentRatings">
+                                                                    <input id="star5" name="rating" required="" type="radio" value="5">
+                                                                        <label for="star5">5 stars</label>
+                                                                        <input id="star4" name="rating" required="" type="radio" value="4">
+                                                                        <label for="star4">4 stars</label>
+                                                                        <input id="star3" name="rating" required="" type="radio" value="3">
+                                                                        <label for="star3">3 stars</label>
+                                                                        <input id="star2" name="rating" required="" type="radio" value="2">
+                                                                        <label for="star2">2 stars</label>
+                                                                        <input id="star1" name="rating" required="" type="radio" value="1">
+                                                                        <label for="star1">1 star</label>
+                                                                    </fieldset>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="form-floating">
+                                                            <textarea class="form-control" id="floatingTextarea2" placeholder="Leave a comment here" style="height: 150px"></textarea>
+                                                                    <label for="floatingTextarea2">متن نظر!</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mt-3">
+                                                                    <label class="text-success mb-2 fw-bold font-16" for="tags-pos">نقاط
+                                                                        قوت</label>
+                                                                    <tags class="tagify commentTags form-control tagify--noTags tagify--empty" tabindex="-1">
+            <span contenteditable="" tabindex="0" data-placeholder="با کلید اینتر اضافه کنید" aria-placeholder="با کلید اینتر اضافه کنید" class="tagify__input" role="textbox" aria-autocomplete="both" aria-multiline="false"></span>
+                ​
+        </tags><input class="commentTags form-control" id="tags-pos" name="tags-pos" placeholder="با کلید اینتر اضافه کنید" tabindex="-1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group mt-3">
+                                                                    <label class="text-danger fw-bold mb-2 font-16" for="tags-neg">نقاط
+                                                                        ضعف</label>
+                                                                    <tags class="tagify commentTags form-control tagify--noTags tagify--empty" tabindex="-1">
+            <span contenteditable="" tabindex="0" data-placeholder="با کلید اینتر اضافه کنید" aria-placeholder="با کلید اینتر اضافه کنید" class="tagify__input" role="textbox" aria-autocomplete="both" aria-multiline="false"></span>
+                ​
+        </tags><input class="commentTags form-control" id="tags-neg" name="tags-neg" placeholder="با کلید اینتر اضافه کنید" tabindex="-1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <button type="submit" class="btn main-color-two-bg text-white px-5 btn-lg border-0">
+                                                                    ثبت نظر
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="box_filter mt-5 pb-3">
+                                            <div class="row align-items-end">
+                                                <div class="col-md-4 bf1">
+                                                    <h4 class="title-font title-line-bottom">نظرات کاربران</h4>
+                                                </div>
+                                                <div class="col-md-8 bf2">
+                                                    <ul class="list-inline text-end mb-0">
+                                                        <li class="list-inline-item title-font">مرتب سازی بر اساس
+                                                            :
+                                                        </li>
+                                                        <li class="list-inline-item"><a href="#">نظر خریداران</a>
+                                                        </li>
+                                                        <li class="list-inline-item"><a class="active_custom" href="#">مفیدترین
+                                                            نظرات</a>
+                                                        </li>
+                                                        <li class="list-inline-item"><a href="#">جدیدترین نظرات</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="box_users_comment mt-3 p-4">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="box_message_light">
+                                                        <svg class="bi bi-cart3" fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                                        </svg>
+                                                        خریدار این محصول
+                                                    </div>
+                                                    <div class="box_shopping mt-lg-5 mt-3">
+                                                        <span>خریداری شده از :</span>
+                                                        <p>
+                                                            <i class="bi bi-shop"></i>
+                                                            <a href="#">اسمارت الکترونیک</a>
+                                                        </p>
+                                                    </div>
+                                                    <div class="box_message_dislike mt-2">
+                                                        <i class="bi bi-hand-thumbs-down"></i>
+                                                        خرید این محصول را توصیه نمی
+                                                        کنم
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9 pr-5" style="margin-top:-10px">
+                                                    <div class="box_comment_header mt-4 mt-lg-0">
+                                                        <span class="span1">نخرید</span>
+                                                        <br>
+                                                        <span class="span2">توسط مسلم ابراهیمی در تاریخ ۳۰ شهریور ۱۳۹۷
+                                                </span>
+                                                    </div>
+                                                    <div class="border-bottom mt-3"></div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-6 evaluation-positive">
+                                                            <div class="list-inline">
+                                                                <span>نقاط قوت</span>
+                                                                <div class="list-inline-item ml-3">هیچی</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 evaluation-negative">
+                                                            <div class="list-inline">
+                                                                <span>نقاط ضعف</span>
+                                                                <div class="list-inline-item ml-3">کیفیت صدا , موقع
+                                                                    زنگ اصلا
+                                                                    صدا
+                                                                    نمیره
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-12">
+                                                            <p class="box_text_comment">
+                                                                دوستان سلام من این رو خریدم اصلا خوب نیست صدا نمیره
+                                                                اونایی
+                                                                که
+                                                                میگن خوبه
+                                                                همشون
+                                                                فروشنده این بسته هستن با اکانت هایی که ساختن میام
+                                                                الکی نظر
+                                                                میدن
+                                                                نخرید به خدا
+                                                                نخرید اصلا خوب نیست
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-12">
+                                                            <div class="comments_likes">
+                                                        <span class="mr-4 mt-1">
+                                                            ایا این نظر برایتان مفید بود ؟
+                                                        </span>
+                                                                <a class="btn btn-like btn-like-like mt-1 mt-md-0 ms-2" href="#"><i class="bi bi-hand-thumbs-up"></i> 70</a>
+                                                                <a class="btn btn-like btn-like-dislike mt-1 mt-md-0" href="#"> <i class="bi bi-hand-thumbs-down"></i> 7</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box_users_comment mt-3 p-4">
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="box_message_light">
+                                                        <svg class="bi bi-cart3" fill="currentColor" height="16" viewBox="0 0 16 16" width="16" xmlns="http://www.w3.org/2000/svg">
+                                                            <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
+                                                        </svg>
+                                                        خریدار این محصول
+                                                    </div>
+                                                    <div class="box_shopping mt-lg-5 mt-3">
+                                                        <span>خریداری شده از :</span>
+                                                        <p>
+                                                            <i class="bi bi-shop"></i>
+                                                            <a href="#">اسمارت الکترونیک</a>
+                                                        </p>
+                                                    </div>
+                                                    <div class="box_message_dislike text-success mt-2">
+                                                        <i class="bi bi-hand-thumbs-up"></i>
+                                                        خرید این محصول را توصیه می
+                                                        کنم
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9 pr-5" style="margin-top:-10px">
+                                                    <div class="box_comment_header mt-4 mt-lg-0">
+                                                        <span class="span1">نخرید</span>
+                                                        <br>
+                                                        <span class="span2">توسط مسلم ابراهیمی در تاریخ ۳۰ شهریور ۱۳۹۷
+                                                </span>
+                                                    </div>
+                                                    <div class="border-bottom mt-3"></div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-6 evaluation-positive">
+                                                            <div class="list-inline">
+                                                                <span>نقاط قوت</span>
+                                                                <div class="list-inline-item ml-3">هیچی</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 evaluation-negative">
+                                                            <div class="list-inline">
+                                                                <span>نقاط ضعف</span>
+                                                                <div class="list-inline-item ml-3">کیفیت صدا , موقع
+                                                                    زنگ اصلا
+                                                                    صدا
+                                                                    نمیره
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mt-4">
+                                                        <div class="col-md-12">
+                                                            <p class="box_text_comment">
+                                                                دوستان سلام من این رو خریدم اصلا خوب نیست صدا نمیره
+                                                                اونایی
+                                                                که
+                                                                میگن خوبه
+                                                                همشون
+                                                                فروشنده این بسته هستن با اکانت هایی که ساختن میام
+                                                                الکی نظر
+                                                                میدن
+                                                                نخرید به خدا
+                                                                نخرید اصلا خوب نیست
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row justify-content-end">
+                                                        <div class="col-12">
+                                                            <div class="comments_likes">
+                                                        <span class="mr-4 mt-1">
+                                                            ایا این نظر برایتان مفید بود ؟
+                                                        </span>
+                                                                <a class="btn btn-like btn-like-like mt-1 mt-md-0 ms-2" href="#"><i class="bi bi-hand-thumbs-up"></i> 70</a>
+                                                                <a class="btn btn-like btn-like-dislike mt-1 mt-md-0" href="#"> <i class="bi bi-hand-thumbs-down"></i> 7</a>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="container">
+                                            <div class="text-center">
+                                                <a class="btn main-color-one-bg border-0" href="">بارگذاری کامنت
+                                                    ها</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

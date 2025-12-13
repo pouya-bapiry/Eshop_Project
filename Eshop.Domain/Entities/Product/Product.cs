@@ -52,7 +52,7 @@ namespace Eshop.Domain.Entities.Product
         public ICollection<ProductColor> ProductColors { get; set; }
         public ICollection<ProductGallery> ProductGalleries { get; set; }
         public ICollection<ProductFeatures> ProductFeatures { get; set; }
-        public ICollection<ProductDiscount.ProductDiscount> productDiscounts { get; set; }
+        public ICollection<ProductDiscount.ProductDiscount> ProductDiscounts { get; set; }
         #endregion
 
     }

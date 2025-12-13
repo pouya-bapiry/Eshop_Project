@@ -19,7 +19,7 @@
                     {
                         <div class="swiper-slide">
                             <div class="product-box border-ui">
-                                <a href="#">
+                                <a asp-controller="Product" asp-action="ProductDetails" asp-route-productId="@product.Id" asp-route-title="@product.Title.FixTextForUrl()">
                                     <div class="product-image">
                                         <img src="@(!string.IsNullOrEmpty(product.Image) ? PathExtension.ProductOrigin + product.Image : PathExtension.NoImage)"
                                              alt="@product.Title" title="@product.Title" class="img-fluid">
@@ -30,10 +30,10 @@
                                         </h6>
                                     </div>
                                     <div class="bs-bg-gray-200 p-2 border-ui  rounded-3">
-                                        @if (product.productDiscounts != null && product.productDiscounts.Any(x => x.ExpireDate >= DateTime.Now))
+                                        @if (product.ProductDiscounts != null && product.ProductDiscounts.Any(x => x.ExpireDate >= DateTime.Now))
                                         {
                                             <div class="d-flex align-items-center justify-content-between">
-                                                @foreach (var discount in product.productDiscounts)
+                                                @foreach (var discount in product.ProductDiscounts)
                                                 {
                                                     <div class="discount mt-1">
                                                         <span class="btn main-color-one-bg"><i class="bi bi-cart"></i></span>

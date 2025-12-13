@@ -4,6 +4,7 @@ using Eshop.Domain.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eshop.Domain.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20251213090220_productdiscount_changedto_Prodcutdiscount")]
+    partial class productdiscount_changedto_Prodcutdiscount
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -449,7 +452,7 @@ namespace Eshop.Domain.Migrations
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long?>("ProductFeaturesCategoryId")
+                    b.Property<long>("ProductFeaturesCategoryId")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProductId")
@@ -916,7 +919,8 @@ namespace Eshop.Domain.Migrations
                     b.HasOne("Eshop.Domain.Entities.Product.ProductFeaturesCategory", "ProductFeaturesCategory")
                         .WithMany("ProductFeatures")
                         .HasForeignKey("ProductFeaturesCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("Eshop.Domain.Entities.Product.Product", "Product")
                         .WithMany("ProductFeatures")

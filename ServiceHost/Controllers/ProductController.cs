@@ -14,6 +14,7 @@ namespace ServiceHost.Controllers
         {
             _productService = productService;
         }
+        #endregion
 
         #region Filter Product
 
@@ -37,6 +38,23 @@ namespace ServiceHost.Controllers
         }
         #endregion
 
+        #region ProductDetail
+
+        [HttpGet("products/{productId}/{title}")]
+        public async Task<IActionResult> ProductDetails(long productId, string title)
+        {
+            var product = await _productService.GetProductDetails(productId);
+
+            if (product == null)
+            {
+                return RedirectToAction("PageNotFound", "Home");
+            }
+
+            return View(product);
+        }
+
         #endregion
+
+
     }
 }

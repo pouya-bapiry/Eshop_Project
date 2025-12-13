@@ -45,13 +45,13 @@
                             <input class="form-control" asp-for="FeatureValue" @* id="product_feature_value_input" *@ asp-for="FeatureValue" />
                             <span class="text-danger float-right" asp-validation-for="FeatureValue"></span>
                         </div>
-                        <div class="form-group col-lg-3">
+                       @*  <div class="form-group col-lg-3">
                            <label> انتخاب دسته بندی</label>
                             <select class="form-control" asp-for="ProductFeatureCategoryId" asp-items='new SelectList(ViewBag.category, "Id", "FeatureCategoryTitle")'>
                                 <option value="0">عنوان نقش مورد نظر را انتخاب نمایید...</option>
                             </select>
                             <span class="text-danger float-right" asp-validation-for="ProductFeatureCategoryId"></span> 
-                        </div>
+                        </div> *@
                   </div> 
                     <hr />
                     <button type="submit" class="btn btn-success btn-block">ایجاد ویژگی جدید</button>

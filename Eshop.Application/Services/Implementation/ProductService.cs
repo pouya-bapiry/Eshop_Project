@@ -8,6 +8,7 @@ using Eshop.Domain.Dtos.ProductFeatures;
 using Eshop.Domain.Dtos.ProductFeaturesCategory;
 using Eshop.Domain.Dtos.ProductGallery;
 using Eshop.Domain.Entities.Product;
+using Eshop.Domain.Entities.ProductDiscount;
 using Eshop.Domain.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@ public class ProductService : IProductService
     private readonly IGenericRepository<ProductFeatures> _productFeaturesRepository;
     private readonly IGenericRepository<ProductFeaturesCategory> _productFeatureCategoryRepository;
     private readonly IGenericRepository<ProductGallery> _productGalleryRepository;
+    private readonly IGenericRepository<ProductDiscount> _productDiscountRepository;
 
 
     public ProductService(IGenericRepository<Product> productRepository,
@@ -33,7 +35,8 @@ public class ProductService : IProductService
         IGenericRepository<ProductColor> productColorRepository,
         IGenericRepository<ProductFeaturesCategory> productFeatureCategoryRepository,
         IGenericRepository<ProductFeatures> productFeaturesRepository,
-        IGenericRepository<ProductGallery> productGalleryRepository)
+        IGenericRepository<ProductGallery> productGalleryRepository,
+        IGenericRepository<ProductDiscount> productDiscountRepository)
     {
         _productRepository = productRepository;
         _productCategoryRepository = productCategoryRepository;
@@ -42,6 +45,7 @@ public class ProductService : IProductService
         _productFeatureCategoryRepository = productFeatureCategoryRepository;
         _productFeaturesRepository = productFeaturesRepository;
         _productGalleryRepository = productGalleryRepository;
+        _productDiscountRepository = productDiscountRepository;
     }
 
     #endregion
@@ -49,7 +53,7 @@ public class ProductService : IProductService
     #region Product
 
     #region Filter
-   public async Task<FilterProductDto> FilterProducts(FilterProductDto filter)
+    public async Task<FilterProductDto> FilterProducts(FilterProductDto filter)
     {
         var query = _productRepository
                 .GetQuery()
@@ -391,7 +395,7 @@ public class ProductService : IProductService
             .AsQueryable()
             .Where(x => !x.IsDelete && x.IsActive.Value)
             .Take(take)
-            .Include(x=>x.productDiscounts)
+            .Include(x => x.ProductDiscounts)
             .OrderByDescending(x => x.Id)
             .ToListAsync();
         return latestArrival.Count > take ? latestArrival.Skip(14).Take(1).ToList() : latestArrival;
@@ -400,6 +404,67 @@ public class ProductService : IProductService
 
 
     #endregion
+
+    #region Product Details
+    public async Task<ProductDetailsDto> GetProductDetails(long productId)
+    {
+        var product = await _productRepository
+               .GetQuery()
+               .AsQueryable()
+               .Include(x => x.ProductColors)
+               .Include(x => x.ProductFeatures)
+               .Include(x => x.ProductDiscounts)
+               .Include(x => x.ProductGalleries)
+               .Include(x => x.ProductSelectedCategories)
+               .ThenInclude(x => x.ProductCategory)
+               .FirstOrDefaultAsync(x => x.Id == productId);
+
+        var productDiscount = await _productDiscountRepository
+            .GetQuery()
+            .Include(x => x.ProductDiscountUse)
+            .OrderByDescending(x => x.CreateDate)
+            .FirstOrDefaultAsync(x => x.ProductId == productId && x.ExpireDate >= DateTime.Now);
+
+        var selectedCategoriesIds = product.ProductSelectedCategories.Select(x => x.ProductCategoryId).ToList();
+
+        //var relatedProducts = await _productRepository
+        //    .GetQuery()
+        //    .Include(x => x.ProductDiscounts)
+        //    .Where(x => x.ProductSelectedCategories.Any(c => selectedCategoriesIds.Contains(c.ProductCategoryId)) && x.Id != productId)
+        //    .ToListAsync();
+
+        product.ViewCount += 1;
+        await _productRepository.SaveChanges();
+
+        var productDetail = new ProductDetailsDto
+        {
+            ProductId = productId,
+            Title = product.Title,
+            Code = product.Code,
+            Price = product.Price,
+            Image = product.Image,
+            View = product.ViewCount,
+            Description = product.Description,
+            ProductColors = product.ProductColors.ToList(),
+            ProductFeatures = product.ProductFeatures.ToList(),
+            ProductGalleries = product.ProductGalleries.Take(10).ToList(),
+            ProductDiscount = productDiscount,
+            ProductCategories = product.ProductSelectedCategories.Select(x => x.ProductCategory).ToList(),
+            //RelatedProducts = relatedProducts,
+            //ProductBrand = product.ProductBrand,
+            //ProductComments = product.ProductComments
+            //    .Where(x => x.CommentAcceptanceState == CommentAcceptanceState.Accepted && !x.IsDelete)
+            //    .OrderByDescending(x => x.Id)
+            //    .ToList(),
+        };
+
+        return productDetail;
+
+    }
+
+
+    #endregion
+
     #endregion
 
     #region Product Color
@@ -774,7 +839,7 @@ public class ProductService : IProductService
                 ProductId = feature.ProductId,
                 FeatureTitle = feature.FeatureTitle,
                 FeatureValue = feature.FeatureValue,
-                ProductFeaturesCategoryId = feature.ProductFeatureCategoryId,
+                //ProductFeaturesCategoryId = feature.ProductFeatureCategoryId,
 
             };
             await _productFeaturesRepository.AddEntity(newFeature);
@@ -877,14 +942,14 @@ public class ProductService : IProductService
 
     #region ProductGallery
     #region Get
-public async Task<List<FilterProductGallery>> FilterProductGalleries(long productId)
+    public async Task<List<FilterProductGallery>> FilterProductGalleries(long productId)
     {
         return await _productGalleryRepository.GetQuery().AsQueryable().Where(x => x.ProductId == productId).Select(x => new FilterProductGallery
         {
             Id = x.Id,
             ProductId = productId,
             ImageName = x.ImageName,
-            DisplayPriority=x.DisplayPriority,
+            DisplayPriority = x.DisplayPriority,
             CreateDate = x.CreateDate.ToStringShamsiDate(),
         }).ToListAsync();
     }
@@ -1061,7 +1126,7 @@ public async Task<List<FilterProductGallery>> FilterProductGalleries(long produc
         }
     }
 
-   
+
 
 
 

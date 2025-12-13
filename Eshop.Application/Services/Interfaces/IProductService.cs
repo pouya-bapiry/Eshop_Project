@@ -19,6 +19,7 @@ public interface IProductService : IAsyncDisposable
 
     Task<List<Product>> GetProductWithMaximumView(int take);
     Task<List<Product>> GetLatestArrivalProducts(int take);
+    Task<ProductDetailsDto> GetProductDetails(long productId);
     #endregion
 
     #region Product Color
