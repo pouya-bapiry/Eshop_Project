@@ -37,11 +37,13 @@ namespace Eshop.Application.Services.Implementation
         public async Task<FilterDiscountDto> FilterProductDiscount(FilterDiscountDto filter)
         {
             var query = _productDiscountRepository
-                .GetQuery()
-                .Include(x => x.Product)
-                .AsQueryable();
+              .GetQuery()
+              .Include(x => x.Product)
+              .AsQueryable();
+
             #region Filter
-            if (filter.ProductId != null && filter.ProductId != null)
+
+            if (filter.ProductId != null && filter.ProductId != 0)
             {
                 query = query.Where(x => x.ProductId == filter.ProductId.Value);
             }
@@ -50,6 +52,7 @@ namespace Eshop.Application.Services.Implementation
             {
                 query = query.Where(x => EF.Functions.Like(x.Product.Title, $"%{filter.ProductTitle}%")).OrderByDescending(x => x.CreateDate);
             }
+
             #endregion
 
             #region Paging
@@ -71,16 +74,16 @@ namespace Eshop.Application.Services.Implementation
         #region Create
         public async Task<CreateDiscountResult> CreateDiscount(CreateDiscountDto discount, long productId)
         {
-            var product = _productRepository.GetEntityById(productId);
+         //   var product = _productRepository.GetEntityById(discount.ProductId);
 
-            if (product == null)
-            {
-                return CreateDiscountResult.ProductNotFound;
-            }
+            //if (product == null)
+            //{
+            //    return CreateDiscountResult.ProductNotFound;
+            //}
 
             var newDiscount = new ProductDiscount
             {
-                ProductId = product.Id,
+              ProductId = productId,
                 DiscountNumber = discount.DiscountNumber,
                 ExpireDate = discount.ExpireDate.ToMiladiDateTime(),
                 Percentage = discount.Percentage
@@ -93,14 +96,17 @@ namespace Eshop.Application.Services.Implementation
         }
         #endregion
 
+       
+
         #region Edit 
         public async Task<EditDiscountDto> GetDiscountForEdit(long discountId)
         {
             var discount = await _productDiscountRepository
              .GetQuery()
-
              .AsQueryable()
-             .FirstOrDefaultAsync(x => x.Id == discountId);
+             .Include(x => x.Product)
+             .Where(x => x.IsDelete == false).FirstOrDefaultAsync(x => x.Id == discountId);
+            //var discount=await _productDiscountRepository.GetEntityById(discountId);
 
             if (discount == null)
             {
@@ -116,7 +122,7 @@ namespace Eshop.Application.Services.Implementation
 
             };
         }
-        public async Task<EditDiscountResult> EditDiscount(EditDiscountDto edit)
+        public async Task<EditDiscountResult> EditDiscount(EditDiscountDto edit,long discountId)
         {
             var discount = await _productDiscountRepository
           .GetQuery()

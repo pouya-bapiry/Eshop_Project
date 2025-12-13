@@ -1,0 +1,125 @@
+/*! kamadatepicker - version 1.5.2 */
+.bd-hide {
+    display: none !important;
+}
+
+.bd-main {
+    background-color: #fff !important;
+    border: 1px solid #000 !important;
+    padding: 5px !important;
+    z-index: 9999 !important;
+    width: auto !important;
+    margin: 0 !important;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .2), 0 6px 20px 0 rgba(0, 0, 0, .19) !important;
+}
+
+.bd-calendar {
+    width: 210px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.bd-calendar table {
+    border: none !important;
+    width: 210px !important;
+}
+
+.bd-title {
+    width: 210px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.bd-dropdown {
+    display: inline-block !important;
+    float: right !important;
+    width: 75px !important;
+}
+
+.bd-dropdown select {
+    width: 100% !important;
+}
+
+.bd-dropdown select,
+.bd-next,
+.bd-prev {
+    height: 30px !important;
+    border: none !important;
+    cursor: pointer !important;
+}
+
+.bd-next,
+.bd-prev {
+    background-repeat: no-repeat !important;
+    background-position: 50% 50% !important;
+    background-color: #fff !important;
+    width: 30px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-block !important;
+    float: right !important;
+}
+
+.bd-table thead {
+    background-color: #555 !important;
+    color: #fff !important;
+}
+
+.bd-table thead tr {
+    height: 30px !important;
+    cursor: context-menu !important;
+}
+
+.bd-table thead tr th {
+    text-align: center !important;
+}
+
+.bd-table tbody tr td {
+    border: none !important;
+}
+
+.bd-empty-cell,
+.bd-table-days button {
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.bd-table-days button {
+    background-color: #f8f8f8 !important;
+    border: 0 !important;
+}
+
+.bd-table-days button:hover:enabled {
+    color: red !important;
+    font-weight: 700 !important;
+    background-color: #e7e7e7 !important;
+    cursor: pointer !important;
+}
+
+.bd-table-days button:disabled {
+    background-color: #eee !important;
+}
+
+.bd-today {
+    background-color: #dff0d8 !important;
+    color: green !important;
+}
+
+.bd-holiday {
+    background-color: #fde8e8 !important
+}
+
+.bd-selected-day {
+    color: red !important;
+    font-weight: 700 !important;
+}
+
+.bd-goto-today {
+    width: 210px !important;
+    height: 30px !important;
+    color: #fff !important;
+    background-color: #555 !important;
+    padding-top: 5px !important;
+    cursor: pointer !important;
+    text-align: center !important;
+}

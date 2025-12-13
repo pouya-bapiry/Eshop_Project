@@ -101,6 +101,7 @@
 											<th class="sorting">قیمت محصول</th>
 											<th class="sorting">وضعیت</th>
 											<th class="sorting">تاریخ ایجاد</th>
+												<th class="sorting">ایجاد تخفیف</th>
 											<th class="sorting">دستورات</th>
 										</tr>
 										</thead>
@@ -128,11 +129,16 @@
 
 												}
 												<td>@product.CreateDate.ToStringShamsiDate()</td>
+													<td>
+														<a asp-area="Administration" asp-controller="ProductDiscount" asp-action="FilterDiscounts" asp-route-productId="@product.Id" class="btn btn-sm btn-danger ">
+															افزودن تخفیف
+														</a>
+													</td>
 												<td>
 													<a asp-area="Administration" asp-controller="Product" asp-action="EditProduct" asp-route-productId="@product.Id" class="btn btn-sm btn-warning">
 														ویرایش اطلاعات
 													</a>
-
+														
 														<a asp-area="Administration" asp-controller="Product" asp-action="FilterProductColor" asp-route-productId="@product.Id" class="btn btn-sm btn-info">
 															افزودن رنگ 
 														</a>

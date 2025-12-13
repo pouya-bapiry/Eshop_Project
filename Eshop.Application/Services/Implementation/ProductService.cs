@@ -391,6 +391,7 @@ public class ProductService : IProductService
             .AsQueryable()
             .Where(x => !x.IsDelete && x.IsActive.Value)
             .Take(take)
+            .Include(x=>x.productDiscounts)
             .OrderByDescending(x => x.Id)
             .ToListAsync();
         return latestArrival.Count > take ? latestArrival.Skip(14).Take(1).ToList() : latestArrival;

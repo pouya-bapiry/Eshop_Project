@@ -1,0 +1,114 @@
+﻿
+@model Eshop.Domain.Dtos.ProductDiscount.FilterDiscountDto
+@using Eshop.Application.Utilities
+
+@{
+    ViewData["Title"] = "مدیریت تخفیفات";
+}
+
+
+@section scripts
+{
+    <partial name="_JqueryValidators" />
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت محصولات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-plus"></i> افزودن تخفیف جدید</div>
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="form-group col-lg-12">
+                        <label>افزودن تخفیف جدید</label>
+                        <a class="btn btn-sm btn-success btn-block form-control"
+                           asp-area="Administration" asp-controller="ProductDiscount"
+                           asp-action="CreateDiscount" asp-route-productId="@ViewBag.ProductId">
+                            افزودن تخفیف جدید
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <div id="default-datatable_wrapper" class="dataTables_wrapper container-fluid dt-bootstrap4">
+                        <br />
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @if (Model.ProductDiscounts != null && Model.ProductDiscounts.Any())
+                                {
+                                    <table id="default-datatable" class="table table-bordered dataTable" role="grid" aria-describedby="default-datatable_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc">شناسه</th>
+                                                <th class="sorting">نام محصول</th>
+                                                <th class="sorting">درصد تخفیف</th>
+                                                <th class="sorting">تعداد تخفیف</th>
+                                                <th class="sorting">تاریخ ایجاد</th>
+                                                <th class="sorting">تاریخ انقضاء</th>
+                                                <th class="sorting">دستورات</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (var discount in Model.ProductDiscounts)
+                                            {
+                                                <tr id="ajax-url-item-@discount.Id" role="row" class="odd">
+                                                    <td>@discount.Id</td>
+                                                    <td>@discount.Product.Title</td>
+                                                    <td>@discount.Percentage</td>
+                                                    <td>@(discount.DiscountNumber != null ? discount.DiscountNumber : 0)</td>
+                                                    <td>@discount.CreateDate.ToStringShamsiDate()</td>
+                                                    <td>@discount.ExpireDate.ToStringShamsiDate()</td>
+                                                    <td>
+                                                        <a asp-area="Administration" asp-controller="ProductDiscount" asp-action="EditDiscount" asp-route-discountId="@discount.Id" class="btn btn-sm btn-warning">
+                                                            ویرایش اطلاعات
+
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <div class="alert alert-warning alert-dismissible mb-0" role="alert">
+                                        <div class="alert-icon">
+                                            <i class="fa fa-exclamation-triangle"></i>
+                                        </div>
+                                        <div class="alert-message text-dark">
+                                            <span><strong>هشدار!</strong> هیچ اطلاعاتی یافت نشد</span>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                        <hr />
+                        <hr />
+                    </div>
+                </div>
+                <br />
+                <partial name="_AdminPaging" model="@Model.GetCurrentPaging()" />
+                <div class="col-sm-12 col-md-12">
+                    <div class="dataTables_info" id="default-datatable_info" role="status" aria-live="polite">نمایش تعداد 10 تخفیف در هر صفحه از تعداد کل : @Model.ProductDiscounts.Count تخفیف</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

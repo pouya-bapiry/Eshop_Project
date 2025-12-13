@@ -27,13 +27,16 @@ namespace ServiceHost.Configuration
 
             #region General Services
 
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<ISiteSettingService, SiteSettingService>();
-            services.AddTransient<ISmsService, SmsService>();
-            services.AddTransient<IContactService, ContactService>();
-            services.AddTransient<ISiteImagesService, SiteImagesService>();
-            services.AddTransient<IProductService, ProductService>();
-           
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ISiteSettingService, SiteSettingService>();
+            services.AddScoped<ISmsService, SmsService>();
+            services.AddScoped<IContactService, ContactService>();
+            services.AddScoped<ISiteImagesService, SiteImagesService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductDiscountService, ProductDiscountService>();
+
+
+
 
             #endregion
 
@@ -44,7 +47,7 @@ namespace ServiceHost.Configuration
                 HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.BasicLatin, UnicodeRanges.Arabic }));
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddHttpClient<ICaptchaValidator, GoogleReCaptchaValidator>();
-           services.AddTransient<IAuthHelper, AuthHelper>();
+           services.AddScoped<IAuthHelper, AuthHelper>();
 
             #endregion
 

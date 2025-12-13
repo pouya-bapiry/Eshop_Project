@@ -1,0 +1,92 @@
+﻿@model Eshop.Domain.Dtos.ProductDiscount.EditDiscountDto
+
+@{
+    ViewData["Title"] = "ویرایش تخفیف ";
+}
+
+@section styles
+{
+    <!--DatePicker-->
+    <link href="~/lib/date-picker/kamadatepicker.min.css" rel="stylesheet" />
+
+
+    <style>
+        .productNameInput {
+            font-family: 'shabnam';
+        }
+    </style>
+}
+
+@section scripts
+{
+    <partial name="_AdminJqueryValidators" />
+
+
+    <!--DatePicker-->
+    <script src="~/lib/date-picker/kamadatepicker.min.js"></script>
+    <script src="~/lib/date-picker/kamadatepicker.holidays.js"></script>
+
+    <script>
+        var customOptions = {
+            placeholder: "روز / ماه / سال"
+            , twodigit: false
+            , closeAfterSelect: true
+            , nextButtonIcon: "ماه بعدی"
+            , previousButtonIcon: "ماه قبلی"
+            , buttonsColor: "blue"
+            , forceFarsiDigits: true
+            , markToday: true
+            , markHolidays: true
+            , highlightSelectedDay: true
+            , sync: true
+            , gotoToday: true
+        }
+
+        kamaDatepicker('ExpireDate', customOptions);
+
+
+    </script>
+}
+
+<div class="row pt-2 pb-2">
+    <div class="col-sm-9">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-area="Administration" asp-controller="Home" asp-action="Index">داشبورد</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">مدیریت تخفیف محصولات</a></li>
+            <li class="breadcrumb-item"><a href="javaScript:void();">@ViewData["Title"]</a></li>
+        </ol>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header"><i class="fa fa-plus"></i> @ViewData["Title"]</div>
+            <div class="card-body">
+
+                <form asp-area="Administration" asp-controller="ProductDiscount" asp-action="EditDiscount" method="post" >
+                    <input type="hidden" asp-for="Id" />
+                  
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            <label>درصد تخفیف</label>
+                            <input class="form-control" asp-for="Percentage" />
+                            <span class="text-white" asp-validation-for="Percentage"></span>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>تعداد تخفیف</label>
+                            <input class="form-control" asp-for="DiscountNumber" />
+                            <span class="text-white " asp-validation-for="DiscountNumber"></span>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            <label>تاریخ انقضاء</label>
+                            <input class="form-control" asp-for="ExpireDate" />
+                            <span class="text-white " asp-validation-for="ExpireDate"></span>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-block">ویرایش تخفیف محصول</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

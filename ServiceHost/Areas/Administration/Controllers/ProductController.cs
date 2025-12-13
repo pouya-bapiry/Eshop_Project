@@ -316,8 +316,7 @@ namespace ServiceHost.Areas.Administration.Controllers
         [HttpPost("create-product-color/{productId}"), ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateProductColor(CreateProductColorDto color, long productId)
         {
-            if (!ModelState.IsValid)
-            {
+            
                 var result = await _productService.CreateProductColor(color, productId);
 
                 switch (result)
@@ -335,7 +334,7 @@ namespace ServiceHost.Areas.Administration.Controllers
                     case CreateProductColorResult.Success:
                         TempData[SuccessMessage] = $"رنگ های انتخابی با موفقیت افزوده شدند.";
                         return RedirectToAction("FilterProductColor", "Product", new { area = "Administration", ProductId = productId });
-                }
+                
             }
 
 

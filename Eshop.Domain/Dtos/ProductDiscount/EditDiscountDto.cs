@@ -10,10 +10,13 @@ namespace Eshop.Domain.Dtos.ProductDiscount
     public class EditDiscountDto
     {
         public long Id { get; set; }
+        public long ProductId { get; set; }
         public string ProductTitle { get; set; }
+
         [RegularExpression("^[0-9]*$", ErrorMessage = "فقط اعداد مجاز می باشد")]
         public int Percentage { get; set; }
         public string ExpireDate { get; set; }     
+
         [RegularExpression("^[0-9]*$", ErrorMessage = "فقط اعداد مجاز می باشد")]
         public int? DiscountNumber { get; set; }
     }

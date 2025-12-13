@@ -1,5 +1,4 @@
 ﻿﻿@using Eshop.Application.Utilities
-@using Eshop.Application.Utilities
 @model List<Eshop.Domain.Entities.Product.Product>
 
 
@@ -31,29 +30,38 @@
                                         </h6>
                                     </div>
                                     <div class="bs-bg-gray-200 p-2 border-ui  rounded-3">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            @*   <div class="discount mt-1">
-                                            <span class="btn main-color-one-bg"><i class="bi bi-cart"></i></span>
-                                            <div class='countdown mt-1' data-date="2028-01-01" data-time="18:30">
+                                        @if (product.productDiscounts != null && product.productDiscounts.Any(x => x.ExpireDate >= DateTime.Now))
+                                        {
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                @foreach (var discount in product.productDiscounts)
+                                                {
+                                                    <div class="discount mt-1">
+                                                        <span class="btn main-color-one-bg"><i class="bi bi-cart"></i></span>
+                                                        <div class="countdown mt-1" data-date="@discount.ExpireDate.ToString("yyyy-M-d")" data-time="00:00"></div>
+
+                                                    </div>
+                                                    <div class="price d-flex justify-content-end flex-column align-content-end">
+                                                        <p class="new-price me-0 text-end">
+                                                            @(Convert.ToInt32(product.Price - ((product.Price * discount.Percentage) / (double)100)).ToString("#,0")) <span class="fw-normal">تومان</span>
+                                                        </p>
+                                                        <p class="old-price mt-2">
+                                                            <span class="badge bg-danger rounded-pill me-2">@discount.Percentage %</span>
+                                                            @product.Price.ToString("##,###")
+                                                        </p>
+                                                    </div>
+                                                }
                                             </div>
-                                        </div> *@
+
+                                        }
+                                        else
+                                        {
+                                            <span class="btn main-color-one-bg"><i class="bi bi-cart"></i></span>
                                             <div class="price d-flex justify-content-end flex-column align-content-end">
                                                 <p class="new-price me-0 text-end">
                                                     @product.Price.ToString("##,###") <span class="fw-normal">تومان</span>
                                                 </p>
-                                                @* <p class="old-price mt-2">
-                                                <span class="badge bg-danger rounded-pill me-2">25%</span>
-                                                6,500,000
-                                            </p> *@
                                             </div>
-                                        </div>
-
-                                        @*<div class="progress bs-bg-gray-400 my-2" role="progressbar"
-                                         aria-label="Basic example" aria-valuenow="25" aria-valuemin="0"
-                                         aria-valuemax="100" style="height: 2px">
-                                        <div class="progress-bar main-color-one-bg" style="width: 25%"></div>
-                                    </div> *@
-
+                                        }
                                     </div>
                                 </a>
                             </div>
