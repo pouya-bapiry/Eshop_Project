@@ -149,7 +149,29 @@ namespace Eshop.Application.Services.Implementation
         #endregion
 
 
+        #region Amazing Discount 
+        public async Task<List<ProductDiscountAmazingDto>> GetProductDiscountAmazing(int take = 10)
+        {
+            var discountAmazing = await _productDiscountRepository
+                .GetQuery()
+                .AsQueryable()
+                .Include(x => x.Product)
+                .Where(x => x.ExpireDate >= DateTime.Now)
+                .Take(take)
+                .Select(x => new ProductDiscountAmazingDto
+                {
+                    ProductId = x.ProductId,
+                    ProductTitle = x.Product.Title,
+                    DiscountNumber = x.DiscountNumber,
+                    Percentage = x.Percentage,
+                    ExpireDate = x.ExpireDate,
+                    ProductImage = x.Product.Image,
+                    ProductPrice = x.Product.Price
+                }).ToListAsync();
 
+            return discountAmazing;
+        }
+        #endregion
 
         #region Dispose
 

@@ -4,6 +4,7 @@ using Eshop.Application.Utilities;
 using Eshop.Domain.Dtos.Paging;
 using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
+using Eshop.Domain.Dtos.ProductComment;
 using Eshop.Domain.Dtos.ProductFeatures;
 using Eshop.Domain.Dtos.ProductFeaturesCategory;
 using Eshop.Domain.Dtos.ProductGallery;
@@ -27,6 +28,8 @@ public class ProductService : IProductService
     private readonly IGenericRepository<ProductFeaturesCategory> _productFeatureCategoryRepository;
     private readonly IGenericRepository<ProductGallery> _productGalleryRepository;
     private readonly IGenericRepository<ProductDiscount> _productDiscountRepository;
+    private readonly IGenericRepository<ProductComment> _productCommentRepository;
+
 
 
     public ProductService(IGenericRepository<Product> productRepository,
@@ -36,7 +39,8 @@ public class ProductService : IProductService
         IGenericRepository<ProductFeaturesCategory> productFeatureCategoryRepository,
         IGenericRepository<ProductFeatures> productFeaturesRepository,
         IGenericRepository<ProductGallery> productGalleryRepository,
-        IGenericRepository<ProductDiscount> productDiscountRepository)
+        IGenericRepository<ProductDiscount> productDiscountRepository,
+        IGenericRepository<ProductComment> productCommentRepository)
     {
         _productRepository = productRepository;
         _productCategoryRepository = productCategoryRepository;
@@ -46,6 +50,7 @@ public class ProductService : IProductService
         _productFeaturesRepository = productFeaturesRepository;
         _productGalleryRepository = productGalleryRepository;
         _productDiscountRepository = productDiscountRepository;
+        _productCommentRepository = productCommentRepository;
     }
 
     #endregion
@@ -1037,6 +1042,62 @@ public class ProductService : IProductService
     #endregion
     #endregion
 
+    #region Product Comment
+
+    #region Filter
+    public async Task<List<FilterProductCommentDto>> FilterProductComment(FilterProductCommentDto comment, long productId)
+    {
+        return await _productCommentRepository
+        .GetQuery()
+        .Include(x => x.Product)
+        .Where(x => x.ProductId == productId)
+        .Select(x => new FilterProductCommentDto
+        {
+            ProductId = x.ProductId,
+            FullName = x.FullName,
+            Message = x.Message,
+            WeakPoint = x.WeakPoint,
+            StrongPoint = x.StrongPoint,
+            CreateDate = x.CreateDate.ToString()
+        }).OrderByDescending(x => x.CreateDate)
+       .ToListAsync();
+
+
+    }
+    #endregion
+
+    #region Create
+    public async Task<CreateCommentsResult> CreateProductComment(CreateProductCommentDto comment, long productId, string productTitle)
+    {
+        var product = await _productRepository.GetEntityById(productId);
+
+        if (product == null)
+        {
+            return CreateCommentsResult.NotFound;
+        }
+        var newComment = new ProductComment
+        {
+            ProductId = productId,
+            FullName = comment.FullName,
+            Message = comment.Message,
+            Email = comment.Email,
+            StrongPoint = comment.StrongPoint,
+            WeakPoint = comment.WeakPoint,
+
+        };
+
+        await _productCommentRepository.AddEntity(newComment);
+        _productCommentRepository.SaveChanges();
+        return CreateCommentsResult.Success;
+    }
+    #endregion
+
+
+
+
+
+    #endregion
+
     #region Add or Remove Product Category
 
     public async Task RemoveProductSelectedCategories(long productId, long productCategoryId)
@@ -1125,6 +1186,7 @@ public class ProductService : IProductService
             await _productFeatureCategoryRepository.DisposeAsync();
         }
     }
+
 
 
 

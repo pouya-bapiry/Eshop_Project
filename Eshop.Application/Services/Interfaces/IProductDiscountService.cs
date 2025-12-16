@@ -13,5 +13,6 @@ namespace Eshop.Application.Services.Interfaces
         Task<CreateDiscountResult> CreateDiscount(CreateDiscountDto discount, long productId);
         Task<EditDiscountDto> GetDiscountForEdit(long discountId);
         Task<EditDiscountResult> EditDiscount(EditDiscountDto edit,long discountId);
+        Task<List<ProductDiscountAmazingDto>> GetProductDiscountAmazing(int take=10);
     }
 }

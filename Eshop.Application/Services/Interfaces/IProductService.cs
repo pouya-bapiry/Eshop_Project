@@ -1,5 +1,6 @@
 ﻿using Eshop.Domain.Dtos.Product;
 using Eshop.Domain.Dtos.ProductCategory;
+using Eshop.Domain.Dtos.ProductComment;
 using Eshop.Domain.Dtos.ProductFeatures;
 using Eshop.Domain.Dtos.ProductFeaturesCategory;
 using Eshop.Domain.Dtos.ProductGallery;
@@ -65,6 +66,13 @@ public interface IProductService : IAsyncDisposable
     Task<CreateProductGalleryResult> CreateProductGallery(CreateProductGallery gallery, long productId, IFormFile galleryImage);
     Task<EditProductGallery> GetProductGalleryForEdit(long galleryId);
     Task<EditProductGalleryResult> EditProductGallery(EditProductGallery gallery, long galleryId, IFormFile galleryImage);
+
+    #endregion
+
+    #region Product Comment
+
+    Task<CreateCommentsResult> CreateProductComment(CreateProductCommentDto comment,long productId,string productTitle);
+    Task<List<FilterProductCommentDto>> FilterProductComment(FilterProductCommentDto comment,long productId);
 
     #endregion
 

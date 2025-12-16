@@ -26,7 +26,6 @@ namespace Eshop.Domain.Context
         public DbSet<ContactUs> ContactUs { get; set; }
         #endregion
 
-
         #region SiteSetting
 
         public DbSet<SiteSetting> SiteSettings { get; set; }
@@ -62,16 +61,19 @@ namespace Eshop.Domain.Context
 
         #endregion
 
-
         #region ProductColor
 
         public DbSet<ProductColor> ProductColors { get; set; }
 
         #endregion
 
+        #region Product Comments
+        public DbSet<ProductComment> ProductComments { get; set; }
+        #endregion
+
         #region prooduct Features
 
-       // public DbSet<ProductFeatures> ProductFeatures { get; set; }
+         public DbSet<ProductFeatures> ProductFeatures { get; set; }
 
         #endregion
 

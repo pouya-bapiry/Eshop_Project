@@ -93,7 +93,7 @@ namespace ServiceHost.Areas.User.Controllers
 
         #region Answer ticket
         [HttpPost("answer-ticket"), ValidateAntiForgeryToken]
-        public async Task<IActionResult > AnswerTicket(AnswerTicketDto answer)
+        public async Task<IActionResult> AnswerTicket(AnswerTicketDto answer)
         {
             if (string.IsNullOrEmpty(answer.Text))
             {

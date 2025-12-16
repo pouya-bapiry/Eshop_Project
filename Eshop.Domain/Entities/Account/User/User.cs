@@ -88,7 +88,7 @@ namespace Eshop.Domain.Entities.Account.User
             this.Avatar = Avatar;
 
         }
-    };
+    }
 
 
 

@@ -1,0 +1,83 @@
+﻿@model Eshop.Domain.Dtos.ProductComment.CreateProductCommentDto
+
+
+
+
+<div class="comment-form">
+    <h6 class="font-26 mb-2 title-font title-line-bottom">
+        نظرت در مورد این
+        محصول
+        چیه؟
+    </h6>
+    <p class="font-14 text-muted mt-2">
+        برای ثبت نظر، از طریق دکمه افزودن
+        دیدگاه جدید
+        نمایید. اگر این محصول را قبلا خریده باشید، نظر شما به عنوان خریدار
+        ثبت خواهد
+        شد.
+    </p>
+    <form asp-controller="Product" asp-action="CreateProductComment" method="post">
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" asp-for="ProductTitle" />
+        <div class="row gy-4">
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-floating mb-3 form-group">
+                            <input class="form-control" asp-for="Email" placeholder="ایمیل خود را وارد کنید" type="email">
+                            <label for="floatingInputEmail1">
+                                ایمیل خود را
+                                وارد
+                                کنید
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-floating mb-3 form-group">
+                            <input class="form-control" asp-for="FullName" placeholder="نام خود را وارد کنید" type="text">
+                            <label for="floatingInputName">
+                                نام خود را وارد
+                                کنید
+                            </label>
+                        </div>
+                    </div>
+               
+
+                    <div class="col-12">
+                        <div class="form-floating">
+                            <textarea class="form-control" asp-for="Message" placeholder="Leave a comment here" style="height: 150px"></textarea>
+                            <label for="floatingTextarea2">متن نظر!</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mt-3">
+                            <label class="text-success mb-2 fw-bold font-16" for="tags-pos">
+                                نقاط
+                                قوت
+                            </label>
+                            <input class="form-control" asp-for="StrongPoint" placeholder="نام خود را وارد کنید" type="text">
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mt-3">
+                            <label class="text-danger fw-bold mb-2 font-16" for="tags-neg">
+                                نقاط
+                                ضعف
+                            </label>
+                            <input class="form-control" asp-for="WeakPoint" placeholder="نام خود را وارد کنید" type="text">
+
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn main-color-two-bg text-white px-5 btn-lg border-0">
+                            ثبت نظر
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
