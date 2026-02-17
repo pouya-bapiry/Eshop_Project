@@ -297,12 +297,25 @@
                                         <p></p>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <a id="submitOrderForm" class="w-100 shadow-sm text-center btn main-color-two-bg waves-effect waves-light">
-                                        <i class="bi bi-cart-plus-fill font-18"></i>
-                                        افزودن به سبد خرید
-                                    </a>
-                                </div>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+
+                                    <div class="col-md-12">
+                                        <a id="submitOrderForm" class="w-100 shadow-sm text-center btn main-color-two-bg waves-effect waves-light">
+                                            <i class="bi bi-cart-plus-fill font-18"></i>
+                                            افزودن به سبد خرید
+                                        </a>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-md-12">
+                                        <a asp-controller="Account" asp-action="Login" class="w-100 shadow-sm text-center btn main-color-two-bg waves-effect waves-light">
+                                            <i class="bi bi-cart-plus-fill font-18"></i>
+                                            لطفا برای ثبت سفارش وارد حساب کاربری خود شوید
+                                        </a>
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
@@ -1291,5 +1304,56 @@
             </div>
 
         </div>
+        @if (Model.RelatedProducts != null && Model.RelatedProducts.Any())
+        {
+            <section class="product-slider">
+                <div class="container-fluid">
+                    <div class="section-title">
+                        <div class="section-title-title">
+                            <h2 class="fw-900 h4">محصولات<span class="with-highlight ms-1">مرتبط</span></h2>
+                            <div class="Dottedsquare"></div>
+                        </div>
+                    </div>
+                    <div class="swiper mt-4 pro-slider swiper-initialized swiper-horizontal swiper-rtl swiper-backface-hidden">
+                        <div class="swiper-wrapper" id="swiper-wrapper-4e1101024a9b4a3e15" aria-live="polite">
+                            @foreach (var item in Model.RelatedProducts)
+                            {
+                                <div class="swiper-slide swiper-slide-active" role="group" aria-label="1 / 6" style="width: 281.2px; margin-left: 10px;">
+                                    <div class="product-box border-ui">
+                                        <a href="">
+                                            <div class="product-image">
+                                                <img src="@(!string.IsNullOrEmpty(item.Image) ? PathExtension.ProductOrigin + item.Image : PathExtension.NoImage)"
+                                                     loading="lazy" alt="@item.Title" title="@item.Title" class="img-fluid">
+                                            </div>
+                                            <div class="d-flex h-80-px align-items-center justify-content-between ">
+                                                <h6 class="font-14 text-overflow-2 my-3 lh-lg">
+                                                    @item.Title
+                                                </h6>
+                                            </div>
+                                            <div class="product-action bs-bg-gray-200 border-ui  rounded-3">
+                                                <div class="discount mt-1">
+                                                    <span class="btn main-color-one-bg"><i class="bi bi-cart"></i></span>
+                                                </div>
+                                                <div class="price d-flex justify-content-end flex-column align-content-end">
+
+                                                    <p class="new-price me-0 text-end">
+                                                        @item.Price.ToString("##,###")
+                                                        <span class="fw-normal">تومان</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+
+                            }
+                        </div>
+                        <div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-4e1101024a9b4a3e15" aria-disabled="false"></div>
+                        <div class="swiper-button-prev swiper-button-disabled" tabindex="-1" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-4e1101024a9b4a3e15" aria-disabled="true"></div>
+                        <span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span>
+                    </div>
+                </div>
+            </section>
+        }
     </div>
 </section>

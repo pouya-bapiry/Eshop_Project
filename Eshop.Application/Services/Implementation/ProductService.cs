@@ -1067,7 +1067,7 @@ public class ProductService : IProductService
     #endregion
 
     #region Create
-    public async Task<CreateCommentsResult> CreateProductComment(CreateProductCommentDto comment, long productId, string productTitle)
+    public async Task<CreateCommentsResult> CreateProductComment(CreateProductCommentDto comment, long productId)
     {
         var product = await _productRepository.GetEntityById(productId);
 

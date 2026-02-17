@@ -11,7 +11,7 @@ namespace Eshop.Domain.Dtos.ProductComment
     {
         public long Id { get; set; }
         public long ProductId { get; set; }
-        public string ProductTitle { get; set; }
+        //public string? ProductTitle { get; set; }
         public string? Email { get; set; }
         public string FullName { get; set; }
         public string Message { get; set; }

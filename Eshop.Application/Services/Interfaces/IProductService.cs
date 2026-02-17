@@ -71,7 +71,7 @@ public interface IProductService : IAsyncDisposable
 
     #region Product Comment
 
-    Task<CreateCommentsResult> CreateProductComment(CreateProductCommentDto comment,long productId,string productTitle);
+    Task<CreateCommentsResult> CreateProductComment(CreateProductCommentDto comment,long productId);
     Task<List<FilterProductCommentDto>> FilterProductComment(FilterProductCommentDto comment,long productId);
 
     #endregion

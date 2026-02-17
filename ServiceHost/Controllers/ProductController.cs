@@ -63,18 +63,18 @@ namespace ServiceHost.Controllers
         #region Create
 
         [HttpPost("create-product-comment")]
-        public async Task<IActionResult> CreateProductComment(CreateProductCommentDto comment, long productId,string productTitle)
+        public async Task<IActionResult> CreateProductComment(CreateProductCommentDto comment, long productId)
         {
-            ViewBag.Title = comment.ProductTitle;
+            
             if (ModelState.IsValid)
             {
                
-                var result = await _productService.CreateProductComment(comment, productId,productTitle);
+                var result = await _productService.CreateProductComment(comment, productId);
                 switch (result)
                 {
                     case CreateCommentsResult.Success:
                         TempData[SuccessMessage] = "نظر شما با موفقیت ثبت شد";
-                        return RedirectToAction("ProductDetails", "Product", new { ProductId = productId, ProductTitle=productTitle });
+                        return RedirectToAction("ProductDetails", "Product", new { ProductId = productId });
 
                     case CreateCommentsResult.Error:
                         break;
